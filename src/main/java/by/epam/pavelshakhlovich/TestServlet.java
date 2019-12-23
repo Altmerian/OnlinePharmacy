@@ -3,6 +3,7 @@ package by.epam.pavelshakhlovich;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,8 @@ public class TestServlet extends HttpServlet {
         PrintWriter printWriter = response.getWriter();
         printWriter.println("<html><h1>Hello world!<h1></html>");
         LOGGER.info("request has been handled");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/testJSP");
+        dispatcher.forward(request, response);
     }
 
     @Override
