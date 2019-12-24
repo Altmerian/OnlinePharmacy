@@ -18,7 +18,4 @@ public enum OrderStatus {
     public String getStatus() {
         return status;
     }
-    public String getName() {
-        return name().toLowerCase();
-    }
 }
