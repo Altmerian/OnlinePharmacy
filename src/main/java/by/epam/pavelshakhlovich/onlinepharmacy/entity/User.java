@@ -1,7 +1,5 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.entity;
 
-import java.io.Serializable;
-
 /**
  * Represents a user of the system.
  * Each user has its unique login, along with a password, email and {@link by.epam.pavelshakhlovich.onlinepharmacy.entity.UserRole}.
@@ -189,7 +187,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = Long.hashCode(id);
         result = 31 * result + email.hashCode();
         result = 31 * result + login.hashCode();
         result = 31 * result + password.hashCode();

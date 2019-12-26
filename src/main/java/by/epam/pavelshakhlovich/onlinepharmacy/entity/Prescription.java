@@ -1,6 +1,5 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.entity;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Date;
@@ -13,11 +12,10 @@ public class Prescription {
     private Timestamp timestamp;
     private LocalDate validFrom;
     private LocalDate validUntil;
+    private PrescriptionStatus status;
     private Item item;
     private User user;
     private User doctor;
-    private boolean isRequested;
-    private boolean isCanceled;
 
     public Prescription() {
 
@@ -55,6 +53,14 @@ public class Prescription {
         this.validUntil = validUntil;
     }
 
+    public PrescriptionStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PrescriptionStatus status) {
+        this.status = status;
+    }
+
     public Item getItem() {
         return item;
     }
@@ -79,21 +85,7 @@ public class Prescription {
         this.doctor = doctor;
     }
 
-    public boolean isRequested() {
-        return isRequested;
-    }
 
-    public void setRequested(boolean requested) {
-        isRequested = requested;
-    }
-
-    public boolean isCanceled() {
-        return isCanceled;
-    }
-
-    public void setCanceled(boolean canceled) {
-        isCanceled = canceled;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -112,12 +104,7 @@ public class Prescription {
         if (!item.equals(that.item)) {
             return false;
         }
-        if (isRequested != that.isRequested) {
-            return false;
-        }
-        if (isCanceled != that.isCanceled) {
-            return false;
-        }
+
         if (!timestamp.equals(that.timestamp)) {
             return false;
         }
@@ -135,15 +122,14 @@ public class Prescription {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = Long.hashCode(id);
         result = 31 * result + timestamp.hashCode();
         result = 31 * result + (validFrom != null ? validFrom.hashCode() : 0);
         result = 31 * result + (validUntil != null ? validUntil.hashCode() : 0);
+        result = 31 * result + status.hashCode();
         result = 31 * result + item.hashCode();
         result = 31 * result + user.hashCode();
         result = 31 * result + doctor.hashCode();
-        result = 31 * result + (isRequested ? 1 : 0);
-        result = 31 * result + (isCanceled ? 1 : 0);
         return result;
     }
 }

@@ -8,7 +8,7 @@ public enum PrescriptionStatus {
     ACTUAL("actual"),
     REJECTED("rejected by doctor"),
     OVERDUE("overdue"),
-    USED("already used");
+    CANCELED("already used");
 
     private String status;
 

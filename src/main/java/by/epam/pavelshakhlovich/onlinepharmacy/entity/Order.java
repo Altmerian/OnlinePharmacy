@@ -1,6 +1,5 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.entity;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -16,7 +15,6 @@ public class Order {
     private Timestamp timestamp;
     private BigDecimal amount;
     private OrderStatus status;
-    private boolean isCanceled;
     private Map<Item, Integer> items = new HashMap<>();
 
     public Order() {
@@ -62,14 +60,6 @@ public class Order {
         this.status = status;
     }
 
-    public boolean isCanceled() {
-        return isCanceled;
-    }
-
-    public void setCanceled(boolean canceled) {
-        isCanceled = canceled;
-    }
-
     public Map<Item, Integer> getItems() {
         return items;
     }
@@ -92,9 +82,7 @@ public class Order {
         if (id != order.id) {
             return false;
         }
-        if (isCanceled != order.isCanceled) {
-            return false;
-        }
+
         if (!owner.equals(order.owner)) {
             return false;
         }
@@ -112,12 +100,11 @@ public class Order {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = Long.hashCode(id);
         result = 31 * result + owner.hashCode();
         result = 31 * result + timestamp.hashCode();
         result = 31 * result + amount.hashCode();
         result = 31 * result + status.hashCode();
-        result = 31 * result + (isCanceled ? 1 : 0);
         result = 31 * result + items.hashCode();
         return result;
     }

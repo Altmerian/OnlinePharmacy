@@ -1,7 +1,5 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.entity;
 
-import java.io.Serializable;
-
 /**
  * Class {@code Company} represents any company that can be used in the pharmacy-app
  * such as manufacturer or vendor and etc
@@ -93,7 +91,7 @@ public class Company implements Comparable<Company> {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = Long.hashCode(id);
         result = 31 * result + type.hashCode();
         result = 31 * result + shortName.hashCode();
         result = 31 * result + fullName.hashCode();

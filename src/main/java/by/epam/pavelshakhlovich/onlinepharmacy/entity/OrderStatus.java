@@ -4,10 +4,11 @@ package by.epam.pavelshakhlovich.onlinepharmacy.entity;
  * Represents possible order's status.
  */
 public enum OrderStatus {
-    CART("opened"),
+    OPENED("opened"),
     PROCESSING("in process"),
-    SHIPPING("to delivery"),
-    COMPLETED("completed");
+    PAID("paid"),
+    COMPLETED("delivered"),
+    CANCELED ("canceled");
 
     private String status;
 

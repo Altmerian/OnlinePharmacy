@@ -1,6 +1,5 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.entity;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -146,7 +145,7 @@ public class Item {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = Long.hashCode(id);
         result = 31 * result + label.hashCode();
         result = 31 * result + dosageFormName.hashCode();
         result = 31 * result + dosage.hashCode();
