@@ -23,12 +23,12 @@
     <url-pattern>/JSP</url-pattern>
   </servlet-mapping>
   <servlet>
-    <servlet-name>TestJsp</servlet-name>
-    <jsp-file>/testing.jsp</jsp-file>
+    <servlet-name>CartJsp</servlet-name>
+    <jsp-file>/cart.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
-    <servlet-name>TestJsp</servlet-name>
-    <url-pattern>/testJSP</url-pattern>
+    <servlet-name>CartJsp</servlet-name>
+    <url-pattern>/cart</url-pattern>
   </servlet-mapping>
 </web-app>
         
