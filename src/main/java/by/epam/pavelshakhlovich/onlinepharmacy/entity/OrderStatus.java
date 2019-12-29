@@ -6,6 +6,7 @@ package by.epam.pavelshakhlovich.onlinepharmacy.entity;
 public enum OrderStatus {
     OPENED("opened"),
     PROCESSING("in process"),
+    AWAITING_PRESCRIPTION("awaiting prescription"),
     PAID("paid"),
     COMPLETED("delivered"),
     CANCELED ("canceled");

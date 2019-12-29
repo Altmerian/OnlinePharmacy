@@ -1,15 +1,15 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.entity;
 
-public class Cart {
-    String name;
+public class ShoppingCart {
+    int drugId;
     int quantity;
 
-    public String getName() {
-        return name;
+    public int getName() {
+        return drugId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(int drug_id) {
+        this.drugId = drug_id;
     }
 
     public int getQuantity() {

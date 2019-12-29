@@ -11,6 +11,7 @@ public class User {
     private String email;
     private String login;
     private String password;
+    private String salt;
     private String hashedPassword;
     private UserRole role;
     private String firstName;
@@ -76,6 +77,14 @@ public class User {
     public User setPassword(String password) {
         this.password = password;
         return this;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public String getHashedPassword() {
@@ -164,6 +173,9 @@ public class User {
         if (!password.equals(user.password)) {
             return false;
         }
+        if (!salt.equals(user.salt)) {
+            return false;
+        }
         if (!hashedPassword.equals(user.hashedPassword)) {
             return false;
         }
@@ -191,6 +203,7 @@ public class User {
         result = 31 * result + email.hashCode();
         result = 31 * result + login.hashCode();
         result = 31 * result + password.hashCode();
+        result = 31 * result + salt.hashCode();
         result = 31 * result + hashedPassword.hashCode();
         result = 31 * result + role.hashCode();
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
