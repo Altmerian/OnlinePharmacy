@@ -5,6 +5,9 @@ import by.epam.pavelshakhlovich.onlinepharmacy.command.CommandException;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.CommandFactory;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.JspPage;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.util.SessionUtils;
+import by.epam.pavelshakhlovich.onlinepharmacy.entity.shoppingCart.ShoppingCart;
+import by.epam.pavelshakhlovich.onlinepharmacy.entity.shoppingCart.ShoppingCartSerializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,6 +15,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +28,7 @@ import java.io.IOException;
                 @WebInitParam(name = "password", value = "shadow")
         })
 public class Controller extends HttpServlet {
-    private static final Logger LOGGER = LogManager.getLogger(Controller.class);
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,6 +46,7 @@ public class Controller extends HttpServlet {
         request.setAttribute(Parameter.LOGIN, getInitParameter("login"));
         request.setAttribute(Parameter.PASSWORD, getInitParameter("password"));
         String page = null;
+        sync(request, response);
         try {
             Command command = CommandFactory.getInstance().getCommand(request);
             LOGGER.debug("executing " + command);
@@ -54,9 +59,23 @@ public class Controller extends HttpServlet {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
             dispatcher.forward(request, response);
         } else {
-            page = (JspPage.LOGIN.getPath());
+            page = JspPage.LOGIN.getPath();
             request.getSession().setAttribute("nullPage", "Page not found. Business logic error.");
             response.sendRedirect(page);
+        }
+    }
+
+    private void sync(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!SessionUtils.isCurrentShoppingCartCreated(request)) {
+            Cookie cookie = SessionUtils.findShoppingCartCookie(request);
+            if (cookie != null) {
+                ShoppingCart shoppingCart = ShoppingCartSerializer.shoppingCartFromString(cookie.getValue());
+                SessionUtils.setCurrentShoppingCart(request, shoppingCart);
+            }
+        } else {
+            ShoppingCart shoppingCart = SessionUtils.getCurrentShoppingCart(request);
+            String cookieValue = ShoppingCartSerializer.shoppingCartToString(shoppingCart);
+            SessionUtils.updateCurrentShoppingCartCookie(cookieValue, response);
         }
     }
 

@@ -8,5 +8,6 @@
     Status code: ${pageContext.errorData.statusCode}
     <br/>
     Exception: ${pageContext.errorData.throwable}
+    <br/>
     <a href="/jsp/index.jsp">Start page</a>
 </body></html>

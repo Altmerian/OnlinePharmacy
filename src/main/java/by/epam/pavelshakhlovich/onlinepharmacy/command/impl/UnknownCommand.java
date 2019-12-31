@@ -15,6 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 public class UnknownCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        return JspPage.ERROR.getPath();
+        return JspPage.INDEX.getPath();
     }
 }

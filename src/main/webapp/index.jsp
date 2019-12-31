@@ -4,7 +4,8 @@
 <html>
 <head><title>Online Pharmacy</title></head>
 <body>
-    <h1>Welcome to online pharmacy!</h1>
+    <h2>Online pharmacy</h2>
     <jsp:include page="/jsp/login.jsp"/>
+
 </body>
 </html>

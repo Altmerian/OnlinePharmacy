@@ -5,5 +5,9 @@
     <hr/>
     ${user}, hello!
     <hr/>
+    <br/>
+    <jsp:include page="/jsp/shopping-cart.jsp"/>
+    <hr/>
+    <br/>
     <a href="controller?command=logout">Logout</a>
 </body></html>

@@ -1,9 +1,7 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.command;
 
 
-import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.LoginCommand;
-import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.LogoutCommand;
-import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.UnknownCommand;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.*;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +22,8 @@ public class CommandFactory {
         commandMap.put(CommandName.LOGIN, new LoginCommand());
         commandMap.put(CommandName.LOGOUT, new LogoutCommand());
         commandMap.put(CommandName.UNKNOWN, new UnknownCommand());
+        commandMap.put(CommandName.ADD_ITEM_TO_SHOPPING_CART, new AddItemToShoppingCart());
+        commandMap.put(CommandName.CLEAR_SHOPPING_CART, new ClearShoppingCart());
 
     }
 
