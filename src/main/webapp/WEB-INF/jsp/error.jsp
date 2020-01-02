@@ -9,5 +9,5 @@
     <br/>
     Exception: ${pageContext.errorData.throwable}
     <br/>
-    <a href="/jsp/index.jsp">Start page</a>
+    <a href="/WEB-INF/jsp/index.jsp">Start page</a>
 </body></html>

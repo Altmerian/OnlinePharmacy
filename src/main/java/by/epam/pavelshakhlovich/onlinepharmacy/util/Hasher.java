@@ -1,6 +1,7 @@
-package by.epam.pavelshakhlovich.onlinepharmacy.service.util;
+package by.epam.pavelshakhlovich.onlinepharmacy.util;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -18,7 +19,7 @@ public class Hasher {
         String hashValue = null;
         if (value != null) {
             MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] bytesValue = value.getBytes("UTF-8");
+            byte[] bytesValue = value.getBytes(StandardCharsets.UTF_8);
             byte[] messageDigest = md.digest(bytesValue);
             StringBuilder sb = new StringBuilder();
             for (byte b : messageDigest) {

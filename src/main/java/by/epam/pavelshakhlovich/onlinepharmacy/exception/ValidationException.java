@@ -1,4 +1,4 @@
-package by.epam.pavelshakhlovich.onlinepharmacy.service.exception;
+package by.epam.pavelshakhlovich.onlinepharmacy.exception;
 
 import java.io.Serializable;
 

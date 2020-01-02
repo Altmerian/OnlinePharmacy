@@ -3,7 +3,7 @@ package by.epam.pavelshakhlovich.onlinepharmacy.command.util;
 /**
  * Contains names of all possible http parameters
  */
-public class Parameter {
+public final class Parameter {
     public static final String COMMAND = "command";
     public static final String CURRENT_SHOPPING_CART = "current_shopping_cart";
     public static final String LOGIN = "login";

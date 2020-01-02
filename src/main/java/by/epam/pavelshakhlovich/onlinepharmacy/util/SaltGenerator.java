@@ -1,4 +1,4 @@
-package by.epam.pavelshakhlovich.onlinepharmacy.service.util;
+package by.epam.pavelshakhlovich.onlinepharmacy.util;
 
 import java.util.Random;
 

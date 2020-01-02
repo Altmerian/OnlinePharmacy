@@ -1,8 +1,8 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.command.util;
 
 
-import by.epam.pavelshakhlovich.onlinepharmacy.entity.shoppingCart.ShoppingCart;
-import by.epam.pavelshakhlovich.onlinepharmacy.service.util.Constants;
+import by.epam.pavelshakhlovich.onlinepharmacy.model.ShoppingCart;
+import by.epam.pavelshakhlovich.onlinepharmacy.util.Constant;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -31,15 +31,15 @@ public class SessionUtils {
 
     public static void clearCurrentShoppingCart(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().removeAttribute(Parameter.CURRENT_SHOPPING_CART);
-        WebUtils.setCookie(Constants.Cookie.SHOPPING_CART.getName(), null, 0, response);
+        WebUtils.setCookie(Constant.Cookie.SHOPPING_CART.getName(), null, 0, response);
     }
 
     public static Cookie findShoppingCartCookie(HttpServletRequest request) {
-        return WebUtils.findCookie(request, Constants.Cookie.SHOPPING_CART.getName());
+        return WebUtils.findCookie(request, Constant.Cookie.SHOPPING_CART.getName());
     }
 
     public static void updateCurrentShoppingCartCookie(String cookieValue, HttpServletResponse response) {
-        WebUtils.setCookie(Constants.Cookie.SHOPPING_CART.getName(), cookieValue,
-                Constants.Cookie.SHOPPING_CART.getTtl(), response);
+        WebUtils.setCookie(Constant.Cookie.SHOPPING_CART.getName(), cookieValue,
+                Constant.Cookie.SHOPPING_CART.getAge(), response);
     }
 }

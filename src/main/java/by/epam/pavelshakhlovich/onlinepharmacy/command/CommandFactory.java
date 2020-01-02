@@ -46,7 +46,7 @@ public class CommandFactory {
         } else {
             CommandName commandName;
             try {
-                commandName = CommandName.valueOf(commandRequest.replace("-", "_").toUpperCase());
+                commandName = CommandName.valueOf(commandRequest.toUpperCase());
                 if (commandMap.containsKey(commandName)) {
                     return commandMap.get(commandName);
                 } else {

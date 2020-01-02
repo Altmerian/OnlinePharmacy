@@ -1,11 +1,10 @@
-package by.epam.pavelshakhlovich.onlinepharmacy.entity.shoppingCart;
+package by.epam.pavelshakhlovich.onlinepharmacy.model;
 
-import by.epam.pavelshakhlovich.onlinepharmacy.controller.Controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ShoppingCartSerializer {
-    private static final Logger LOGGER = LogManager.getLogger(Controller.class);
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public static String shoppingCartToString(ShoppingCart shoppingCart) {
         StringBuilder res = new StringBuilder();

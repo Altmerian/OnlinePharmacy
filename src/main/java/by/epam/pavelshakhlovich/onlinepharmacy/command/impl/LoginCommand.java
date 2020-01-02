@@ -27,7 +27,7 @@ public class LoginCommand implements Command {
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        String page = null;
+        String page;
         User user = null;
         String login = request.getParameter(Parameter.LOGIN);
         String password = request.getParameter(Parameter.PASSWORD);

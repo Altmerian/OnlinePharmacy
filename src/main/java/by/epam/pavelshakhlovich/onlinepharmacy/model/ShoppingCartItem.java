@@ -1,4 +1,4 @@
-package by.epam.pavelshakhlovich.onlinepharmacy.entity.shoppingCart;
+package by.epam.pavelshakhlovich.onlinepharmacy.model;
 
 import java.io.Serializable;
 

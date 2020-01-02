@@ -1,6 +1,6 @@
-package by.epam.pavelshakhlovich.onlinepharmacy.entity.shoppingCart;
+package by.epam.pavelshakhlovich.onlinepharmacy.model;
 
-import by.epam.pavelshakhlovich.onlinepharmacy.service.util.Constants;
+import by.epam.pavelshakhlovich.onlinepharmacy.util.Constant;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -50,14 +50,14 @@ public class ShoppingCart implements Serializable {
     }
 
     private void validateItemCount(int count) {
-        if (count > Constants.MAX_ITEM_COUNT_PER_SHOPPING_CART) {
+        if (count > Constant.MAX_ITEM_COUNT_PER_SHOPPING_CART) {
             LOGGER.throwing(new IllegalArgumentException("Limit for product count reached: count=" + count));
         }
     }
 
     private void validateShoppingCartSize(int idProduct) {
-        if (items.size() > Constants.MAX_ITEMS_PER_SHOPPING_CART ||
-                (items.size() == Constants.MAX_ITEMS_PER_SHOPPING_CART && !items.containsKey(idProduct))) {
+        if (items.size() > Constant.MAX_ITEMS_PER_SHOPPING_CART ||
+                (items.size() == Constant.MAX_ITEMS_PER_SHOPPING_CART && !items.containsKey(idProduct))) {
             LOGGER.throwing (new IllegalArgumentException("Limit for ShoppingCart size reached: size=" + items.size()));
         }
     }
@@ -73,13 +73,4 @@ public class ShoppingCart implements Serializable {
     public String toString() {
         return String.format("ShoppingCart [items=%s, totalCount=%s]", items, totalCount);
     }
-
-    public String getView(){
-        StringBuilder r = new StringBuilder();
-        for (ShoppingCartItem shoppingCartItem : getItems()) {
-            r.append(shoppingCartItem.getDrugId()).append("-&gt;").append(shoppingCartItem.getCount()).append("<br>");
-        }
-        return r.toString();
-    }
-
 }

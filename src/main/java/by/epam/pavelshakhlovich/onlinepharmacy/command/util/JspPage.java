@@ -6,10 +6,10 @@ package by.epam.pavelshakhlovich.onlinepharmacy.command.util;
 public enum JspPage {
     ROOT("/"),
     INDEX("/index.jsp"),
-    MAIN("/jsp/main.jsp"),
-    LOGIN("/jsp/login.jsp"),
-    ERROR("/jsp/error.jsp"),
-    SHOPPING_CART("/jsp/shopping-cart.jsp");
+    MAIN("/WEB-INF/jsp/main.jsp"),
+    LOGIN("/WEB-INF/jsp/login.jsp"),
+    ERROR("/WEB-INF/jsp/error.jsp"),
+    SHOPPING_CART("/WEB-INF/jsp/shopping-cart.jsp");
 
     private String path;
 
