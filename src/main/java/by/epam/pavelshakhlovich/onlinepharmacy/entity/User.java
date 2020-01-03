@@ -1,23 +1,24 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.entity;
 
+import java.io.Serializable;
+
 /**
  * Represents a user of the system.
  * Each user has its unique login, along with a password, email and {@link by.epam.pavelshakhlovich.onlinepharmacy.entity.UserRole}.
  * May contain First Name, Last Name, address, phone number.
  */
-public class User {
-
+public class User implements Serializable {
+    private static final long serialVersionUID = 6014321206337821939L;
     private long id;
-    private String email;
     private String login;
     private String password;
+    private UserRole role;
+    private String email;
     private String salt;
     private String hashedPassword;
-    private UserRole role;
     private String firstName;
     private String lastName;
     private String phoneNumber;
-    private String city;
     private String address;
 
     public User() {
@@ -29,16 +30,16 @@ public class User {
         this.password = password;
     }
 
-    public User(long id, String email, String login, UserRole role, String firstName,
-                String lastName, String phoneNumber, String city, String address, String hashedPassword) {
+    public User(long id, String email, String login, String salt, UserRole role, String firstName,
+                String lastName, String phoneNumber, String address, String hashedPassword) {
         this.id = id;
         this.email = email;
         this.login = login;
+        this.salt = salt;
         this.role = role;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
-        this.city = city;
         this.address = address;
         this.hashedPassword = hashedPassword;
     }
@@ -132,15 +133,6 @@ public class User {
         return this;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public User setCity(String city) {
-        this.city = city;
-        return this;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -191,9 +183,6 @@ public class User {
         if (phoneNumber != null ? !phoneNumber.equals(user.phoneNumber) : user.phoneNumber != null) {
             return false;
         }
-        if (city != null ? !city.equals(user.city) : user.city != null) {
-            return false;
-        }
         return address != null ? address.equals(user.address) : user.address == null;
     }
 
@@ -209,7 +198,6 @@ public class User {
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
-        result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
         return result;
     }

@@ -1,19 +1,19 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Class {@code Item} represents an item in the pharmacy's catalog.
  */
-public class Item {
-
+public class Item implements Serializable {
+    private static final long serialVersionUID = 3946646628310050691L;
     private long id;
     private String label;
-    private String dosageFormName;
     private String dosage;
     private int volume;
     private String volumeType;
-    private String manufacturerName;
+    private long manufacturerId;
     private BigDecimal price;
     private boolean byPrescription;
     private String description;
@@ -36,14 +36,6 @@ public class Item {
 
     public void setLabel(String label) {
         this.label = label;
-    }
-
-    public String getDosageFormName() {
-        return dosageFormName;
-    }
-
-    public void setDosageFormName(String dosageFormName) {
-        this.dosageFormName = dosageFormName;
     }
 
     public String getDosage() {
@@ -70,12 +62,12 @@ public class Item {
         this.volumeType = volumeType;
     }
 
-    public String getManufacturerName() {
-        return manufacturerName;
+    public long getManufacturerId() {
+        return manufacturerId;
     }
 
-    public void setManufacturerName(String manufacturerName) {
-        this.manufacturerName = manufacturerName;
+    public void setManufacturerId(long manufacturerId) {
+        this.manufacturerId = manufacturerId;
     }
 
     public BigDecimal getPrice() {
@@ -125,16 +117,13 @@ public class Item {
         if (!label.equals(item.label)) {
             return false;
         }
-        if (!dosageFormName.equals(item.dosageFormName)) {
-            return false;
-        }
         if (!dosage.equals(item.dosage)) {
             return false;
         }
         if (!volumeType.equals(item.volumeType)) {
             return false;
         }
-        if (manufacturerName != null ? !manufacturerName.equals(item.manufacturerName) : item.manufacturerName != null) {
+        if (manufacturerId != item.manufacturerId) {
             return false;
         }
         if (price != null ? !price.equals(item.price) : item.price != null) {
@@ -147,11 +136,10 @@ public class Item {
     public int hashCode() {
         int result = Long.hashCode(id);
         result = 31 * result + label.hashCode();
-        result = 31 * result + dosageFormName.hashCode();
         result = 31 * result + dosage.hashCode();
         result = 31 * result + volume;
         result = 31 * result + volumeType.hashCode();
-        result = 31 * result + (manufacturerName != null ? manufacturerName.hashCode() : 0);
+        result = 31 * result + Long.hashCode(manufacturerId);
         result = 31 * result + (price != null ? price.hashCode() : 0);
         result = 31 * result + (byPrescription ? 1 : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
@@ -163,11 +151,10 @@ public class Item {
         return "Item{" +
                 "id=" + id +
                 ", label='" + label + '\'' +
-                ", dosageFormName='" + dosageFormName + '\'' +
                 ", dosage='" + dosage + '\'' +
                 ", volume=" + volume +
                 ", volumeType='" + volumeType + '\'' +
-                ", manufacturerName='" + manufacturerName + '\'' +
+                ", manufacturerName='" + manufacturerId + '\'' +
                 ", price=" + price +
                 ", byPrescription=" + byPrescription +
                 ", description='" + description + '\'' +

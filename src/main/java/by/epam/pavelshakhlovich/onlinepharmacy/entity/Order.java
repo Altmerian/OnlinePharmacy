@@ -1,5 +1,6 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -9,7 +10,8 @@ import java.util.Map;
  * Class {@code Order} represents a user's order for a list of items. Contains creation date, in case it was already
  * submitted. Order's owner is also specified.
  */
-public class Order {
+public class Order implements Serializable {
+    private static final long serialVersionUID = 4320267879429888765L;
     private long id;
     private User owner;
     private Timestamp timestamp;

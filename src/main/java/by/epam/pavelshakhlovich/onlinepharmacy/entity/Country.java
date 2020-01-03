@@ -1,6 +1,9 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.entity;
 
-public class Country {
+import java.io.Serializable;
+
+public class Country implements Serializable {
+    private static final long serialVersionUID = -159247625672138922L;
     private long id;
     private String shortName;
     private String fullName;

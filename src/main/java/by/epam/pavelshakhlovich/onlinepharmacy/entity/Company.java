@@ -1,11 +1,13 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.entity;
 
+import java.io.Serializable;
+
 /**
  * Class {@code Company} represents any company that can be used in the pharmacy-app
  * such as manufacturer or vendor and etc
  */
-public class Company implements Comparable<Company> {
-
+public class Company implements Comparable<Company>, Serializable {
+    private static final long serialVersionUID = -5492792504841786349L;
     private long id;
     private String type;
     private String shortName;

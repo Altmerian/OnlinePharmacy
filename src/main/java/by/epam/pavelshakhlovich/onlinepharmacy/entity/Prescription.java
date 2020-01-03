@@ -1,5 +1,6 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Date;
@@ -7,7 +8,8 @@ import java.util.Date;
 /**
  * Class {@code Prescription} represents an prescription that some drugs are required in
  */
-public class Prescription {
+public class Prescription implements Serializable {
+    private static final long serialVersionUID = 8927772728101362089L;
     private long id;
     private Timestamp timestamp;
     private LocalDate validFrom;
