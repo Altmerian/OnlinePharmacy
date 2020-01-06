@@ -5,7 +5,6 @@ import by.epam.pavelshakhlovich.onlinepharmacy.command.CommandException;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.JspPage;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.SessionUtils;
-import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
 import by.epam.pavelshakhlovich.onlinepharmacy.model.ShoppingCart;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,8 +20,8 @@ public class AddItemToShoppingCart implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        User currentUser = (User) request.getSession().getAttribute(Parameter.USER);
-        if (currentUser != null) {
+//        User currentUser = (User) request.getSession().getAttribute(Parameter.USER);
+        if (request.getSession().getAttribute(Parameter.USER) != null) {
             ShoppingCart shoppingCart = SessionUtils.getCurrentShoppingCart(request);
             Random r = new Random();
             shoppingCart.addItem(r.nextInt(2), r.nextInt(1) + 1);

@@ -6,17 +6,17 @@
     <h3>Shopping Cart</h3>
     <hr/>
     <c:choose>
-    	<c:when test="${current_shopping_cart != null}">
+    	<c:when test="${current_shopping_cart != null and sessionScope.user != null}">
     		Total count = ${current_shopping_cart.totalCount}<br>
     		Products: <br>
     		<c:forEach var="item" items="${current_shopping_cart.items}">
     			${item.drugId}-&gt;${item.count}<br>
     		</c:forEach>
+    		<hr/>
+            <a href="controller?command=clear_shopping_cart">Clear</a>
     	</c:when>
     	<c:otherwise>
     		Shopping cart is empty
     	</c:otherwise>
     </c:choose>
-    <hr/>
-    <a href="controller?command=clear_shopping_cart">Clear</a>
 </body></html>

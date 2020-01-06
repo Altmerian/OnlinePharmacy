@@ -26,6 +26,6 @@ public class LogoutCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         HttpSession session = request.getSession();
         session.invalidate();
-        return JspPage.INDEX.getPath();
+        return JspPage.MAIN.getPath();
     }
 }

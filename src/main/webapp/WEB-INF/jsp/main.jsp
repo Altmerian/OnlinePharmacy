@@ -1,16 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="ctg" uri="customtags" %>
 
-<html><head><title>Welcome</title></head>
+<html><head><title>Online Pharmacy</title></head>
 <body>
-    <h3>Welcome</h3>
-    <hr/>
+    <ctg:header/>
     <c:choose>
-    	<c:when test="${user != null}">
-    		 ${user}, hello!
+    	<c:when test="${sessionScope.user != null}">
+    		 Welcome, ${sessionScope.user} <br/>
+    		 <a href="controller?command=logout">Logout</a>
     	</c:when>
     	<c:otherwise>
-    		<c:redirect url="/WEB-INF/jsp/login.jsp"/>
+    		<a href="/loginJsp">Login</a> <br/>
+    		<a href="/registerJsp">Register</a>
     	</c:otherwise>
     </c:choose>
     <hr/>
@@ -18,5 +20,4 @@
     <jsp:include page="/WEB-INF/jsp/shopping-cart.jsp"/>
     <hr/>
     <br/>
-    <a href="controller?command=logout">Logout</a>
 </body></html>

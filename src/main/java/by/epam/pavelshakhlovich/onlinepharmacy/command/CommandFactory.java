@@ -3,6 +3,9 @@ package by.epam.pavelshakhlovich.onlinepharmacy.command;
 
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.*;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -13,9 +16,8 @@ import java.util.HashMap;
 public class CommandFactory {
 
     private static HashMap<CommandName, Command> commandMap = new HashMap<>();
-
     private static final CommandFactory instance = new CommandFactory();
-
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private CommandFactory() {
 
@@ -50,11 +52,13 @@ public class CommandFactory {
                 if (commandMap.containsKey(commandName)) {
                     return commandMap.get(commandName);
                 } else {
-                    throw new CommandException("No such command in CommandFactory commands map");
+                    throw LOGGER.throwing(Level.ERROR,
+                            new CommandException("No such command in CommandFactory commands map"));
                 }
             } catch (IllegalArgumentException e) {
                 request.setAttribute("wrongAction", "Command not found or wrong!");
-                throw new CommandException("command parameter is invalid (can't find it in CommandName enum)", e);
+                throw LOGGER.throwing(Level.ERROR,
+                        new CommandException("command parameter is invalid (can't find it in CommandName enum)", e));
             }
         }
     }

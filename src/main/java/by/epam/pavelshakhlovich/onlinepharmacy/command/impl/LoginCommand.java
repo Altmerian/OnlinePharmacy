@@ -41,7 +41,7 @@ public class LoginCommand implements Command {
 
         HttpSession session = request.getSession();
         if (user != null) {
-            session.setAttribute(Parameter.USER, user);
+            session.setAttribute(Parameter.USER, request.getAttribute("user"));
             session.setAttribute(Parameter.LOGIN_FAILED, Boolean.FALSE);
             page = JspPage.MAIN.getPath();
         } else {

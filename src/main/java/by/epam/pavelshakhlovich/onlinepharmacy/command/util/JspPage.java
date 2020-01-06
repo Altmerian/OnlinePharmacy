@@ -5,11 +5,17 @@ package by.epam.pavelshakhlovich.onlinepharmacy.command.util;
  */
 public enum JspPage {
     ROOT("/"),
-    INDEX("/index.jsp"),
-    MAIN("/WEB-INF/jsp/main.jsp"),
-    LOGIN("/WEB-INF/jsp/login.jsp"),
+    ADMIN_HEADER("/WEB-INF/jsp/headers/admin-header.jsp"),
+    DOCTOR_HEADER("/WEB-INF/jsp/headers/doctor-header.jsp"),
     ERROR("/WEB-INF/jsp/error.jsp"),
-    SHOPPING_CART("/WEB-INF/jsp/shopping-cart.jsp");
+    GUEST_HEADER("/WEB-INF/jsp/headers/guest-header.jsp"),
+    INDEX("/index.jsp"),
+    LOGIN("/WEB-INF/jsp/users/login.jsp"),
+    MANAGER_HEADER("/WEB-INF/jsp/headers/admin-header.jsp"),
+    MAIN("/WEB-INF/jsp/main.jsp"),
+    REGISTER("/WEB-INF/jsp/users/register"),
+    SHOPPING_CART("/WEB-INF/jsp/shopping-cart.jsp"),
+    USER_HEADER("/WEB-INF/jsp/headers/user-header.jsp");
 
     private String path;
 

@@ -54,9 +54,8 @@ public class Controller extends HttpServlet {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
             dispatcher.forward(request, response);
         } else {
-            page = JspPage.LOGIN.getPath();
-            request.getSession().setAttribute("nullPage", "Page not found. Business logic error.");
-            response.sendRedirect(page);
+            LOGGER.error("Page not found. Business logic error.");
+            response.sendRedirect(JspPage.MAIN.getPath());
         }
     }
 

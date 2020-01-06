@@ -6,6 +6,7 @@ package by.epam.pavelshakhlovich.onlinepharmacy.command;
 
  */
 public class CommandException extends Exception {
+    private static final long serialVersionUID = 9170880202134418397L;
 
     public CommandException() {
         super();

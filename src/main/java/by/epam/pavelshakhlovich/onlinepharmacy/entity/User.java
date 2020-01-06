@@ -18,7 +18,6 @@ public class User implements Serializable {
     private String hashedPassword;
     private String firstName;
     private String lastName;
-    private String phoneNumber;
     private String address;
 
     public User() {
@@ -31,7 +30,7 @@ public class User implements Serializable {
     }
 
     public User(long id, String email, String login, String salt, UserRole role, String firstName,
-                String lastName, String phoneNumber, String address, String hashedPassword) {
+                String lastName, String address, String hashedPassword) {
         this.id = id;
         this.email = email;
         this.login = login;
@@ -39,7 +38,6 @@ public class User implements Serializable {
         this.role = role;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
         this.address = address;
         this.hashedPassword = hashedPassword;
     }
@@ -124,15 +122,6 @@ public class User implements Serializable {
         return this;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public User setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-        return this;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -180,9 +169,6 @@ public class User implements Serializable {
         if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) {
             return false;
         }
-        if (phoneNumber != null ? !phoneNumber.equals(user.phoneNumber) : user.phoneNumber != null) {
-            return false;
-        }
         return address != null ? address.equals(user.address) : user.address == null;
     }
 
@@ -197,7 +183,6 @@ public class User implements Serializable {
         result = 31 * result + role.hashCode();
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
         return result;
     }

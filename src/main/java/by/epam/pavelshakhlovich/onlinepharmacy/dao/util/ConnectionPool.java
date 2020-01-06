@@ -4,9 +4,12 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -14,10 +17,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
-    private static final String CONNECTION_URI = "jdbc:mysql://localhost:3306/onlinepharmacy";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "shadow";
-    private static final String CLASS_DRIVER = "com.mysql.jdbc.Driver";
     private static ConnectionPool instance = new ConnectionPool();
     private static AtomicBoolean isEmpty = new AtomicBoolean(true);
     private static ReentrantLock lock = new ReentrantLock();
@@ -36,17 +35,28 @@ public class ConnectionPool {
     }
 
     private static void initialize() throws ConnectionPoolException {
+        Properties property = new Properties();
+        try {
+            FileInputStream fis = new FileInputStream("src/main/resources/database.properties");
+            property.load(fis);
+        } catch (IOException e) {
+            LOGGER.throwing(Level.ERROR, e);
+        }
+        String url = property.getProperty("url");
+        String user = property.getProperty("user");
+        String password = property.getProperty("password");
+        String driver = property.getProperty("driver");
         lock.lock();
         connections = new ArrayBlockingQueue<>(poolSize);
         try {
-            Class.forName(CLASS_DRIVER);
+            Class.forName(driver);
             int currentConnectionSize = connections.size();
             for (int i = 0; i < poolSize - currentConnectionSize; i++) {
-                connections.add(DriverManager.getConnection(CONNECTION_URI, USERNAME, PASSWORD));
+                connections.add(DriverManager.getConnection(url, user, password));
             }
             isEmpty.set(false);
         } catch (ClassNotFoundException | SQLException e) {
-            throw LOGGER.throwing(Level.ERROR, new ConnectionPoolException("Initialize error", e));
+            throw LOGGER.throwing(Level.ERROR, new ConnectionPoolException("Initialization error", e));
         }
         lock.unlock();
     }
@@ -80,7 +90,7 @@ public class ConnectionPool {
             try {
                 connection.close();
             } catch (SQLException e) {
-                LOGGER.throwing(Level.ERROR,new ConnectionPoolException(e));
+                LOGGER.throwing(Level.ERROR, new ConnectionPoolException(e));
             }
         }
         isEmpty.set(true);
