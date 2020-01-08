@@ -17,7 +17,7 @@ import java.io.IOException;
  * a specified command and whether get method is appropriate for the command.
  * If rights are insufficient, request is redirected to the root page.
  */
-@WebFilter(urlPatterns = {"/Controller"})
+@WebFilter(urlPatterns = {"/controller"})
 public class SecurityFilter implements Filter {
 
 

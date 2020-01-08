@@ -37,7 +37,7 @@ public class RegisterCommand implements Command {
         try {
             result = userService.registerUser(user);
         } catch (ServiceException e) {
-            throw new CommandException(e);
+            throw LOGGER.throwing(Level.ERROR, new CommandException(e));
         }
         HttpSession session = request.getSession();
         if (result) {

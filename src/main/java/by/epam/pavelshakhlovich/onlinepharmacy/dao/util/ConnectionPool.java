@@ -4,12 +4,10 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
+import java.util.ResourceBundle;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -22,6 +20,7 @@ public class ConnectionPool {
     private static ReentrantLock lock = new ReentrantLock();
     private static int poolSize = 5;
     private static BlockingQueue<Connection> connections;
+    private static final String DATABASE_PROPERTIES = "database.properties";
     private static final Logger LOGGER = LogManager.getLogger();
 
     private ConnectionPool() {
@@ -35,24 +34,19 @@ public class ConnectionPool {
     }
 
     private static void initialize() throws ConnectionPoolException {
-        Properties property = new Properties();
-        try {
-            FileInputStream fis = new FileInputStream("src/main/resources/database.properties");
-            property.load(fis);
-        } catch (IOException e) {
-            LOGGER.throwing(Level.ERROR, e);
-        }
-        String url = property.getProperty("url");
-        String user = property.getProperty("user");
-        String password = property.getProperty("password");
-        String driver = property.getProperty("driver");
+        ResourceBundle resource = ResourceBundle.getBundle("database");
+        String url = resource.getString("url");
+        String user = resource.getString("user");
+        String pass = resource.getString("password");
+        String driver = resource.getString("driver");
+
         lock.lock();
         connections = new ArrayBlockingQueue<>(poolSize);
         try {
             Class.forName(driver);
             int currentConnectionSize = connections.size();
             for (int i = 0; i < poolSize - currentConnectionSize; i++) {
-                connections.add(DriverManager.getConnection(url, user, password));
+                connections.add(DriverManager.getConnection(url, user, pass));
             }
             isEmpty.set(false);
         } catch (ClassNotFoundException | SQLException e) {

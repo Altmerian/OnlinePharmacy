@@ -13,7 +13,7 @@ public enum JspPage {
     LOGIN("/WEB-INF/jsp/users/login.jsp"),
     MANAGER_HEADER("/WEB-INF/jsp/headers/admin-header.jsp"),
     MAIN("/WEB-INF/jsp/main.jsp"),
-    REGISTER("/WEB-INF/jsp/users/register"),
+    REGISTER("/WEB-INF/jsp/users/register.jsp"),
     SHOPPING_CART("/WEB-INF/jsp/shopping-cart.jsp"),
     USER_HEADER("/WEB-INF/jsp/headers/user-header.jsp");
 

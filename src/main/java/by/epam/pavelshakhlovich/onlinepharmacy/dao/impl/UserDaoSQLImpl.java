@@ -7,6 +7,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPool;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPoolException;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.UserRole;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,26 +24,26 @@ import java.util.List;
 public class UserDaoSQLImpl implements UserDao {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private final static String SELECT_ALL_USERS = "SELECT id, login, password_md5, role, salt, " +
-            "email, first_name, last_name, address" +
-            " FROM users" +
+    private final static String SELECT_ALL_USERS = "SELECT users_credentials.id, login, password_md5, role, " +
+            "email, salt, first_name, last_name, address FROM users_credentials, users_data " +
+            "WHERE users_credentials.id=user_id AND locale='EN'" +
             " ORDER BY id DESC" +
             " LIMIT ?,?";
-    private final static String COUNT_ALL_USERS = "SELECT COUNT(id) FROM users";
-    private final static String SELECT_USER_BY_LOGIN = "SELECT id, login, password_md5, role, salt, " +
-            "email, first_name, last_name, address" +
-            " FROM users WHERE login = ?";
-    private final static String SELECT_USER_BY_EMAIL = "SELECT id, login, password_md5, role, salt, " +
-            "email, first_name, last_name, address" +
-            " FROM users WHERE email = ?";
+    private final static String COUNT_ALL_USERS = "SELECT COUNT(id) FROM users_credentials";
+    private final static String SELECT_USER_BY_LOGIN = "SELECT users_credentials.id, login, password_md5, role, " +
+            "email, salt, first_name, last_name, address FROM users_credentials, users_data " +
+            "WHERE users_credentials.id=user_id AND locale='EN' AND login = ?;";
+    private final static String SELECT_USER_BY_EMAIL = "SELECT users_credentials.id, login, password_md5, role, " +
+            "email, salt, first_name, last_name, address FROM users_credentials, users_data " +
+            "WHERE users_credentials.id=user_id AND locale='EN' AND email = ?";
     private final static String SELECT_USER_BY_ID = "SELECT id, login, password_md5, role, salt, " +
             "email, first_name, last_name, address" +
             " FROM users WHERE id = ?";
-    private final static String INSERT_USER = "INSERT INTO users_credentials (id, login, password_md5, role" +
-            ", salt, email) VALUES (0 ,?, ?, 'user',?, ?);" +
-            "INSERT INTO users_data (first_name, last_name, address) " +
-            "VALUES (?, ?, ?);";
-    private final static String UPDATE_USER = "UPDATE users SET  password_md5 = ?,email = ?,first_name = ?," +
+    private final static String INSERT_USER_CREDENTIALS = "INSERT INTO users_credentials (login, password_md5, role" +
+            ", salt, email) VALUES (?, ?, 'user',?, ?);";
+    private final static String INSERT_USER_DATA = "INSERT INTO users_data (user_id, first_name, last_name, address) " +
+            "VALUES (last_insert_id(), ?, ?, ?);";
+    private final static String UPDATE_USER = "UPDATE users_data SET password_md5 = ?,email = ?,first_name = ?," +
             "last_name = ?,address = ?" +
             "  WHERE id = ?";
 
@@ -82,9 +83,9 @@ public class UserDaoSQLImpl implements UserDao {
                 userList.add(user);
             }
         } catch (ConnectionPoolException e) {
-            throw new DaoException("Can't get connection from Connection Pool", e);
+            LOGGER.throwing(Level.ERROR, new DaoException("Can't get connection from Connection Pool", e));
         } catch (SQLException e) {
-            throw new DaoException("Can't make prepared statement", e);
+            LOGGER.throwing(Level.ERROR, new DaoException("Can't make prepared statement", e));
         } finally {
             closeResources(cn, preparedStatement, resultSet);
         }
@@ -103,9 +104,9 @@ public class UserDaoSQLImpl implements UserDao {
             resultSet.next();
             return resultSet.getInt(1);
         } catch (ConnectionPoolException e) {
-            throw new DaoException("Can't get connection from Connection Pool", e);
+            throw LOGGER.throwing(Level.ERROR, new DaoException("Can't get connection from Connection Pool", e));
         } catch (SQLException e) {
-            throw new DaoException("Can't make prepared statement", e);
+            throw LOGGER.throwing(Level.ERROR, new DaoException("Can't make prepared statement", e));
         } finally {
             closeResources(cn, preparedStatement, resultSet);
         }
@@ -117,20 +118,22 @@ public class UserDaoSQLImpl implements UserDao {
         PreparedStatement preparedStatement = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
-            preparedStatement = cn.prepareStatement(INSERT_USER);
+            preparedStatement = cn.prepareStatement(INSERT_USER_CREDENTIALS);
             preparedStatement.setString(1, user.getLogin());
             preparedStatement.setString(2, user.getHashedPassword());
             preparedStatement.setString(3, user.getSalt());
             preparedStatement.setString(4, user.getEmail());
-            preparedStatement.setString(5, user.getFirstName());
-            preparedStatement.setString(6, user.getLastName());
-            preparedStatement.setString(7, user.getAddress());
-            int result = preparedStatement.executeUpdate();
-            return result > 0;
+            int result1 = preparedStatement.executeUpdate();
+            preparedStatement = cn.prepareStatement(INSERT_USER_DATA);
+            preparedStatement.setString(1, user.getFirstName());
+            preparedStatement.setString(2, user.getLastName());
+            preparedStatement.setString(3, user.getAddress());
+            int result2 = preparedStatement.executeUpdate();
+            return (result1 > 0 && result2 > 0);
         } catch (ConnectionPoolException e) {
-            throw new DaoException("Can't get connection from Connection Pool", e);
+            throw LOGGER.throwing(Level.ERROR, new DaoException("Can't get connection from Connection Pool", e));
         } catch (SQLException e) {
-            throw new DaoException(e.getMessage(), e);
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e.getMessage(), e));
         } finally {
             closeResources(cn, preparedStatement);
         }
@@ -153,9 +156,9 @@ public class UserDaoSQLImpl implements UserDao {
                 return false;
             }
         } catch (SQLException e) {
-            throw new DaoException("Request to database failed", e);
+            LOGGER.throwing(Level.ERROR, new DaoException("Request to database failed", e));
         } catch (ConnectionPoolException e) {
-            throw new DaoException("Can't get connection from connection pool", e);
+            LOGGER.throwing(Level.ERROR, new DaoException("Can't get connection from connection pool", e));
         } finally {
             closeResources(cn, preparedStatement);
         }
@@ -178,9 +181,9 @@ public class UserDaoSQLImpl implements UserDao {
             resultSet.next();
             setUserParameters(user, resultSet);
         } catch (ConnectionPoolException e) {
-            throw new DaoException("Can't get connection from Connection Pool", e);
+            LOGGER.throwing(Level.ERROR, new DaoException("Can't get connection from Connection Pool", e));
         } catch (SQLException e) {
-            throw new DaoException("Can't make prepared statement", e);
+            LOGGER.throwing(Level.ERROR, new DaoException("Can't make prepared statement", e));
         } finally {
             closeResources(cn, preparedStatement, resultSet);
         }
@@ -192,8 +195,8 @@ public class UserDaoSQLImpl implements UserDao {
         user.setLogin(resultSet.getString(Parameter.LOGIN));
         user.setHashedPassword(resultSet.getString(Parameter.PASSWORD_MD5));
         user.setRole(UserRole.valueOf(resultSet.getString(Parameter.ROLE).toUpperCase()));
-        user.setSalt(resultSet.getString(Parameter.SALT));
         user.setEmail(resultSet.getString(Parameter.EMAIL));
+        user.setSalt(resultSet.getString(Parameter.SALT));
         user.setFirstName(resultSet.getString(Parameter.FIRST_NAME));
         user.setLastName(resultSet.getString(Parameter.LAST_NAME));
         user.setAddress(resultSet.getString(Parameter.ADDRESS));
@@ -205,13 +208,13 @@ public class UserDaoSQLImpl implements UserDao {
                 preparedStatement.close();
             }
         } catch (SQLException e) {
-            throw new DaoException("Can't close prepared statement", e);
+            LOGGER.throwing(Level.ERROR, new DaoException("Can't close prepared statement", e));
         }
         if (connection != null) {
             try {
                 ConnectionPool.getInstance().releaseConnection(connection);
             } catch (ConnectionPoolException e) {
-                throw new DaoException("Can't release connection to connection pool", e);
+                LOGGER.throwing(Level.ERROR, new DaoException("Can't release connection to connection pool", e));
             }
         }
     }
@@ -225,14 +228,15 @@ public class UserDaoSQLImpl implements UserDao {
                 resultSet.close();
             }
         } catch (SQLException e) {
-            throw new DaoException("Can't close prepared statement", e);
+            LOGGER.throwing(Level.ERROR, new DaoException("Can't close prepared statement", e));
         }
         if (connection != null) {
             try {
                 ConnectionPool.getInstance().releaseConnection(connection);
             } catch (ConnectionPoolException e) {
-                throw new DaoException("Can't release connection to connection pool", e);
+                LOGGER.throwing(Level.ERROR, new DaoException("Can't release connection to connection pool", e));
             }
         }
     }
+
 }

@@ -21,11 +21,12 @@ public class CommandFactory {
 
     private CommandFactory() {
 
-        commandMap.put(CommandName.LOGIN, new LoginCommand());
-        commandMap.put(CommandName.LOGOUT, new LogoutCommand());
-        commandMap.put(CommandName.UNKNOWN, new UnknownCommand());
         commandMap.put(CommandName.ADD_ITEM_TO_SHOPPING_CART, new AddItemToShoppingCart());
         commandMap.put(CommandName.CLEAR_SHOPPING_CART, new ClearShoppingCart());
+        commandMap.put(CommandName.LOGIN, new LoginCommand());
+        commandMap.put(CommandName.LOGOUT, new LogoutCommand());
+        commandMap.put(CommandName.REGISTER, new RegisterCommand());
+        commandMap.put(CommandName.UNKNOWN, new UnknownCommand());
 
     }
 

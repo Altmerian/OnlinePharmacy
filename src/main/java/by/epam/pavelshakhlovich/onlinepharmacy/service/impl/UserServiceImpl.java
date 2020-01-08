@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
                     return null;
                 }
             } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-                throw new ServiceException("Can't get md5 hash", e);
+                LOGGER.throwing(Level.ERROR, new ServiceException("Can't get md5 hash", e));
             }
         }
         return user;
