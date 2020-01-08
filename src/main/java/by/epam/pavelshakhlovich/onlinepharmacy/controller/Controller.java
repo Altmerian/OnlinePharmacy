@@ -3,6 +3,8 @@ package by.epam.pavelshakhlovich.onlinepharmacy.controller;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.Command;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.CommandException;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.CommandFactory;
+import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPool;
+import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPoolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -56,6 +58,12 @@ public class Controller extends HttpServlet {
     @Override
     public void destroy() {
         super.destroy();
+        try {
+            ConnectionPool.getInstance().closePool();
+            LOGGER.info("Connection pool has been closed.");
+        } catch (ConnectionPoolException e) {
+            LOGGER.error("Connection pool hasn't been closed");
+        }
         LOGGER.info(getClass().getSimpleName() + " has been destroyed.");
     }
 }

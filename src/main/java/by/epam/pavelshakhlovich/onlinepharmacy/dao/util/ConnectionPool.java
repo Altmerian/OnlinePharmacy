@@ -4,9 +4,12 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -55,10 +58,6 @@ public class ConnectionPool {
         lock.unlock();
     }
 
-    public int getPoolSize() {
-        return poolSize;
-    }
-
     public Connection getConnection() throws ConnectionPoolException {
         Connection con;
         try {
@@ -69,17 +68,14 @@ public class ConnectionPool {
         return con;
     }
 
-    public boolean releaseConnection(Connection con) throws ConnectionPoolException {
+    public void releaseConnection(Connection con) throws ConnectionPoolException {
         boolean isReleased = connections.add(con);
         if (!isReleased) {
             LOGGER.throwing(Level.ERROR, new ConnectionPoolException("Can't release connection"));
-            return false;
-        } else {
-            return true;
         }
     }
 
-    public boolean closePool() throws ConnectionPoolException {
+    public void closePool() throws ConnectionPoolException {
         for (Connection connection : connections) {
             try {
                 connection.close();
@@ -88,7 +84,22 @@ public class ConnectionPool {
             }
         }
         isEmpty.set(true);
-        return true;
+    }
+
+    public int getPoolSize() {
+        return poolSize;
+    }
+
+    private static Properties readProperties() {
+        Properties properties = new Properties();
+        try {
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            InputStream input = classLoader.getResourceAsStream(DATABASE_PROPERTIES);
+            properties.load(input);
+        } catch (IOException e) {
+            LOGGER.throwing(Level.ERROR, e);
+        }
+        return properties;
     }
 }
 

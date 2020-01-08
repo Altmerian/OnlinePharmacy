@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is an implementation of the {@see UserDao} interface.
+ * This is an implementation of the {@code UserDao} interface for working with database.
  */
 public class UserDaoSQLImpl implements UserDao {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -27,7 +27,7 @@ public class UserDaoSQLImpl implements UserDao {
     private final static String SELECT_ALL_USERS = "SELECT users_credentials.id, login, password_md5, role, " +
             "email, salt, first_name, last_name, address FROM users_credentials, users_data " +
             "WHERE users_credentials.id=user_id AND locale='EN'" +
-            " ORDER BY id DESC" +
+            " ORDER BY id ASC" +
             " LIMIT ?,?";
     private final static String COUNT_ALL_USERS = "SELECT COUNT(id) FROM users_credentials";
     private final static String SELECT_USER_BY_LOGIN = "SELECT users_credentials.id, login, password_md5, role, " +
@@ -36,16 +36,15 @@ public class UserDaoSQLImpl implements UserDao {
     private final static String SELECT_USER_BY_EMAIL = "SELECT users_credentials.id, login, password_md5, role, " +
             "email, salt, first_name, last_name, address FROM users_credentials, users_data " +
             "WHERE users_credentials.id=user_id AND locale='EN' AND email = ?";
-    private final static String SELECT_USER_BY_ID = "SELECT id, login, password_md5, role, salt, " +
-            "email, first_name, last_name, address" +
-            " FROM users WHERE id = ?";
+    private final static String SELECT_USER_BY_ID = "SELECT users_credentials.id, login, password_md5, role, " +
+            "email, salt, first_name, last_name, address FROM users_credentials, users_data " +
+            "WHERE users_credentials.id=user_id AND locale='EN' AND users_credentials.id = ?";
     private final static String INSERT_USER_CREDENTIALS = "INSERT INTO users_credentials (login, password_md5, role" +
             ", salt, email) VALUES (?, ?, 'user',?, ?);";
     private final static String INSERT_USER_DATA = "INSERT INTO users_data (user_id, first_name, last_name, address) " +
             "VALUES (last_insert_id(), ?, ?, ?);";
-    private final static String UPDATE_USER = "UPDATE users_data SET password_md5 = ?,email = ?,first_name = ?," +
-            "last_name = ?,address = ?" +
-            "  WHERE id = ?";
+    private final static String UPDATE_USER = "UPDATE users_credentials, users_data SET password_md5 = ?,email = ?," +
+            "first_name = ?, last_name = ?,address = ? WHERE users_credentials.id = ?";
 
     @Override
     public User selectUserByLogin(String login) throws DaoException {
