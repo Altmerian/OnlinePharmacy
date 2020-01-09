@@ -24,7 +24,6 @@ import javax.servlet.http.HttpSession;
  */
 public class LoginCommand implements Command {
     private static UserService userService = new UserServiceImpl();
-    private static final Logger LOGGER = LogManager.getLogger();
 
     /**
      * Handles request to the servlet by trying to log in a user with given credentials
