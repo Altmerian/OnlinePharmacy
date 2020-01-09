@@ -22,6 +22,7 @@ public class CommandFactory {
     private CommandFactory() {
 
         commandMap.put(CommandName.ADD_ITEM_TO_SHOPPING_CART, new AddItemToShoppingCart());
+        commandMap.put(CommandName.CHANGE_LOCALE, new ChangeLocaleCommand());
         commandMap.put(CommandName.CLEAR_SHOPPING_CART, new ClearShoppingCart());
         commandMap.put(CommandName.LOGIN, new LoginCommand());
         commandMap.put(CommandName.LOGOUT, new LogoutCommand());
@@ -49,7 +50,7 @@ public class CommandFactory {
         } else {
             CommandName commandName;
             try {
-                commandName = CommandName.valueOf(commandRequest.toUpperCase());
+                commandName = CommandName.valueOf(commandRequest.replace("-", "_").toUpperCase());
                 if (commandMap.containsKey(commandName)) {
                     return commandMap.get(commandName);
                 } else {

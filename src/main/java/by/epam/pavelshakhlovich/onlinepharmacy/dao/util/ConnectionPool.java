@@ -24,20 +24,20 @@ public class ConnectionPool {
     private static int poolSize = 5;
     private static BlockingQueue<Connection> connections;
     private static final String DATABASE_PROPERTIES = "database.properties";
+    private static ResourceBundle resource = ResourceBundle.getBundle("database");
     private static final Logger LOGGER = LogManager.getLogger();
 
     private ConnectionPool() {
     }
 
     public static ConnectionPool getInstance() throws ConnectionPoolException {
-        if (isEmpty.get()) {
+        if (isEmpty.compareAndSet(true, false)) {
             ConnectionPool.initialize();
         }
         return instance;
     }
 
     private static void initialize() throws ConnectionPoolException {
-        ResourceBundle resource = ResourceBundle.getBundle("database");
         String url = resource.getString("url");
         String user = resource.getString("user");
         String pass = resource.getString("password");

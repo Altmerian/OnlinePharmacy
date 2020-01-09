@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="ctg" uri="customtags" %>
-<fmt:setLocale value="en_US"/>
+<fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="local"/>
 
 <html><head><title>Online Pharmacy</title></head>
@@ -10,8 +10,8 @@
     <ctg:header/>
     <c:choose>
     	<c:when test="${sessionScope.user != null}">
-    		 Welcome, ${sessionScope.user.login} <br/>
-    		 <a href="controller?command=logout">Logout</a>
+    		 <fmt:message key="message.welcome"/>, ${sessionScope.user.login} <br/>
+    		 <a href="/controller?command=logout">Logout</a>
     	</c:when>
     	<c:otherwise>
     		<a href="/loginJsp">Login</a> <br/>

@@ -10,6 +10,7 @@ public final class Parameter {
     public static final String EMAIL = "email";
     public static final String ERROR_MESSAGE = "error_message";
     public static final String FIRST_NAME = "first_name";
+    public static final String FROM = "from";
     public static final String ID = "id";
     public static final String LAST_NAME = "last_name";
     public static final String LOCALE = "locale";
@@ -17,6 +18,7 @@ public final class Parameter {
     public static final String LOGIN_FAILED = "login_failed";
     public static final String PASSWORD = "password";
     public static final String PASSWORD_MD5 = "password_md5";
+    public static final String REFERER = "referer";
     public static final String ROLE = "role";
     public static final String SALT = "salt";
     public static final String SUCCESS_MESSAGE = "success_message";

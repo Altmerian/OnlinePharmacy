@@ -84,7 +84,7 @@ public class UserDaoSQLImpl implements UserDao {
         } catch (ConnectionPoolException e) {
             LOGGER.throwing(Level.ERROR, new DaoException("Can't get connection from Connection Pool", e));
         } catch (SQLException e) {
-            LOGGER.throwing(Level.ERROR, new DaoException("Can't make prepared statement", e));
+            throw LOGGER.throwing(Level.ERROR, new DaoException("Can't make prepared statement", e));
         } finally {
             closeResources(cn, preparedStatement, resultSet);
         }
