@@ -6,6 +6,7 @@ package by.epam.pavelshakhlovich.onlinepharmacy.command.util;
 public enum JspPage {
     ROOT("/"),
     ADMIN_HEADER("/WEB-INF/jsp/headers/admin-header.jsp"),
+    COMMON_HEADER("/WEB-INF/jsp/headers/common-header.jsp"),
     DOCTOR_HEADER("/WEB-INF/jsp/headers/doctor-header.jsp"),
     ERROR("/WEB-INF/jsp/error.jsp"),
     GUEST_HEADER("/WEB-INF/jsp/headers/guest-header.jsp"),

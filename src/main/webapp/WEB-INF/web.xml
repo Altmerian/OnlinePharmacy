@@ -20,14 +20,6 @@
     <servlet-name>register</servlet-name>
     <url-pattern>/registerJsp</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <servlet-name>main</servlet-name>
-    <jsp-file>/WEB-INF/jsp/main.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>main</servlet-name>
-    <url-pattern>/mainJsp</url-pattern>
-  </servlet-mapping>
 
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

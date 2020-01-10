@@ -17,13 +17,13 @@ public class ChangeLocaleCommand implements Command {
     /**
      * Handles request to the servlet by changing the locale for the session
      * @param request request from the servlet, containing the desired locale
-     * @throws CommandException
+     * @return URL, from which locale was changed
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         String locale = request.getParameter(Parameter.LOCALE);
         HttpSession session = request.getSession();
         session.setAttribute(Parameter.LOCALE,locale);
-        return((String) request.getAttribute(Parameter.FROM));
+        return(request.getParameter(Parameter.FROM));
     }
 }
