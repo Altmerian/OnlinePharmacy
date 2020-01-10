@@ -10,8 +10,6 @@ import by.epam.pavelshakhlovich.onlinepharmacy.service.ServiceException;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.UserService;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,7 +28,6 @@ public class LoginCommand implements Command {
      *
      * @param request request from the servlet, containing user's login and password
      * @return path to the same page, and set login parameters to the current session
-     * @throws CommandException
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
@@ -42,7 +39,7 @@ public class LoginCommand implements Command {
         try {
             user = userService.loginUser(login, password);
         } catch (ServiceException e) {
-            LOGGER.throwing(Level.ERROR, new CommandException("Can't get user from UserService layer", e));
+            throw LOGGER.throwing(Level.ERROR, new CommandException("Can't get user from UserService layer", e));
         }
 
         HttpSession session = request.getSession();

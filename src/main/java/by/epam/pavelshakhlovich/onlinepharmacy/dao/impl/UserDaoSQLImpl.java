@@ -26,19 +26,19 @@ public class UserDaoSQLImpl implements UserDao {
 
     private final static String SELECT_ALL_USERS = "SELECT users_credentials.id, login, password_md5, role, " +
             "email, salt, first_name, last_name, address FROM users_credentials, users_data " +
-            "WHERE users_credentials.id=user_id AND locale='EN'" +
+            "WHERE users_credentials.id=user_id" +
             " ORDER BY id ASC" +
             " LIMIT ?,?";
     private final static String COUNT_ALL_USERS = "SELECT COUNT(id) FROM users_credentials";
     private final static String SELECT_USER_BY_LOGIN = "SELECT users_credentials.id, login, password_md5, role, " +
             "email, salt, first_name, last_name, address FROM users_credentials, users_data " +
-            "WHERE users_credentials.id=user_id AND locale='EN' AND login = ?;";
+            "WHERE users_credentials.id=user_id AND login = ?;";
     private final static String SELECT_USER_BY_EMAIL = "SELECT users_credentials.id, login, password_md5, role, " +
             "email, salt, first_name, last_name, address FROM users_credentials, users_data " +
-            "WHERE users_credentials.id=user_id AND locale='EN' AND email = ?";
+            "WHERE users_credentials.id=user_id AND email = ?";
     private final static String SELECT_USER_BY_ID = "SELECT users_credentials.id, login, password_md5, role, " +
             "email, salt, first_name, last_name, address FROM users_credentials, users_data " +
-            "WHERE users_credentials.id=user_id AND locale='EN' AND users_credentials.id = ?";
+            "WHERE users_credentials.id=user_id AND users_credentials.id = ?";
     private final static String INSERT_USER_CREDENTIALS = "INSERT INTO users_credentials (login, password_md5, role" +
             ", salt, email) VALUES (?, ?, 'user',?, ?);";
     private final static String INSERT_USER_DATA = "INSERT INTO users_data (user_id, first_name, last_name, address) " +

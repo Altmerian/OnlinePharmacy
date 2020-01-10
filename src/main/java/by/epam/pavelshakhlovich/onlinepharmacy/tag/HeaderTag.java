@@ -33,6 +33,7 @@ public class HeaderTag extends TagSupport {
             } else {
                 pageContext.include(JspPage.GUEST_HEADER.getPath());
             }
+            pageContext.include(JspPage.COMMON_HEADER.getPath());
         } catch (ServletException | IOException e) {
             throw new JspTagException(e);
         }

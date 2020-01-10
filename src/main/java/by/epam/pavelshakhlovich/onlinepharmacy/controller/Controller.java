@@ -47,6 +47,7 @@ public class Controller extends HttpServlet {
             LOGGER.error("Command execution failed", e);
         }
         if (page != null) {
+            request.setAttribute("currentPage", page);
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
             dispatcher.forward(request, response);
         } else {

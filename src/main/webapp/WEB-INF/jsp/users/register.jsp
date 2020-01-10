@@ -8,40 +8,39 @@
 <html><head><title>Login</title></head>
 <body>
 <ctg:header/>
-<h4>Please, fill up the fields:</h4>
+<h4><fmt:message key="text.register"/>:</h4>
 <div>
     <form action="controller" method="POST">
         <input type="hidden" name="command" value="register"/>
         <div>
-            Login:   <input type="text" id="login" name="login" pattern="[a-zA-Z0-9]+" required> <br/>
+            <fmt:message key="text.username"/>:
+            <input type="text" id="login" name="login" pattern="[a-zA-Z0-9]+" required> <br/>
         </div>
-
         <div class="form-group">
-            E-mail:     <input type="email" id="email" name="email" required> <br/>
+            <fmt:message key="text.email"/>:
+            <input type="email" id="email" name="email" required> <br/>
         </div>
-
         <div>
-            Password:   <input type="password" id="password" name="password" pattern=".{4,}" required> <br/>
+            <fmt:message key="text.password"/>:
+            <input type="password" id="password" name="password" pattern=".{4,}" required> <br/>
         </div>
-
         <div>
-            First Name: <input type="text" id="first_name" name="first_name"> <br/>
+            <fmt:message key="text.firstName"/>:
+            <input type="text" id="first_name" name="first_name"> <br/>
         </div>
-
         <div>
-            Last Name:  <input type="text" id="last_name" name="last_name"> <br/>
+            <fmt:message key="text.lastName"/>:
+            <input type="text" id="last_name" name="last_name"> <br/>
         </div>
-
         <div>
-            Address:    <input type="text" id="address" name="address" value="${requestScope.address}"> <br/>
+            <fmt:message key="text.address"/>:
+            <input type="text" id="address" name="address" value="${requestScope.address}"> <br/>
         </div>
-
         <div>
-            <!-- Button -->
-                <input type="submit" value="Register" />
+            <!-- Button --> <br/>
+                <input type="submit" value="<fmt:message key="button.name.register"/>"/>
         </div>
     </form>
-
      <c:if test="${sessionScope.success_message}">
         <div>
             <fmt:message key="message.register.success"/>: <c:out value="${sessionScope.user_name}"/>

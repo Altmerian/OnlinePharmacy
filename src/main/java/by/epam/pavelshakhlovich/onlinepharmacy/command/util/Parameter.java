@@ -6,6 +6,7 @@ package by.epam.pavelshakhlovich.onlinepharmacy.command.util;
 public final class Parameter {
     public static final String ADDRESS = "address";
     public static final String COMMAND = "command";
+    public static final String CURRENT_PAGE = "current_page";
     public static final String CURRENT_SHOPPING_CART = "current_shopping_cart";
     public static final String EMAIL = "email";
     public static final String ERROR_MESSAGE = "error_message";
