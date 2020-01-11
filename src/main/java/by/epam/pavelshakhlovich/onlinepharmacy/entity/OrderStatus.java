@@ -7,6 +7,7 @@ public enum OrderStatus {
     OPENED("opened"),
     PROCESSING("in process"),
     AWAITING_PRESCRIPTION("awaiting prescription"),
+    PAYMENT_CONFIRMATION("payment confirmation"),
     PAID("paid"),
     COMPLETED("delivered"),
     CANCELED ("canceled");

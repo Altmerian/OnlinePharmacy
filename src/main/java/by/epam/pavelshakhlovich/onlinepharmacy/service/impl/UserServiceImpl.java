@@ -8,6 +8,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.entity.UserRole;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ServiceException;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.UserService;
 import by.epam.pavelshakhlovich.onlinepharmacy.util.Hasher;
+import by.epam.pavelshakhlovich.onlinepharmacy.util.Validator;
 import by.epam.pavelshakhlovich.onlinepharmacy.util.SaltGenerator;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -48,17 +49,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean registerUser(User user) throws ServiceException {
-
-        boolean result;
+        if (!Validator.isUserValid(user)){
+            return false;
+        }
         boolean isNotExist = false;
         try {
             if (userDao.selectUserByEmail(user.getEmail()) == null &&
                     userDao.selectUserByLogin(user.getLogin()) == null) {
-                    isNotExist = true;
-                }
+                isNotExist = true;
+            }
         } catch (DaoException e) {
             throw LOGGER.throwing(Level.ERROR, new ServiceException("Can't get data from DAO layer", e));
         }
+        boolean result;
         if (isNotExist) {
             try {
                 user.setSalt(SaltGenerator.getInstance().getSalt());

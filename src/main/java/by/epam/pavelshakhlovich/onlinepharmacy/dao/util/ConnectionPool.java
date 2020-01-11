@@ -18,11 +18,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
-    private static ConnectionPool instance = new ConnectionPool();
+    private static final ConnectionPool INSTANCE = new ConnectionPool();
     private static AtomicBoolean isEmpty = new AtomicBoolean(true);
     private static ReentrantLock lock = new ReentrantLock();
-    private static int poolSize = 5;
-    private static BlockingQueue<Connection> connections;
+    private static final int POOL_SIZE = 5;
+    private static BlockingQueue<ProxyConnection> connections;
     private static final String DATABASE_PROPERTIES = "database.properties";
     private static ResourceBundle resource = ResourceBundle.getBundle("database");
     private static final Logger LOGGER = LogManager.getLogger();
@@ -34,7 +34,7 @@ public class ConnectionPool {
         if (isEmpty.compareAndSet(true, false)) {
             ConnectionPool.initialize();
         }
-        return instance;
+        return INSTANCE;
     }
 
     private static void initialize() throws ConnectionPoolException {
@@ -44,41 +44,44 @@ public class ConnectionPool {
         String driver = resource.getString("driver");
 
         lock.lock();
-        connections = new ArrayBlockingQueue<>(poolSize);
+        connections = new ArrayBlockingQueue<>(POOL_SIZE);
         try {
             Class.forName(driver);
             int currentConnectionSize = connections.size();
-            for (int i = 0; i < poolSize - currentConnectionSize; i++) {
-                connections.add(DriverManager.getConnection(url, user, pass));
+            for (int i = 0; i < POOL_SIZE - currentConnectionSize; i++) {
+                connections.add(new ProxyConnection(DriverManager.getConnection(url, user, pass)));
             }
-            isEmpty.set(false);
         } catch (ClassNotFoundException | SQLException e) {
+            isEmpty.set(true);
             throw LOGGER.throwing(Level.ERROR, new ConnectionPoolException("Initialization error", e));
         }
         lock.unlock();
     }
 
     public Connection getConnection() throws ConnectionPoolException {
-        Connection con;
+        Connection connection;
         try {
-            con = connections.poll(10, TimeUnit.SECONDS);
+            connection = connections.poll(10, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            throw LOGGER.throwing(Level.ERROR, new ConnectionPoolException(e.getMessage()));
+            throw LOGGER.throwing(Level.ERROR, new ConnectionPoolException("Can't get connection", e));
         }
-        return con;
+        return connection;
     }
 
     public void releaseConnection(Connection con) throws ConnectionPoolException {
-        boolean isReleased = connections.add(con);
+        boolean isReleased =false;
+        if (con instanceof ProxyConnection) {
+            isReleased = connections.add((ProxyConnection)con);
+        }
         if (!isReleased) {
             LOGGER.throwing(Level.ERROR, new ConnectionPoolException("Can't release connection"));
         }
     }
 
     public void closePool() throws ConnectionPoolException {
-        for (Connection connection : connections) {
+        for (ProxyConnection connection : connections) {
             try {
-                connection.close();
+                connection.reallyClose();
             } catch (SQLException e) {
                 LOGGER.throwing(Level.ERROR, new ConnectionPoolException(e));
             }
@@ -87,7 +90,7 @@ public class ConnectionPool {
     }
 
     public int getPoolSize() {
-        return poolSize;
+        return POOL_SIZE;
     }
 
     private static Properties readProperties() {

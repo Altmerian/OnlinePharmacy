@@ -14,11 +14,11 @@
         <input type="hidden" name="command" value="register"/>
         <div>
             <fmt:message key="text.username"/>:
-            <input type="text" id="login" name="login" pattern="[a-zA-Z0-9]+" required> <br/>
+            <input type="text" id="login" name="login" pattern="[a-zA-Z0-9]{5,20}" required> <br/>
         </div>
         <div class="form-group">
             <fmt:message key="text.email"/>:
-            <input type="email" id="email" name="email" required> <br/>
+            <input type="email" id="email" name="email" pattern="\w{2,40}@\w{2,20}.\w{2,4}" required> <br/>
         </div>
         <div>
             <fmt:message key="text.password"/>:
