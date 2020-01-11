@@ -6,7 +6,7 @@
 
   <servlet>
     <servlet-name>login</servlet-name>
-    <jsp-file>/WEB-INF/jsp/users/login.jsp</jsp-file>
+    <jsp-file>/WEB-INF/jsp/user/login.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>login</servlet-name>
@@ -14,7 +14,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>register</servlet-name>
-    <jsp-file>/WEB-INF/jsp/users/register.jsp</jsp-file>
+    <jsp-file>/WEB-INF/jsp/user/register.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>register</servlet-name>

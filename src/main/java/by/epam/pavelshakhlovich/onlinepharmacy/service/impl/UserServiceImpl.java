@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
         try {
             user = userDao.selectUserByLogin(login);
         } catch (DaoException e) {
-            LOGGER.throwing(Level.ERROR, new ServiceException("Can't get data from DAO layer", e));
+            throw LOGGER.throwing(Level.ERROR, new ServiceException("Can't get data from DAO layer", e));
         }
         if (user != null) {
             String saltedPassword = user.getSalt() + password;
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
                     isNotExist = true;
                 }
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw LOGGER.throwing(Level.ERROR, new ServiceException("Can't get data from DAO layer", e));
         }
         if (isNotExist) {
             try {
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
                 user.setRole(UserRole.USER);
                 result = userDao.insertUser(user);
             } catch (DaoException | NoSuchAlgorithmException | UnsupportedEncodingException e) {
-                throw new ServiceException(e);
+                throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
             }
             return result;
         } else {
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
             }
             return userDao.updateUser(user);
         } catch (DaoException | NoSuchAlgorithmException | UnsupportedEncodingException e) {
-            throw new ServiceException(e);
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }
     }
 
@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userDao.selectAllUsers(offset, limit);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }
     }
 
@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userDao.countAllUsers();
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }
     }
 
@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
                 try {
                     return userDao.selectUserById(userId);
                 } catch (DaoException e) {
-                    throw new ServiceException(e);
+                    throw LOGGER.throwing(Level.ERROR, new ServiceException("Can't get data from DAO layer", e));
                 }
             } else {
                 return null;
@@ -133,7 +133,7 @@ public class UserServiceImpl implements UserService {
                 try {
                     return userDao.selectUserByEmail(email);
                 } catch (DaoException e) {
-                    throw new ServiceException(e);
+                    throw LOGGER.throwing(Level.ERROR, new ServiceException("Can't get data from DAO layer", e));
                 }
             } else {
                 return null;
@@ -150,7 +150,7 @@ public class UserServiceImpl implements UserService {
                 try {
                     return userDao.selectUserByLogin(login);
                 } catch (DaoException e) {
-                    throw new ServiceException(e);
+                    throw LOGGER.throwing(Level.ERROR, new ServiceException("Can't get data from DAO layer", e));
                 }
             } else {
                 return null;

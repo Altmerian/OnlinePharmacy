@@ -11,10 +11,10 @@ public enum JspPage {
     ERROR("/WEB-INF/jsp/error.jsp"),
     GUEST_HEADER("/WEB-INF/jsp/headers/guest-header.jsp"),
     INDEX("/index.jsp"),
-    LOGIN("/WEB-INF/jsp/users/login.jsp"),
+    LOGIN("/WEB-INF/jsp/user/login.jsp"),
     MANAGER_HEADER("/WEB-INF/jsp/headers/admin-header.jsp"),
     MAIN("/WEB-INF/jsp/main.jsp"),
-    REGISTER("/WEB-INF/jsp/users/register.jsp"),
+    REGISTER("/WEB-INF/jsp/user/register.jsp"),
     SHOPPING_CART("/WEB-INF/jsp/shopping-cart.jsp"),
     USER_HEADER("/WEB-INF/jsp/headers/user-header.jsp");
 
