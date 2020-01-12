@@ -8,8 +8,6 @@ import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPoolException;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.UserRole;
 import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,7 +20,6 @@ import java.util.List;
  * This is an implementation of the {@code UserDao} interface for working with database.
  */
 public class UserDaoSQLImpl implements UserDao {
-    private static final Logger LOGGER = LogManager.getLogger();
 
     private final static String SELECT_ALL_USERS = "SELECT id, login, password_md5, role, email, salt, " +
             "first_name, last_name, address FROM users ORDER BY id ASC LIMIT ?,?;";
@@ -39,22 +36,22 @@ public class UserDaoSQLImpl implements UserDao {
             "first_name = ?, last_name = ?,address = ? WHERE id = ?";
 
     @Override
-    public User selectUserByLogin(String login) throws DaoException {
+    public User selectByLogin(String login) throws DaoException {
         return selectUserBy(SELECT_USER_BY_LOGIN, login);
     }
 
     @Override
-    public User selectUserById(long id) throws DaoException {
+    public User selectById(long id) throws DaoException {
         return selectUserBy(SELECT_USER_BY_ID, String.valueOf(id));
     }
 
     @Override
-    public User selectUserByEmail(String email) throws DaoException {
+    public User selectByEmail(String email) throws DaoException {
         return selectUserBy(SELECT_USER_BY_EMAIL, email);
     }
 
     @Override
-    public List<User> selectAllUsers(int offset, int limit) throws DaoException {
+    public List<User> selectAll(int offset, int limit) throws DaoException {
         List<User> userList = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
@@ -104,7 +101,7 @@ public class UserDaoSQLImpl implements UserDao {
     }
 
     @Override
-    public boolean insertUser(User user) throws DaoException {
+    public boolean create(User user) throws DaoException {
         Connection cn = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -129,7 +126,7 @@ public class UserDaoSQLImpl implements UserDao {
     }
 
     @Override
-    public boolean updateUser(User user) throws DaoException {
+    public boolean update(User user) throws DaoException {
         Connection cn = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -152,6 +149,11 @@ public class UserDaoSQLImpl implements UserDao {
             closeResources(cn, preparedStatement);
         }
         return true;
+    }
+
+    @Override
+    public boolean delete(long UserId) {
+        throw LOGGER.throwing(Level.ERROR, new UnsupportedOperationException());
     }
 
     private User selectUserBy(String queryString, String parameter) throws DaoException {
@@ -189,43 +191,6 @@ public class UserDaoSQLImpl implements UserDao {
         user.setFirstName(resultSet.getString(Parameter.FIRST_NAME));
         user.setLastName(resultSet.getString(Parameter.LAST_NAME));
         user.setAddress(resultSet.getString(Parameter.ADDRESS));
-    }
-
-    private void closeResources(Connection connection, PreparedStatement preparedStatement) throws DaoException {
-        try {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-        } catch (SQLException e) {
-            LOGGER.throwing(Level.ERROR, new DaoException("Can't close prepared statement", e));
-        }
-        if (connection != null) {
-            try {
-                ConnectionPool.getInstance().releaseConnection(connection);
-            } catch (ConnectionPoolException e) {
-                LOGGER.throwing(Level.ERROR, new DaoException("Can't release connection to connection pool", e));
-            }
-        }
-    }
-
-    private void closeResources(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet) throws DaoException {
-        try {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (resultSet != null) {
-                resultSet.close();
-            }
-        } catch (SQLException e) {
-            LOGGER.throwing(Level.ERROR, new DaoException("Can't close prepared statement", e));
-        }
-        if (connection != null) {
-            try {
-                ConnectionPool.getInstance().releaseConnection(connection);
-            } catch (ConnectionPoolException e) {
-                LOGGER.throwing(Level.ERROR, new DaoException("Can't release connection to connection pool", e));
-            }
-        }
     }
 
 }

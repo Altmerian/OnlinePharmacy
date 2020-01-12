@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     public User loginUser(String login, String password) throws ServiceException {
         User user = null;
         try {
-            user = userDao.selectUserByLogin(login);
+            user = userDao.selectByLogin(login);
         } catch (DaoException e) {
             throw LOGGER.throwing(Level.ERROR, new ServiceException("Can't get data from DAO layer", e));
         }
@@ -54,8 +54,8 @@ public class UserServiceImpl implements UserService {
         }
         boolean isNotExist = false;
         try {
-            if (userDao.selectUserByEmail(user.getEmail()) == null &&
-                    userDao.selectUserByLogin(user.getLogin()) == null) {
+            if (userDao.selectByEmail(user.getEmail()) == null &&
+                    userDao.selectByLogin(user.getLogin()) == null) {
                 isNotExist = true;
             }
         } catch (DaoException e) {
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
                 String hashedPassword = Hasher.md5Hash(user.getSalt() + user.getPassword());
                 user.setHashedPassword(hashedPassword);
                 user.setRole(UserRole.USER);
-                result = userDao.insertUser(user);
+                result = userDao.create(user);
             } catch (DaoException | NoSuchAlgorithmException | UnsupportedEncodingException e) {
                 throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
             }
@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
                 String hashedPassword = Hasher.md5Hash(user.getSalt() + user.getPassword());
                 user.setHashedPassword(hashedPassword);
             }
-            return userDao.updateUser(user);
+            return userDao.update(user);
         } catch (DaoException | NoSuchAlgorithmException | UnsupportedEncodingException e) {
             throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> selectAllUsers(int offset, int limit) throws ServiceException {
         try {
-            return userDao.selectAllUsers(offset, limit);
+            return userDao.selectAll(offset, limit);
         } catch (DaoException e) {
             throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }
@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService {
         } else {
             if (user.getRole() == UserRole.ADMIN || user.getRole() == UserRole.MANAGER) {
                 try {
-                    return userDao.selectUserById(userId);
+                    return userDao.selectById(userId);
                 } catch (DaoException e) {
                     throw LOGGER.throwing(Level.ERROR, new ServiceException("Can't get data from DAO layer", e));
                 }
@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
         } else {
             if (user.getRole() == UserRole.ADMIN || user.getRole() == UserRole.MANAGER) {
                 try {
-                    return userDao.selectUserByEmail(email);
+                    return userDao.selectByEmail(email);
                 } catch (DaoException e) {
                     throw LOGGER.throwing(Level.ERROR, new ServiceException("Can't get data from DAO layer", e));
                 }
@@ -151,7 +151,7 @@ public class UserServiceImpl implements UserService {
         } else {
             if (user.getRole() == UserRole.ADMIN || user.getRole() == UserRole.MANAGER) {
                 try {
-                    return userDao.selectUserByLogin(login);
+                    return userDao.selectByLogin(login);
                 } catch (DaoException e) {
                     throw LOGGER.throwing(Level.ERROR, new ServiceException("Can't get data from DAO layer", e));
                 }

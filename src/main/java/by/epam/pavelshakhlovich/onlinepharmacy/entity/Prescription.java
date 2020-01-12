@@ -15,9 +15,9 @@ public class Prescription implements Serializable {
     private LocalDate validFrom;
     private LocalDate validUntil;
     private PrescriptionStatus status;
-    private Item item;
-    private User user;
-    private User doctor;
+    private long drugId;
+    private long userId;
+    private long doctorId;
 
     public Prescription() {
 
@@ -63,28 +63,28 @@ public class Prescription implements Serializable {
         this.status = status;
     }
 
-    public Item getItem() {
-        return item;
+    public long getDrugId() {
+        return drugId;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setDrugId(long drugId) {
+        this.drugId = drugId;
     }
 
-    public User getUser() {
-        return user;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
-    public User getDoctor() {
-        return doctor;
+    public long getDoctorId() {
+        return doctorId;
     }
 
-    public void setDoctor(User doctor) {
-        this.doctor = doctor;
+    public void setDoctorId(long doctorId) {
+        this.doctorId = doctorId;
     }
 
 
@@ -103,7 +103,7 @@ public class Prescription implements Serializable {
         if (id != that.id) {
             return false;
         }
-        if (!item.equals(that.item)) {
+        if (drugId != that.drugId) {
             return false;
         }
 
@@ -116,10 +116,10 @@ public class Prescription implements Serializable {
         if (validUntil != null ? !validUntil.equals(that.validUntil) : that.validUntil != null) {
             return false;
         }
-        if (!user.equals(that.user)) {
+        if (userId != that.userId) {
             return false;
         }
-        return doctor.equals(that.doctor);
+        return doctorId != that.doctorId;
     }
 
     @Override
@@ -129,9 +129,9 @@ public class Prescription implements Serializable {
         result = 31 * result + (validFrom != null ? validFrom.hashCode() : 0);
         result = 31 * result + (validUntil != null ? validUntil.hashCode() : 0);
         result = 31 * result + status.hashCode();
-        result = 31 * result + item.hashCode();
-        result = 31 * result + user.hashCode();
-        result = 31 * result + doctor.hashCode();
+        result = 31 * result + Long.hashCode(drugId);
+        result = 31 * result + Long.hashCode(userId);
+        result = 31 * result + Long.hashCode(doctorId);
         return result;
     }
 }

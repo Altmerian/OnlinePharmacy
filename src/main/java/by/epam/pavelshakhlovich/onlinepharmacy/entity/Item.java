@@ -10,7 +10,7 @@ public class Item implements Serializable {
     private static final long serialVersionUID = 3946646628310050691L;
     private long id;
     private String label;
-    private String dosage;
+    private long dosageId;
     private int volume;
     private String volumeType;
     private long manufacturerId;
@@ -38,12 +38,12 @@ public class Item implements Serializable {
         this.label = label;
     }
 
-    public String getDosage() {
-        return dosage;
+    public long getDosageId() {
+        return dosageId;
     }
 
-    public void setDosage(String dosage) {
-        this.dosage = dosage;
+    public void setDosageId(long dosageId) {
+        this.dosageId = dosageId;
     }
 
     public int getVolume() {
@@ -117,7 +117,7 @@ public class Item implements Serializable {
         if (!label.equals(item.label)) {
             return false;
         }
-        if (!dosage.equals(item.dosage)) {
+        if (dosageId != item.dosageId) {
             return false;
         }
         if (!volumeType.equals(item.volumeType)) {
@@ -136,7 +136,7 @@ public class Item implements Serializable {
     public int hashCode() {
         int result = Long.hashCode(id);
         result = 31 * result + label.hashCode();
-        result = 31 * result + dosage.hashCode();
+        result = 31 * result + Long.hashCode(dosageId);
         result = 31 * result + volume;
         result = 31 * result + volumeType.hashCode();
         result = 31 * result + Long.hashCode(manufacturerId);
@@ -151,10 +151,10 @@ public class Item implements Serializable {
         return "Item{" +
                 "id=" + id +
                 ", label='" + label + '\'' +
-                ", dosage='" + dosage + '\'' +
+                ", dosageId='" + dosageId + '\'' +
                 ", volume=" + volume +
                 ", volumeType='" + volumeType + '\'' +
-                ", manufacturerName='" + manufacturerId + '\'' +
+                ", manufacturerId='" + manufacturerId + '\'' +
                 ", price=" + price +
                 ", byPrescription=" + byPrescription +
                 ", description='" + description + '\'' +
