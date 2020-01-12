@@ -9,6 +9,7 @@ public final class Parameter {
     public static final String COMMAND = "command";
     public static final String CURRENT_PAGE = "current_page";
     public static final String CURRENT_SHOPPING_CART = "current_shopping_cart";
+    public static final String DOSAGE= "dosage";
     public static final String DOSAGE_ID= "dosage_id";
     public static final String DESCRIPTION = "description";
     public static final String EMAIL = "email";
@@ -23,6 +24,7 @@ public final class Parameter {
     public static final String LOGIN = "login";
     public static final String LOGIN_FAILED = "login_failed";
     public static final String MANUFACTURER_ID = "manufacturer_id";
+    public static final String MANUFACTURER_NAME = "manufacturer_name";
     public static final String PASSWORD = "password";
     public static final String PASSWORD_MD5 = "password_md5";
     public static final String PRICE = "price";

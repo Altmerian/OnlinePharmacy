@@ -17,7 +17,8 @@ public enum JspPage {
     MAIN("/WEB-INF/jsp/main.jsp"),
     REGISTER("/WEB-INF/jsp/user/register.jsp"),
     SHOPPING_CART("/WEB-INF/jsp/shopping-cart.jsp"),
-    USER_HEADER("/WEB-INF/jsp/headers/user-header.jsp");
+    USER_HEADER("/WEB-INF/jsp/headers/user-header.jsp"),
+    VIEW_ITEM ("/WEB-INF/jsp/catalog/view-item.jsp");
 
     private String path;
 

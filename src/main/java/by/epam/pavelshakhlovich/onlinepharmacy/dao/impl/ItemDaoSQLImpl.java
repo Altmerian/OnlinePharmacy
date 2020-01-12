@@ -25,9 +25,9 @@ public class ItemDaoSQLImpl implements ItemDao {
 
     private static final String SELECT_DOSAGES = "SELECT id, name FROM dosages";
     private static final String SELECT_VOLUME_TYPES = "SHOW COLUMNS FROM drugs LIKE 'volume_type'";
-    private static final String SELECT_ITEM_BY_ID = "SELECT drugs.id, drugs.label, dosage.name AS dosage, "  +
-            "drugs.volume, drugs.volume_type, CONCAT(manufacturers.type,' \"',manufacturers.name," +
-            "'\" (',manufacturers.country, ')') AS manufacturer, drugs.price, drugs.by_prescription, " +
+    private static final String SELECT_ITEM_BY_ID = "SELECT drugs.id, drugs.label, dosage.id, dosage.name AS dosage, "  +
+            "drugs.volume, drugs.volume_type, manufacturers.id, CONCAT(manufacturers.type,' \"',manufacturers.name," +
+            "'\" (',manufacturers.country, ')') AS manufacturer_name, drugs.price, drugs.by_prescription, " +
             "drugs.description  FROM drugs\n " +
             "LEFT JOIN dosages ON drugs.dosage_id = dosages.id\n " +
             "LEFT JOIN manufacturers ON drugs.manufacturer_id = manufacturers.id" +
@@ -39,9 +39,9 @@ public class ItemDaoSQLImpl implements ItemDao {
             " LEFT JOIN companies c ON d.manufacturer_id = c.id" +
             " WHERE d.label = ? AND d.dosage_form_id=? AND d.dosage = ?" +
             " AND d.volume = ? AND d.volume_type=? AND d.manufacturer_id=?";
-    private static final String INSERT_ITEM = "INSERT INTO drugs(id, label, dosage_form_id, dosage, volume, " +
-            "volume_type, manufacturer_id, price, by_prescription, description, image_path) " +
-            "VALUES(0 , ?, ?, ? , ?, ?, ?, ?, ?, ?,?)";
+    private static final String INSERT_ITEM = "INSERT INTO drugs(label, dosage_id, volume, " +
+            "volume_type, manufacturer_id, price, by_prescription, description) " +
+            "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_ITEM = "UPDATE drugs \n" +
             "SET\n" +
             "  label = ?,dosage_form_id = ?,dosage = ?,volume = ?,volume_type = ?,manufacturer_id = ?,price = ? ,by_prescription = ?,description = ?, image_path = ?" +
@@ -350,10 +350,12 @@ public class ItemDaoSQLImpl implements ItemDao {
         item.setId(resultSet.getLong(Parameter.ID));
         item.setLabel(resultSet.getString(Parameter.LABEL));
         item.setDosageId(resultSet.getLong(Parameter.DOSAGE_ID));
+        item.setDosage(resultSet.getString(Parameter.DOSAGE));
         item.setVolumeType(resultSet.getString(Parameter.VOLUME_TYPE));
         item.setVolume(resultSet.getInt(Parameter.VOLUME));
         item.setPrice(resultSet.getBigDecimal(Parameter.PRICE));
         item.setManufacturerId(resultSet.getLong(Parameter.MANUFACTURER_ID));
+        item.setManufacturerName(resultSet.getString(Parameter.MANUFACTURER_NAME));
         item.setByPrescription(resultSet.getBoolean(Parameter.BY_PRESCRIPTION));
         item.setDescription(resultSet.getString(Parameter.DESCRIPTION));
     }

@@ -11,9 +11,11 @@ public class Item implements Serializable {
     private long id;
     private String label;
     private long dosageId;
+    private String dosage;
     private int volume;
     private String volumeType;
     private long manufacturerId;
+    private String manufacturerName;
     private BigDecimal price;
     private boolean byPrescription;
     private String description;
@@ -46,6 +48,14 @@ public class Item implements Serializable {
         this.dosageId = dosageId;
     }
 
+    public String getDosage() {
+        return dosage;
+    }
+
+    public void setDosage(String dosage) {
+        this.dosage = dosage;
+    }
+
     public int getVolume() {
         return volume;
     }
@@ -68,6 +78,14 @@ public class Item implements Serializable {
 
     public void setManufacturerId(long manufacturerId) {
         this.manufacturerId = manufacturerId;
+    }
+
+    public String getManufacturerName() {
+        return manufacturerName;
+    }
+
+    public void setManufacturerName(String manufacturerName) {
+        this.manufacturerName = manufacturerName;
     }
 
     public BigDecimal getPrice() {
@@ -120,12 +138,20 @@ public class Item implements Serializable {
         if (dosageId != item.dosageId) {
             return false;
         }
+
+        if (!dosage.equals(item.dosage)) {
+            return false;
+        }
         if (!volumeType.equals(item.volumeType)) {
             return false;
         }
         if (manufacturerId != item.manufacturerId) {
             return false;
         }
+        if (!manufacturerName.equals(item.manufacturerName)) {
+            return false;
+        }
+
         if (price != null ? !price.equals(item.price) : item.price != null) {
             return false;
         }
@@ -137,9 +163,11 @@ public class Item implements Serializable {
         int result = Long.hashCode(id);
         result = 31 * result + label.hashCode();
         result = 31 * result + Long.hashCode(dosageId);
+        result = 31 * result + dosage.hashCode();
         result = 31 * result + volume;
         result = 31 * result + volumeType.hashCode();
         result = 31 * result + Long.hashCode(manufacturerId);
+        result = 31 * result + manufacturerName.hashCode();
         result = 31 * result + (price != null ? price.hashCode() : 0);
         result = 31 * result + (byPrescription ? 1 : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
@@ -152,9 +180,11 @@ public class Item implements Serializable {
                 "id=" + id +
                 ", label='" + label + '\'' +
                 ", dosageId='" + dosageId + '\'' +
+                ", dosage='" + dosage + '\'' +
                 ", volume=" + volume +
                 ", volumeType='" + volumeType + '\'' +
                 ", manufacturerId='" + manufacturerId + '\'' +
+                ", manufacturerName='" + manufacturerName + '\'' +
                 ", price=" + price +
                 ", byPrescription=" + byPrescription +
                 ", description='" + description + '\'' +

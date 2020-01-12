@@ -17,7 +17,7 @@
         <div class="alert alert-info">
             <span>
                 <fmt:message key="message.item.add.success"/> :<a
-                    href="${pageContext.request.contextPath}/Controller?command=view_item&id=${sessionScope.item.id}">${sessionScope.item.label}</a>
+                href="${pageContext.request.contextPath}/controller?command=view_item&id=${sessionScope.item.id}">${sessionScope.item.label}</a>
              </span>
             <c:set var="success_message" value="false" scope="session"/>
         </div>
@@ -37,26 +37,21 @@
                    placeholder="<fmt:message key="local.text.label"/>" required/>
         </div>
         <div class="form-group">
-            <label for="sel1"><fmt:message key="local.text.dosage"/></label>
-            <select name="dosage_form_id" class="form-control" id="sel1" required>
-                <c:forEach var="dosage_form" items="${requestScope.dosage_forms}">
-                    <option value="${dosage_form.id}">${dosage_form.name}</option>
+            <label for="sel1"><fmt:message key="text.dosage"/></label>
+            <select name="dosage_id" class="form-control" id="sel1" required>
+                <c:forEach var="dosage" items="${requestScope.dosages}">
+                    <option value="${dosage.id}">${dosage.name}</option>
                 </c:forEach>
             </select>
         </div>
         <div class="form-group">
-            <label for="dosage"><fmt:message key="local.text.dosage"/></label>
-            <input type="text" id="dosage" class="form-control" name="dosage"
-                   placeholder="<fmt:message key="local.text.dosage"/>" required/>
-        </div>
-        <div class="form-group">
-            <label for="volume"><fmt:message key="local.text.volume"/></label>
-            <input type="number" class="form-control" id="volume" step="0.01" name="volume"
-                   placeholder="<fmt:message key="local.text.volume"/>"
+            <label for="volume"><fmt:message key="text.volume"/></label>
+            <input type="number" class="form-control" id="volume" step="1" name="volume"
+                   placeholder="<fmt:message key="text.volume"/>"
                    required/>
         </div>
         <div class="form-group">
-            <label for="sel2"><fmt:message key="local.text.unit"/></label>
+            <label for="sel2"><fmt:message key="text.unit"/></label>
             <select name="volume_type" class="form-control" id="sel2" required>
                 <c:forEach var="volume_type" items="${requestScope.volume_types}">
                     <option value="${volume_type}">${volume_type}</option>
@@ -64,7 +59,7 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="sel3"><fmt:message key="local.text.manufacturer"/></label>
+            <label for="sel3"><fmt:message key="text.manufacturer"/></label>
             <select name="manufacturer_id" class="form-control" id="sel3">
                 <c:forEach var="company" items="${requestScope.companies}">
                     <option value="${company.id}">${company.type} "${company.fullName}"</option>
@@ -72,25 +67,22 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="price"><fmt:message key="local.text.price"/></label>
+            <label for="price"><fmt:message key="text.price"/></label>
             <input type="number" class="form-control" id="price" step="0.01" name="price"
-                   placeholder="<fmt:message key="local.text.price"/>"
+                   placeholder="<fmt:message key="text.price"/>"
                    required/>
         </div>
         <div class="checkbox">
             <label><input type="checkbox" name="by_prescription" value="true"/><fmt:message
-                    key="local.text.byprescription"/></label>
+                    key="text.byPrescription"/></label>
         </div>
         <div class="form-group">
-            <label for="description"><fmt:message key="local.text.description"/></label>
+            <label for="description"><fmt:message key="text.description"/></label>
         <textarea class="form-control" rows="5" id="description" name="description"
-                  placeholder="<fmt:message key="local.text.description"/> "></textarea>
+                  placeholder="<fmt:message key="text.description"/> "></textarea>
         </div>
-        <input type="file" class="filestyle" data-classButton="btn btn-primary" data-input="false"
-               data-classIcon="icon-plus" data-buttonText="<fmt:message key="local.button.picture.add" />"
-               name="image_file" accept="image/*"/>
         <div style="padding: 10px 10px 0 0">
-            <input type="submit" class="btn btn-primary" placeholder="<fmt:message key="local.button.item.add"/>"/>
+            <input type="submit" class="btn btn-primary" placeholder="<fmt:message key="button.item.add"/>"/>
         </div>
     </form>
 </div>
