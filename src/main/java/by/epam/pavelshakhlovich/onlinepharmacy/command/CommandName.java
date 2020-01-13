@@ -19,7 +19,8 @@ public enum CommandName {
     LOGIN(false, UserRole.GUEST),
     LOGOUT(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     REGISTER(false, UserRole.GUEST),
-    UNKNOWN(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR);
+    UNKNOWN(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
+    VIEW_ADD_ITEM(true,  UserRole.MANAGER, UserRole.ADMIN);
 
     private boolean isGetAllowed;
     private List<UserRole> rolesAllowed = new ArrayList<>();

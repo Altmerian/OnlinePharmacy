@@ -93,9 +93,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> selectAllUsers(int offset, int limit) throws ServiceException {
+    public List<User> selectAllUsers() throws ServiceException {
         try {
-            return userDao.selectAll(offset, limit);
+            return userDao.selectAll();
         } catch (DaoException e) {
             throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }

@@ -179,7 +179,7 @@ public class ItemDaoSQLImpl implements ItemDao {
     }
 
     @Override
-    public List<Item> selectAll(int offset, int limit) throws DaoException {
+    public List<Item> selectAll() throws DaoException {
         List<Item> itemList = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
@@ -187,8 +187,6 @@ public class ItemDaoSQLImpl implements ItemDao {
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_ALL_ITEMS);
-            preparedStatement.setInt(1, offset);
-            preparedStatement.setInt(2, limit);
             resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;

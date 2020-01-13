@@ -10,8 +10,7 @@ public class Company implements Comparable<Company>, Serializable {
     private static final long serialVersionUID = -5492792504841786349L;
     private long id;
     private String type;
-    private String shortName;
-    private String fullName;
+    private String name;
     private String country;
     private String website;
 
@@ -34,20 +33,12 @@ public class Company implements Comparable<Company>, Serializable {
         this.type = type;
     }
 
-    public String getShortName() {
-        return shortName;
+    public String getName() {
+        return name;
     }
 
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getCountry() {
@@ -79,10 +70,7 @@ public class Company implements Comparable<Company>, Serializable {
         if (!type.equals(company.type)) {
             return false;
         }
-        if (!shortName.equals(company.shortName)) {
-            return false;
-        }
-        if (!fullName.equals(company.fullName)) {
+        if (!name.equals(company.name)) {
             return false;
         }
         if (!country.equals(company.country)) {
@@ -95,8 +83,7 @@ public class Company implements Comparable<Company>, Serializable {
     public int hashCode() {
         int result = Long.hashCode(id);
         result = 31 * result + type.hashCode();
-        result = 31 * result + shortName.hashCode();
-        result = 31 * result + fullName.hashCode();
+        result = 31 * result + name.hashCode();
         result = 31 * result + country.hashCode();
         result = 31 * result + (website != null ? website.hashCode() : 0);
         return result;
@@ -104,6 +91,6 @@ public class Company implements Comparable<Company>, Serializable {
 
     @Override
     public int compareTo(Company o) {
-        return this.shortName.compareTo(o.shortName);
+        return this.name.compareTo(o.name);
     }
 }

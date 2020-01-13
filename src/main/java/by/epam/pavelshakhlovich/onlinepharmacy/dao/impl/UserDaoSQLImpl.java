@@ -51,7 +51,7 @@ public class UserDaoSQLImpl implements UserDao {
     }
 
     @Override
-    public List<User> selectAll(int offset, int limit) throws DaoException {
+    public List<User> selectAll() throws DaoException {
         List<User> userList = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
@@ -59,8 +59,6 @@ public class UserDaoSQLImpl implements UserDao {
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_ALL_USERS);
-            preparedStatement.setInt(1, offset);
-            preparedStatement.setInt(2, limit);
             resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;

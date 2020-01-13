@@ -36,12 +36,11 @@ public interface UserService {
     boolean updateUser(User user) throws ServiceException;
 
     /**
-     * Returns a list of users with pagination
-     * @param limit is a number of users on the page
+     * Returns a list of all users
      * @return null if no users were found
      * @throws ServiceException if DaoException occurred
      */
-    List<User> selectAllUsers(int offset, int limit) throws ServiceException;
+    List<User> selectAllUsers() throws ServiceException;
 
     /**
      * Returns a list of users with pagination

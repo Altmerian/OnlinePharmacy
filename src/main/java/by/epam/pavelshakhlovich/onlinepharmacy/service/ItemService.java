@@ -67,13 +67,11 @@ public interface ItemService {
                                        String volumeType, long manufacturerId) throws ServiceException;
 
     /**
-     * Retrieves a list of items from {@param offset}. List's max limit is {@param limit}.
-     * @param offset set the number of the first row from request
-     * @param limit set the number of items that will be listed
+     * Retrieves a list of items from db.
      * @return list that contains limited number of items.
      * @throws ServiceException
      */
-    List<Item> selectAllItems(int offset, int limit) throws ServiceException;
+    List<Item> selectAllItems() throws ServiceException;
 
     /**Counts all items in the storage.
      * @return number of items .
