@@ -14,7 +14,7 @@ public interface ItemService {
     /**
      * Retrieves all possible dosage forms from dao layer
      */
-    List<Dosage> getDosageForms() throws ServiceException;
+    List<Dosage> getDosages() throws ServiceException;
 
     /**
      * Retrieves all possible volume types from dao layer

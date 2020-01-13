@@ -19,7 +19,7 @@ public class ItemServiceImpl implements ItemService {
 
 
     @Override
-    public List<Dosage> getDosageForms() throws ServiceException {
+    public List<Dosage> getDosages() throws ServiceException {
         try {
             return itemDao.getDosages();
         } catch (DaoException e) {

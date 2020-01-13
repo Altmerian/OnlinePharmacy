@@ -5,4 +5,5 @@
 <fmt:setBundle basename="local"/>
 
 <h4>Admin header</h4>
+<a href="/controller?command=view_add_item"><fmt:message key="button.item.add"/></a>
 <hr/>
