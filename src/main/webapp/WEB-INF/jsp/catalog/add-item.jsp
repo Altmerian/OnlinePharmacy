@@ -16,8 +16,10 @@
     <c:if test="${sessionScope.success_message}">
         <div class="alert alert-info">
             <span>
-                <fmt:message key="message.item.add.success"/> :<a
-                href="${pageContext.request.contextPath}/controller?command=view_item&id=${sessionScope.item.id}">${sessionScope.item.label}</a>
+                <fmt:message key="message.item.add.success"/> :
+                <a href="${pageContext.request.contextPath}/controller?command=view_item&id=${sessionScope.item.id}">
+                ${sessionScope.item.label}
+                </a>
              </span>
             <c:set var="success_message" value="false" scope="session"/>
         </div>
@@ -28,18 +30,18 @@
             <c:set var="error_message" value="false" scope="session"/>
         </div>
     </c:if>
-    <form role="form" action="controller" method="post" enctype="multipart/form-data">
+    <form action="controller" method="POST">
         <input type="hidden" name="command" value="add-item"/>
         <input type="hidden" name="from" value="${pageContext.request.requestURI}"/>
         <div class="form-group">
             <label for="label"><fmt:message key="text.label"/>:</label>
             <input type="text" id="label" name="label" class="form-control"
-                   placeholder="<fmt:message key="local.text.label"/>" required/>
+                   placeholder="<fmt:message key="text.label"/>" required/>
         </div>
         <div class="form-group">
             <label for="sel1"><fmt:message key="text.dosage"/></label>
             <select name="dosage_id" class="form-control" id="sel1" required>
-                <c:forEach var="dosage" items="${requestScope.dosages}">
+                <c:forEach var="dosage" items="${dosages}">
                     <option value="${dosage.id}">${dosage.name}</option>
                 </c:forEach>
             </select>
@@ -53,7 +55,7 @@
         <div class="form-group">
             <label for="sel2"><fmt:message key="text.unit"/></label>
             <select name="volume_type" class="form-control" id="sel2" required>
-                <c:forEach var="volume_type" items="${requestScope.volume_types}">
+                <c:forEach var="volume_type" items="${volume_types}">
                     <option value="${volume_type}">${volume_type}</option>
                 </c:forEach>
             </select>
@@ -61,8 +63,8 @@
         <div class="form-group">
             <label for="sel3"><fmt:message key="text.manufacturer"/></label>
             <select name="manufacturer_id" class="form-control" id="sel3">
-                <c:forEach var="company" items="${requestScope.companies}">
-                    <option value="${company.id}">${company.type} "${company.fullName}"</option>
+                <c:forEach var="company" items="${companies}">
+                    <option value="${company.id}"> ${company.name}</option>
                 </c:forEach>
             </select>
         </div>
@@ -82,11 +84,11 @@
                   placeholder="<fmt:message key="text.description"/> "></textarea>
         </div>
         <div style="padding: 10px 10px 0 0">
-            <input type="submit" class="btn btn-primary" placeholder="<fmt:message key="button.item.add"/>"/>
+            <input type="submit" value="<fmt:message key="button.item.add"/>"/>
         </div>
     </form>
 </div>
-    <div class="container">
+<div class="container">
 
 </body>
 </html>

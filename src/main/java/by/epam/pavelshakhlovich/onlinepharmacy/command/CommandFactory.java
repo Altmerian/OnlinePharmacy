@@ -21,6 +21,7 @@ public class CommandFactory {
 
     private CommandFactory() {
 
+        commandMap.put(CommandName.ADD_ITEM, new AddItemCommand());
         commandMap.put(CommandName.ADD_ITEM_TO_SHOPPING_CART, new AddItemToShoppingCart());
         commandMap.put(CommandName.CHANGE_LOCALE, new ChangeLocaleCommand());
         commandMap.put(CommandName.CLEAR_SHOPPING_CART, new ClearShoppingCart());

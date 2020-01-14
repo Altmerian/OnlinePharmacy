@@ -9,7 +9,6 @@ import java.io.Serializable;
 public class Company implements Comparable<Company>, Serializable {
     private static final long serialVersionUID = -5492792504841786349L;
     private long id;
-    private String type;
     private String name;
     private String country;
     private String website;
@@ -23,14 +22,6 @@ public class Company implements Comparable<Company>, Serializable {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getName() {
@@ -67,9 +58,6 @@ public class Company implements Comparable<Company>, Serializable {
         if (id != company.id) {
             return false;
         }
-        if (!type.equals(company.type)) {
-            return false;
-        }
         if (!name.equals(company.name)) {
             return false;
         }
@@ -82,7 +70,6 @@ public class Company implements Comparable<Company>, Serializable {
     @Override
     public int hashCode() {
         int result = Long.hashCode(id);
-        result = 31 * result + type.hashCode();
         result = 31 * result + name.hashCode();
         result = 31 * result + country.hashCode();
         result = 31 * result + (website != null ? website.hashCode() : 0);
@@ -93,4 +80,15 @@ public class Company implements Comparable<Company>, Serializable {
     public int compareTo(Company o) {
         return this.name.compareTo(o.name);
     }
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", country='" + country + '\'' +
+                ", website='" + website + '\'' +
+                '}';
+    }
 }
+

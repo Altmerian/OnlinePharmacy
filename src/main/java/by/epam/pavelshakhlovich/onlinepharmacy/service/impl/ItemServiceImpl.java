@@ -27,14 +27,6 @@ public class ItemServiceImpl implements ItemService {
         }
     }
 
-    @Override
-    public List<String> getVolumeTypes() throws ServiceException {
-        try {
-            return itemDao.getVolumeTypes();
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-    }
 
     @Override
     public boolean addItem(Item item) throws ServiceException {

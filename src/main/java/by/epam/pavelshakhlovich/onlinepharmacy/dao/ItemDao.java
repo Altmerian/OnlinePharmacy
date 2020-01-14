@@ -14,10 +14,6 @@ public interface ItemDao extends BaseDao<Item>{
      * Retrieves all possible dosages from database
      */
     List<Dosage> getDosages() throws DaoException;
-    /**
-     * Retrieves all possible volume types from database
-     */
-    List<String> getVolumeTypes() throws DaoException;
 
     /**
      * Retrieves an item with given id.

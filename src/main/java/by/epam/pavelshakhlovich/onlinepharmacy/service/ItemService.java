@@ -17,11 +17,6 @@ public interface ItemService {
     List<Dosage> getDosages() throws ServiceException;
 
     /**
-     * Retrieves all possible volume types from dao layer
-     */
-    List<String> getVolumeTypes() throws ServiceException;
-
-    /**
      * Attempts to add a new item with given parameters.
      * @param item item with given parameters
      * @return true if adding succeeded, false if item with such label, dosage and volume already exists

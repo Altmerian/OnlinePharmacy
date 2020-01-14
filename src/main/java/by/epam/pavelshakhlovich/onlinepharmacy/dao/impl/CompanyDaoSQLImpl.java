@@ -20,11 +20,11 @@ import java.util.List;
  */
 public class CompanyDaoSQLImpl implements CompanyDao {
 
-    private static final String SELECT_COMPANIES = "SELECT manufacturers.id, type, manufacturers.name, countries.name " +
-            "AS country, website FROM manufacturers, countries WHERE manufacturers.country_id = countries.id" +
-            " ORDER BY manufacturers.name";
-    private static final String INSERT_COMPANY = "INSERT INTO manufacturers(type, name, country, website) " +
-            "VALUES(?, ?, ?, ?)";
+    private static final String SELECT_COMPANIES = "SELECT m.id, m.name, c.name " +
+            "AS country, website FROM manufacturers m, countries c WHERE m.country_id = c.id" +
+            " ORDER BY m.name";
+    private static final String INSERT_COMPANY = "INSERT INTO manufacturers(name, country, website) " +
+            "VALUES(?, ?, ?)";
 
     @Override
     public List<Company> selectAll() throws DaoException {
@@ -40,7 +40,6 @@ public class CompanyDaoSQLImpl implements CompanyDao {
                 while (resultSet.next()) {
                     Company company = new Company();
                     company.setId(resultSet.getLong(Parameter.ID));
-                    company.setType(resultSet.getString(Parameter.TYPE));
                     company.setName(resultSet.getString(Parameter.NAME));
                     company.setCountry(resultSet.getString(Parameter.COUNTRY));
                     company.setWebsite(resultSet.getString(Parameter.WEBSITE));
@@ -48,7 +47,7 @@ public class CompanyDaoSQLImpl implements CompanyDao {
                 }
             }
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException(e);
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
             closeResources(cn, preparedStatement, resultSet);
         }
@@ -62,15 +61,14 @@ public class CompanyDaoSQLImpl implements CompanyDao {
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(INSERT_COMPANY);
-            preparedStatement.setString(1, company.getType());
-            preparedStatement.setString(2, company.getName());
-            preparedStatement.setString(3, company.getCountry());
-            preparedStatement.setString(4, company.getWebsite());
+            preparedStatement.setString(1, company.getName());
+            preparedStatement.setString(2, company.getCountry());
+            preparedStatement.setString(3, company.getWebsite());
             return preparedStatement.executeUpdate() > 0;
         } catch (ConnectionPoolException e) {
-            throw new DaoException("Can't get connection from Connection Pool", e);
+            throw LOGGER.throwing(Level.ERROR, new DaoException("Can't get connection from Connection Pool", e));
         } catch (SQLException e) {
-            throw new DaoException(e.getMessage(), e);
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e.getMessage(), e));
         } finally {
             closeResources(cn, preparedStatement);
         }

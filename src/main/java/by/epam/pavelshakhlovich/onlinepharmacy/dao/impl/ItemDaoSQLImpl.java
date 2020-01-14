@@ -15,8 +15,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * This is an implementation of the {@see ItemDao} interface.
@@ -24,11 +22,9 @@ import java.util.regex.Pattern;
 public class ItemDaoSQLImpl implements ItemDao {
 
     private static final String SELECT_DOSAGES = "SELECT id, name FROM dosages";
-    private static final String SELECT_VOLUME_TYPES = "SHOW COLUMNS FROM drugs LIKE 'volume_type'";
-    private static final String SELECT_ITEM_BY_ID = "SELECT drugs.id, drugs.label, dosage.id, dosage.name AS dosage, "  +
-            "drugs.volume, drugs.volume_type, manufacturers.id, CONCAT(manufacturers.type,' \"',manufacturers.name," +
-            "'\" (',manufacturers.country, ')') AS manufacturer_name, drugs.price, drugs.by_prescription, " +
-            "drugs.description  FROM drugs\n " +
+    private static final String SELECT_ITEM_BY_ID = "SELECT drugs.id, drugs.label, dosage.id, dosage.name AS dosage, " +
+            "drugs.volume, drugs.volume_type, manufacturers.id, manufacturers.name AS manufacturer_name, drugs.price, " +
+            "drugs.by_prescription, drugs.description FROM drugs \n " +
             "LEFT JOIN dosages ON drugs.dosage_id = dosages.id\n " +
             "LEFT JOIN manufacturers ON drugs.manufacturer_id = manufacturers.id" +
             " WHERE drugs.id = ?";
@@ -44,7 +40,8 @@ public class ItemDaoSQLImpl implements ItemDao {
             "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_ITEM = "UPDATE drugs \n" +
             "SET\n" +
-            "  label = ?,dosage_form_id = ?,dosage = ?,volume = ?,volume_type = ?,manufacturer_id = ?,price = ? ,by_prescription = ?,description = ?, image_path = ?" +
+            "  label = ?,dosage_form_id = ?,dosage = ?,volume = ?,volume_type = ?,manufacturer_id = ?,price = ? ," +
+            " by_prescription = ?,description = ?, image_path = ?" +
             "  WHERE\n" +
             "  id = ?";
     private static final String DELETE_ITEM = " DELETE FROM drugs WHERE id = ?";
@@ -69,7 +66,6 @@ public class ItemDaoSQLImpl implements ItemDao {
     private static final String COUNT_ITEMS_BY_LABEL = "SELECT COUNT(*) FROM drugs" +
             "  GROUP BY label" +
             "  HAVING label = ?";
-    private static final String REGEXP_VOLUME_TYPE = "'([^']*)'";
 
     @Override
     public List<Dosage> getDosages() throws DaoException {
@@ -96,32 +92,6 @@ public class ItemDaoSQLImpl implements ItemDao {
             closeResources(cn, preparedStatement, resultSet);
         }
         return dosages;
-    }
-
-    @Override
-    public List<String> getVolumeTypes() throws DaoException {
-        List<String> volumeTypes = new ArrayList<>();
-        Connection cn = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            cn = ConnectionPool.getInstance().getConnection();
-            preparedStatement = cn.prepareStatement(SELECT_VOLUME_TYPES);
-            resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            String input = resultSet.getString(2);
-            Pattern pattern = Pattern.compile(REGEXP_VOLUME_TYPE);
-            Matcher matcher = pattern.matcher(input);
-            while (matcher.find()) {
-                volumeTypes.add(matcher.group(1));
-            }
-            return volumeTypes;
-        } catch (ConnectionPoolException | SQLException e) {
-            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
-        } finally {
-            closeResources(cn, preparedStatement, resultSet);
-        }
-
     }
 
     @Override

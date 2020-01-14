@@ -126,9 +126,6 @@ public class Item implements Serializable {
         if (id != item.id) {
             return false;
         }
-        if (volume != item.volume) {
-            return false;
-        }
         if (byPrescription != item.byPrescription) {
             return false;
         }
@@ -138,8 +135,10 @@ public class Item implements Serializable {
         if (dosageId != item.dosageId) {
             return false;
         }
-
         if (!dosage.equals(item.dosage)) {
+            return false;
+        }
+        if (volume != item.volume) {
             return false;
         }
         if (!volumeType.equals(item.volumeType)) {
@@ -179,11 +178,11 @@ public class Item implements Serializable {
         return "Item{" +
                 "id=" + id +
                 ", label='" + label + '\'' +
-                ", dosageId='" + dosageId + '\'' +
+                ", dosageId='" + dosageId +
                 ", dosage='" + dosage + '\'' +
                 ", volume=" + volume +
                 ", volumeType='" + volumeType + '\'' +
-                ", manufacturerId='" + manufacturerId + '\'' +
+                ", manufacturerId='" + manufacturerId +
                 ", manufacturerName='" + manufacturerName + '\'' +
                 ", price=" + price +
                 ", byPrescription=" + byPrescription +
