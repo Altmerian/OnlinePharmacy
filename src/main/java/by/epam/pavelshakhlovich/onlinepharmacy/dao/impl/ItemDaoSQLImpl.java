@@ -22,14 +22,14 @@ import java.util.List;
 public class ItemDaoSQLImpl implements ItemDao {
 
     private static final String SELECT_DOSAGES = "SELECT id, name FROM dosages";
-    private static final String SELECT_ITEM_BY_ID = "SELECT drugs.id, drugs.label, dosage.id, dosage.name AS dosage, " +
-            "drugs.volume, drugs.volume_type, manufacturers.id, manufacturers.name AS manufacturer_name, drugs.price, " +
-            "drugs.by_prescription, drugs.description FROM drugs \n " +
-            "LEFT JOIN dosages ON drugs.dosage_id = dosages.id\n " +
-            "LEFT JOIN manufacturers ON drugs.manufacturer_id = manufacturers.id" +
-            " WHERE drugs.id = ?";
+    private static final String SELECT_ITEM_BY_ID = "SELECT d.id, d.label, d.dosage_id, dos.name AS dosage, " +
+            "d.volume, d.volume_type, d.manufacturer_id, m.name AS manufacturer_name, d.price, " +
+            "d.by_prescription, d.description FROM drugs d " +
+            "LEFT JOIN dosages dos ON d.dosage_id = dos.id " +
+            "LEFT JOIN manufacturers m ON d.manufacturer_id = m.id" +
+            " WHERE d.id = ?";
     private static final String SELECT_ITEM_BY_LABEL_DOSAGE_VOLUME = "SELECT d.id, d.label, d.dosage_id, " +
-            "dos.name as dosage, d.volume, d.volume_type, d.manufacturer_id, m.name AS manufacturer, d.price, " +
+            "dos.name as dosage, d.volume, d.volume_type, d.manufacturer_id, m.name AS manufacturer_name, d.price, " +
             "d.by_prescription, d.description  FROM drugs d " +
             "JOIN dosages dos ON d.dosage_id = dos.id " +
             "LEFT JOIN manufacturers m ON d.manufacturer_id = m.id " +
@@ -37,21 +37,17 @@ public class ItemDaoSQLImpl implements ItemDao {
     private static final String INSERT_ITEM = "INSERT INTO drugs(label, dosage_id, volume, " +
             "volume_type, manufacturer_id, price, by_prescription, description) " +
             "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_ITEM = "UPDATE drugs \n" +
-            "SET\n" +
-            "  label = ?,dosage_form_id = ?,dosage = ?,volume = ?,volume_type = ?,manufacturer_id = ?,price = ? ," +
-            " by_prescription = ?,description = ?, image_path = ?" +
-            "  WHERE\n" +
-            "  id = ?";
+    private static final String UPDATE_ITEM = "UPDATE drugs " +
+            "SET label = ?, dosage_id = ?,dosage = ?,volume = ?,volume_type = ?,manufacturer_id = ?,price = ? , " +
+            "by_prescription = ?,description = ? " +
+            "WHERE id = ?";
     private static final String DELETE_ITEM = " DELETE FROM drugs WHERE id = ?";
-    private static final String SELECT_ALL_ITEMS = "SELECT d.id,d.label,d.dosage_form_id, ddf.name as dosage_form_name, " +
-            "d.dosage, d.volume, d.volume_type, d.manufacturer_id, CONCAT(c.type,' \"',c.name,'\" (',c.country,')')" +
-            " AS manufacturer_name,d.price,d.by_prescription,d.description,d.image_path \n" +
-            "  From drugs d\n" +
-            "  LEFT JOIN drugs_dosage_forms ddf ON d.dosage_form_id = ddf.id\n" +
-            "  LEFT JOIN companies c ON d.manufacturer_id = c.id" +
-            " ORDER BY d.label " +
-            "LIMIT ?,?";
+    private static final String SELECT_ALL_ITEMS = "SELECT d.id,d.label,d.dosage_id, dos.name as dosage, " +
+            "d.volume, d.volume_type, d.manufacturer_id, m.name AS manufacturer_name, d.price, d.by_prescription, " +
+            "d.description From drugs d " +
+            "LEFT JOIN dosages dos ON d.dosage_id = dos.id " +
+            "LEFT JOIN manufacturers m ON d.manufacturer_id = m.id " +
+            "ORDER BY d.label";
     private static final String SELECT_ITEMS_BY_LABEL = "SELECT d.id,d.label,d.dosage_form_id, ddf.name as dosage_form_name, " +
             "d.dosage, d.volume, d.volume_type, d.manufacturer_id, CONCAT(c.type,' \"',c.name,'\" (',c.country,')')" +
             " AS manufacturer_name,d.price,d.by_prescription,d.description,d.image_path \n" +
@@ -139,7 +135,6 @@ public class ItemDaoSQLImpl implements ItemDao {
             resultSet.next();
             setItemParameters(item, resultSet);
             return item;
-
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException(e);
         } finally {
@@ -318,11 +313,11 @@ public class ItemDaoSQLImpl implements ItemDao {
         item.setLabel(resultSet.getString(Parameter.LABEL));
         item.setDosageId(resultSet.getLong(Parameter.DOSAGE_ID));
         item.setDosage(resultSet.getString(Parameter.DOSAGE));
-        item.setVolumeType(resultSet.getString(Parameter.VOLUME_TYPE));
         item.setVolume(resultSet.getInt(Parameter.VOLUME));
-        item.setPrice(resultSet.getBigDecimal(Parameter.PRICE));
+        item.setVolumeType(resultSet.getString(Parameter.VOLUME_TYPE));
         item.setManufacturerId(resultSet.getLong(Parameter.MANUFACTURER_ID));
         item.setManufacturerName(resultSet.getString(Parameter.MANUFACTURER_NAME));
+        item.setPrice(resultSet.getBigDecimal(Parameter.PRICE));
         item.setByPrescription(resultSet.getBoolean(Parameter.BY_PRESCRIPTION));
         item.setDescription(resultSet.getString(Parameter.DESCRIPTION));
     }
