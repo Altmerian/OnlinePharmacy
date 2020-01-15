@@ -29,6 +29,7 @@ public class CommandFactory {
         commandMap.put(CommandName.LOGOUT, new LogoutCommand());
         commandMap.put(CommandName.REGISTER, new RegisterCommand());
         commandMap.put(CommandName.VIEW_ADD_ITEM, new ViewAddItemCommand());
+        commandMap.put(CommandName.VIEW_ITEM, new ViewItemCommand());
         commandMap.put(CommandName.UNKNOWN, new UnknownCommand());
 
     }

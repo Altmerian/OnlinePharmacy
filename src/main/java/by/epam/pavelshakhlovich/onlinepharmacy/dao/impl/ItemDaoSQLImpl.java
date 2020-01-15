@@ -28,13 +28,12 @@ public class ItemDaoSQLImpl implements ItemDao {
             "LEFT JOIN dosages ON drugs.dosage_id = dosages.id\n " +
             "LEFT JOIN manufacturers ON drugs.manufacturer_id = manufacturers.id" +
             " WHERE drugs.id = ?";
-    private static final String SELECT_ITEM_BY_LABEL_DOSAGE_VOLUME = "SELECT d.id,d.label,d.dosage_form_id, " +
-            "ddf.name as dosage_form_name, d.dosage, d.volume, d.volume_type, d.manufacturer_id, " +
-            "CONCAT(c.type,' \"',c.name,'\" (',c.country,')') AS manufacturer_name,d.price,d.by_prescription,d.description," +
-            "d.image_path From drugs d JOIN drugs_dosage_forms ddf ON d.dosage_form_id = ddf.id" +
-            " LEFT JOIN companies c ON d.manufacturer_id = c.id" +
-            " WHERE d.label = ? AND d.dosage_form_id=? AND d.dosage = ?" +
-            " AND d.volume = ? AND d.volume_type=? AND d.manufacturer_id=?";
+    private static final String SELECT_ITEM_BY_LABEL_DOSAGE_VOLUME = "SELECT d.id, d.label, d.dosage_id, " +
+            "dos.name as dosage, d.volume, d.volume_type, d.manufacturer_id, m.name AS manufacturer, d.price, " +
+            "d.by_prescription, d.description  FROM drugs d " +
+            "JOIN dosages dos ON d.dosage_id = dos.id " +
+            "LEFT JOIN manufacturers m ON d.manufacturer_id = m.id " +
+            "WHERE d.label = ? AND d.dosage_id=? AND d.volume = ? AND d.volume_type=? AND d.manufacturer_id=?";
     private static final String INSERT_ITEM = "INSERT INTO drugs(label, dosage_id, volume, " +
             "volume_type, manufacturer_id, price, by_prescription, description) " +
             "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";

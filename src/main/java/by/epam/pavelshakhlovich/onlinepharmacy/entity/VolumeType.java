@@ -4,10 +4,10 @@ package by.epam.pavelshakhlovich.onlinepharmacy.entity;
  * Represents all possible volume types of drugs
  */
 public enum VolumeType {
+    PCS("шт"),
     ML("мл"),
     MG("мг"),
-    G("г"),
-    PCS("шт");
+    G("г");
 
     private String title;
 

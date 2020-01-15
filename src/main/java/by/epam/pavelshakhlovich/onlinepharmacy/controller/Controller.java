@@ -47,7 +47,7 @@ public class Controller extends HttpServlet {
             LOGGER.debug("executing " + command);
             page = command.execute(request, response);
         } catch (CommandException e) {
-            LOGGER.error("Command execution failed", e);
+            LOGGER.throwing(Level.ERROR, new CommandException("Command execution failed", e));
         }
         if (page != null) {
             request.setAttribute("currentPage", page);
