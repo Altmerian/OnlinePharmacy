@@ -27,7 +27,7 @@ public class CompanyDaoSQLImpl implements CompanyDao {
             "VALUES(?, ?, ?)";
 
     @Override
-    public List<Company> selectAll() throws DaoException {
+    public List<Company> getCompanyList() throws DaoException {
         List<Company> companies = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
@@ -72,6 +72,11 @@ public class CompanyDaoSQLImpl implements CompanyDao {
         } finally {
             closeResources(cn, preparedStatement);
         }
+    }
+
+    @Override
+    public List<Company> selectAll(int offset, int limit) throws DaoException {
+        throw LOGGER.throwing(Level.ERROR, new UnsupportedOperationException());
     }
 
     @Override

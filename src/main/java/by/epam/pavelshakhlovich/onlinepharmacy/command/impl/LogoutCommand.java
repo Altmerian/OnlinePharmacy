@@ -8,6 +8,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.command.util.JspPage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 /**
  * Class {@code LoginCommand} is an authorized-only implementation of {@see Command}
@@ -23,9 +24,9 @@ public class LogoutCommand implements Command {
      * @throws CommandException
      */
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException, IOException {
         HttpSession session = request.getSession();
         session.invalidate();
-        return JspPage.MAIN.getPath();
+        response.sendRedirect(JspPage.MAIN.getPath());
     }
 }

@@ -1,6 +1,5 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.model;
 
-import by.epam.pavelshakhlovich.onlinepharmacy.util.Constant;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,6 +10,8 @@ import java.util.Map;
 
 public class ShoppingCart implements Serializable {
     private static final long serialVersionUID = 1535770438453611801L;
+    public static final int MAX_ITEM_COUNT_PER_SHOPPING_CART = 100;
+    public static final int MAX_ITEMS_PER_SHOPPING_CART = 20;
     private Map<Integer, ShoppingCartItem> items = new HashMap<>();
     private int totalCount = 0;
     private static final Logger LOGGER = LogManager.getLogger();
@@ -50,14 +51,14 @@ public class ShoppingCart implements Serializable {
     }
 
     private void validateItemCount(int count) {
-        if (count > Constant.MAX_ITEM_COUNT_PER_SHOPPING_CART) {
+        if (count > MAX_ITEM_COUNT_PER_SHOPPING_CART) {
             LOGGER.throwing(new IllegalArgumentException("Limit for product count reached: count=" + count));
         }
     }
 
     private void validateShoppingCartSize(int idProduct) {
-        if (items.size() > Constant.MAX_ITEMS_PER_SHOPPING_CART ||
-                (items.size() == Constant.MAX_ITEMS_PER_SHOPPING_CART && !items.containsKey(idProduct))) {
+        if (items.size() > MAX_ITEMS_PER_SHOPPING_CART ||
+                (items.size() == MAX_ITEMS_PER_SHOPPING_CART && !items.containsKey(idProduct))) {
             LOGGER.throwing (new IllegalArgumentException("Limit for ShoppingCart size reached: size=" + items.size()));
         }
     }

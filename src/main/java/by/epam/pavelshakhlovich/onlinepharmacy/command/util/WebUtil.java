@@ -4,8 +4,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class WebUtils {
-    private WebUtils() {
+public class WebUtil {
+    private WebUtil() {
     }
 
     public static Cookie findCookie(HttpServletRequest request, String cookieName) {

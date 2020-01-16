@@ -20,9 +20,22 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public List<Company> getCompanyList() throws ServiceException {
         try {
-            return companyDao.selectAll();
+            return companyDao.getCompanyList();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    public boolean insertCompany(Company company) throws ServiceException {
+        try {
+            if (companyDao.getCompanyList().contains(company)) {
+                return false;
+            } else {
+                return companyDao.create(company);
+            }
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }
 }
+

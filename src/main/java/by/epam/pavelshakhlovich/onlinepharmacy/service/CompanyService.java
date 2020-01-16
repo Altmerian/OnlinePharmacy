@@ -15,4 +15,12 @@ public interface CompanyService {
      * Retrieves all possible dosage companies from dao layer
      */
     List<Company> getCompanyList() throws ServiceException;
+
+    /**
+     * Insert company to the storage, e.g. database
+     * @param company new company
+     * @return true if insert to the storage was successful, and false if storage already contains such value
+     */
+    boolean insertCompany(Company company) throws ServiceException;
+
 }

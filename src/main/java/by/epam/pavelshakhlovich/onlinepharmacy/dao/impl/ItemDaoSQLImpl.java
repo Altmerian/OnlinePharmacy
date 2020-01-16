@@ -25,14 +25,14 @@ public class ItemDaoSQLImpl implements ItemDao {
     private static final String SELECT_ITEM_BY_ID = "SELECT d.id, d.label, d.dosage_id, dos.name AS dosage, " +
             "d.volume, d.volume_type, d.manufacturer_id, m.name AS manufacturer_name, d.price, " +
             "d.by_prescription, d.description FROM drugs d " +
-            "LEFT JOIN dosages dos ON d.dosage_id = dos.id " +
-            "LEFT JOIN manufacturers m ON d.manufacturer_id = m.id" +
+            "JOIN dosages dos ON d.dosage_id = dos.id " +
+            "JOIN manufacturers m ON d.manufacturer_id = m.id" +
             " WHERE d.id = ?";
     private static final String SELECT_ITEM_BY_LABEL_DOSAGE_VOLUME = "SELECT d.id, d.label, d.dosage_id, " +
             "dos.name as dosage, d.volume, d.volume_type, d.manufacturer_id, m.name AS manufacturer_name, d.price, " +
             "d.by_prescription, d.description  FROM drugs d " +
             "JOIN dosages dos ON d.dosage_id = dos.id " +
-            "LEFT JOIN manufacturers m ON d.manufacturer_id = m.id " +
+            "JOIN manufacturers m ON d.manufacturer_id = m.id " +
             "WHERE d.label = ? AND d.dosage_id=? AND d.volume = ? AND d.volume_type=? AND d.manufacturer_id=?";
     private static final String INSERT_ITEM = "INSERT INTO drugs(label, dosage_id, volume, " +
             "volume_type, manufacturer_id, price, by_prescription, description) " +
@@ -42,13 +42,14 @@ public class ItemDaoSQLImpl implements ItemDao {
             "by_prescription = ?,description = ? " +
             "WHERE id = ?";
     private static final String DELETE_ITEM = " DELETE FROM drugs WHERE id = ?";
-    private static final String SELECT_ALL_ITEMS = "SELECT d.id,d.label,d.dosage_id, dos.name as dosage, " +
+    private static final String SELECT_ALL_ITEMS = "SELECT d.id,d.label,d.dosage_id, dos.name AS dosage, " +
             "d.volume, d.volume_type, d.manufacturer_id, m.name AS manufacturer_name, d.price, d.by_prescription, " +
             "d.description From drugs d " +
             "LEFT JOIN dosages dos ON d.dosage_id = dos.id " +
             "LEFT JOIN manufacturers m ON d.manufacturer_id = m.id " +
-            "ORDER BY d.label";
-    private static final String SELECT_ITEMS_BY_LABEL = "SELECT d.id,d.label,d.dosage_form_id, ddf.name as dosage_form_name, " +
+            "ORDER BY d.label " +
+            "LIMIT ?,?";
+    private static final String SELECT_ITEMS_BY_LABEL = "SELECT d.id, d.label, d.dosage_id, ddf.name as dosage_form_name, " +
             "d.dosage, d.volume, d.volume_type, d.manufacturer_id, CONCAT(c.type,' \"',c.name,'\" (',c.country,')')" +
             " AS manufacturer_name,d.price,d.by_prescription,d.description,d.image_path \n" +
             "  From drugs d\n" +
@@ -136,14 +137,14 @@ public class ItemDaoSQLImpl implements ItemDao {
             setItemParameters(item, resultSet);
             return item;
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException(e);
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
             closeResources(cn, preparedStatement, resultSet);
         }
     }
 
     @Override
-    public List<Item> selectAll() throws DaoException {
+    public List<Item> selectAll(int offset, int limit) throws DaoException {
         List<Item> itemList = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
@@ -151,6 +152,8 @@ public class ItemDaoSQLImpl implements ItemDao {
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_ALL_ITEMS);
+            preparedStatement.setInt(1,offset);
+            preparedStatement.setInt(2,limit);
             resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
@@ -163,7 +166,7 @@ public class ItemDaoSQLImpl implements ItemDao {
             return itemList;
 
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException(e);
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
             closeResources(cn, preparedStatement, resultSet);
         }
@@ -184,7 +187,7 @@ public class ItemDaoSQLImpl implements ItemDao {
             resultSet.next();
             return resultSet.getInt(1);
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException(e);
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
             closeResources(cn, preparedStatement, resultSet);
         }
@@ -214,7 +217,7 @@ public class ItemDaoSQLImpl implements ItemDao {
             return itemList;
 
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException(e);
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
             closeResources(cn, preparedStatement, resultSet);
         }
@@ -236,7 +239,7 @@ public class ItemDaoSQLImpl implements ItemDao {
             resultSet.next();
             return resultSet.getInt(1);
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException(e);
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
             closeResources(cn, preparedStatement, resultSet);
         }
@@ -260,7 +263,7 @@ public class ItemDaoSQLImpl implements ItemDao {
             int result = preparedStatement.executeUpdate();
             return result > 0;
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException(e);
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
             closeResources(cn, preparedStatement);
         }

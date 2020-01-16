@@ -5,15 +5,20 @@ import by.epam.pavelshakhlovich.onlinepharmacy.command.Command;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.CommandException;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.JspPage;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.util.SessionUtil;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
+import by.epam.pavelshakhlovich.onlinepharmacy.model.ShoppingCart;
+import by.epam.pavelshakhlovich.onlinepharmacy.model.ShoppingCartSerializer;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ServiceException;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.UserService;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.Level;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 /**
  * Class {@code LoginCommand} is a guest-only implementation of {@see Command}
@@ -30,12 +35,10 @@ public class LoginCommand implements Command {
      * @return path to the same page, and set login parameters to the current session
      */
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        String page;
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException, IOException {
         User user;
         String login = request.getParameter(Parameter.LOGIN);
         String password = request.getParameter(Parameter.PASSWORD);
-
         try {
             user = userService.loginUser(login, password);
         } catch (ServiceException e) {
@@ -45,13 +48,24 @@ public class LoginCommand implements Command {
         HttpSession session = request.getSession();
         if (user != null) {
             session.setAttribute(Parameter.USER, user);
+            session.setAttribute(Parameter.USER_NAME, user.getLogin());
             session.setAttribute(Parameter.LOGIN_FAILED, Boolean.FALSE);
-            page = JspPage.MAIN.getPath();
+            if (request.getSession().getAttribute(Parameter.SHOPPING_CARD_DESERIALIZATION_DONE) == null) {
+                if (!SessionUtil.isCurrentShoppingCartCreated(request)) {
+                    Cookie cookie = SessionUtil.findShoppingCartCookie(request);
+                    if (cookie != null) {
+                        ShoppingCart shoppingCart = ShoppingCartSerializer.shoppingCartFromString(cookie.getValue());
+                        SessionUtil.setCurrentShoppingCart(request, shoppingCart);
+                    }
+                }
+                request.getSession().setAttribute(Parameter.SHOPPING_CARD_DESERIALIZATION_DONE, Boolean.TRUE);
+            }
+            response.sendRedirect(JspPage.MAIN.getPath());
         } else {
             session.setAttribute(Parameter.LOGIN_FAILED, Boolean.TRUE);
-            request.setAttribute("errorLoginPassMessage","Incorrect login or password.");
-            page = JspPage.LOGIN.getPath();
+            request.setAttribute("errorLoginPassMessage", "Incorrect login or password.");
+            response.sendRedirect(JspPage.LOGIN.getPath());
         }
-        return page;
     }
 }
+

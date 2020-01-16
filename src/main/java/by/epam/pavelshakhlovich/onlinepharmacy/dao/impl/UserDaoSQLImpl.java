@@ -22,7 +22,9 @@ import java.util.List;
 public class UserDaoSQLImpl implements UserDao {
 
     private final static String SELECT_ALL_USERS = "SELECT id, login, password_md5, role, email, salt, " +
-            "first_name, last_name, address FROM users ORDER BY id ASC LIMIT ?,?;";
+            "first_name, last_name, address FROM users " +
+            "ORDER BY id ASC " +
+            "LIMIT ?,?;";
     private final static String COUNT_ALL_USERS = "SELECT COUNT(id) FROM users";
     private final static String SELECT_USER_BY_LOGIN = "SELECT id, login, password_md5, role, email, salt, " +
             "first_name, last_name, address FROM users WHERE login = ?;";
@@ -51,7 +53,7 @@ public class UserDaoSQLImpl implements UserDao {
     }
 
     @Override
-    public List<User> selectAll() throws DaoException {
+    public List<User> selectAll(int offset, int limit) throws DaoException {
         List<User> userList = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
@@ -59,6 +61,8 @@ public class UserDaoSQLImpl implements UserDao {
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_ALL_USERS);
+            preparedStatement.setInt(1, offset);
+            preparedStatement.setInt(2, limit);
             resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;

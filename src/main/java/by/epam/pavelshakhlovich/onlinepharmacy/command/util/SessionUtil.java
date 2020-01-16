@@ -2,14 +2,13 @@ package by.epam.pavelshakhlovich.onlinepharmacy.command.util;
 
 
 import by.epam.pavelshakhlovich.onlinepharmacy.model.ShoppingCart;
-import by.epam.pavelshakhlovich.onlinepharmacy.util.Constant;
+import by.epam.pavelshakhlovich.onlinepharmacy.util.Cookie;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class SessionUtils {
-    private SessionUtils() {
+public class SessionUtil {
+    private SessionUtil() {
     }
 
     public static ShoppingCart getCurrentShoppingCart(HttpServletRequest request) {
@@ -31,15 +30,19 @@ public class SessionUtils {
 
     public static void clearCurrentShoppingCart(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().removeAttribute(Parameter.CURRENT_SHOPPING_CART);
-        WebUtils.setCookie(Constant.Cookie.SHOPPING_CART.getName(), null, 0, response);
+        WebUtil.setCookie(Cookie.SHOPPING_CART.getName(), null, 0, response);
+        WebUtil.setCookie(Cookie.SHOPPING_CART.getName(), null, 0, response);
+        WebUtil.setCookie("opSCC", null, 0, response);
+        WebUtil.setCookie("opSCC-null", null, 0, response);
     }
 
-    public static Cookie findShoppingCartCookie(HttpServletRequest request) {
-        return WebUtils.findCookie(request, Constant.Cookie.SHOPPING_CART.getName());
+    public static javax.servlet.http.Cookie findShoppingCartCookie(HttpServletRequest request) {
+        String cookieName = Cookie.SHOPPING_CART.getName() + "-" + request.getSession().getAttribute(Parameter.USER_NAME);
+        return WebUtil.findCookie(request, cookieName);
     }
 
-    public static void updateCurrentShoppingCartCookie(String cookieValue, HttpServletResponse response) {
-        WebUtils.setCookie(Constant.Cookie.SHOPPING_CART.getName(), cookieValue,
-                Constant.Cookie.SHOPPING_CART.getAge(), response);
+    public static void updateCurrentShoppingCartCookie(String cookieValue, HttpServletRequest request, HttpServletResponse response) {
+        String cookieName = Cookie.SHOPPING_CART.getName() + "-" + request.getSession().getAttribute(Parameter.USER_NAME);
+        WebUtil.setCookie(cookieName, cookieValue, Cookie.SHOPPING_CART.getAge(), response);
     }
 }

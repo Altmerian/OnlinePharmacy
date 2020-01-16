@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Level;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +30,7 @@ public class ViewAddItemCommand implements Command {
     private static final CompanyService companyService = new CompanyServiceImpl();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException, IOException {
         try {
             List<Dosage> dosages = itemService.getDosages();
             List<String> volumeTypes = Arrays.stream(VolumeType.values())
@@ -42,6 +43,6 @@ public class ViewAddItemCommand implements Command {
         } catch (ServiceException e) {
             throw LOGGER.throwing(Level.ERROR, new CommandException(e));
         }
-        return JspPage.ADD_ITEM.getPath();
+        response.sendRedirect(JspPage.ADD_ITEM.getPath());
     }
 }

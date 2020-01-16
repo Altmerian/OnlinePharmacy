@@ -84,9 +84,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> selectAllItems() throws ServiceException {
+    public List<Item> selectAllItems(int offset, int limit) throws ServiceException {
         try {
-            return itemDao.selectAll();
+            return itemDao.selectAll(offset, limit);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

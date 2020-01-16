@@ -2,11 +2,12 @@ package by.epam.pavelshakhlovich.onlinepharmacy.command.impl;
 
 
 import by.epam.pavelshakhlovich.onlinepharmacy.command.Command;
-import by.epam.pavelshakhlovich.onlinepharmacy.command.CommandException;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.JspPage;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Class {@code UnknownCommand} will be used when {@see CommandFactory} can't return
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class UnknownCommand implements Command {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        return JspPage.MAIN.getPath();
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher(JspPage.MAIN.getPath()).forward(request, response);
     }
 }

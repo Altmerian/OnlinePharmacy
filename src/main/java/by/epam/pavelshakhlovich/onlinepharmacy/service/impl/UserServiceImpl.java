@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User loginUser(String login, String password) throws ServiceException {
-        User user = null;
+        User user;
         try {
             user = userDao.selectByLogin(login);
         } catch (DaoException e) {
@@ -93,9 +93,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> selectAllUsers() throws ServiceException {
+    public List<User> selectAllUsers(int offset, int limit) throws ServiceException {
         try {
-            return userDao.selectAll();
+            return userDao.selectAll(offset, limit);
         } catch (DaoException e) {
             throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }

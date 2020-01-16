@@ -37,10 +37,12 @@ public interface UserService {
 
     /**
      * Returns a list of all users
+     * @param offset set the number of the first row from request
+     * @param limit is a number of items on the page
      * @return null if no users were found
      * @throws ServiceException if DaoException occurred
      */
-    List<User> selectAllUsers() throws ServiceException;
+    List<User> selectAllUsers(int offset, int limit) throws ServiceException;
 
     /**
      * Returns a list of users with pagination

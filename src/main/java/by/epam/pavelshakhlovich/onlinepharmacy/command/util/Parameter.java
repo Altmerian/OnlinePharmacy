@@ -35,6 +35,7 @@ public final class Parameter {
     public static final String REFERER = "referer";
     public static final String ROLE = "role";
     public static final String SALT = "salt";
+    public static final String SHOPPING_CARD_DESERIALIZATION_DONE = "shopping_card_deserialization_done";
     public static final String SUCCESS_MESSAGE = "success_message";
     public static final String USER = "user";
     public static final String USER_NAME = "user_name";

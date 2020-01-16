@@ -29,11 +29,12 @@ public interface BaseDao<T> {
 
     /**
      * Returns a list of all entities from db
-     *
+     * @param offset index of the first element on the page
+     * @param limit is a number of entities on the page
      * @return null if no entities were found
      * @throws DaoException if failed to retrieve data from the storage due to technical problems
      */
-    List<T> selectAll() throws DaoException;
+    List<T> selectAll(int offset, int limit) throws DaoException;
 
     /**
      * Add a new entity to the storage, e.g. into database

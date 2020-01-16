@@ -63,10 +63,12 @@ public interface ItemService {
 
     /**
      * Retrieves a list of items from db.
+     * @param offset set the number of the first row from request
+     * @param limit is a number of items on the page
      * @return list that contains limited number of items.
      * @throws ServiceException
      */
-    List<Item> selectAllItems() throws ServiceException;
+    List<Item> selectAllItems(int offset, int limit) throws ServiceException;
 
     /**Counts all items in the storage.
      * @return number of items .

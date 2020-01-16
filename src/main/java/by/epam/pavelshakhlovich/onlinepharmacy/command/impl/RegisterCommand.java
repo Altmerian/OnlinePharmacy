@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 /**
  * Class {@code RegisterCommand} is a guest-only implementation of {@see Command}
@@ -25,7 +26,7 @@ public class RegisterCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException, IOException {
         boolean result;
         User user = new User();
         user.setLogin(request.getParameter(Parameter.LOGIN));
@@ -52,10 +53,10 @@ public class RegisterCommand implements Command {
             } catch (ServiceException e) {
                 LOGGER.throwing(Level.ERROR, new CommandException(e));
             }
-            return JspPage.MAIN.getPath();
+            response.sendRedirect(JspPage.MAIN.getPath());
         } else {
             session.setAttribute(Parameter.ERROR_MESSAGE, Boolean.TRUE);
-            return JspPage.REGISTER.getPath();
+            response.sendRedirect(JspPage.REGISTER.getPath());
         }
     }
 }

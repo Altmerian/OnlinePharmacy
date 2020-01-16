@@ -2,7 +2,6 @@ package by.epam.pavelshakhlovich.onlinepharmacy.command.impl;
 
 import by.epam.pavelshakhlovich.onlinepharmacy.command.Command;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.CommandException;
-import by.epam.pavelshakhlovich.onlinepharmacy.command.util.JspPage;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Item;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ItemService;
@@ -13,6 +12,7 @@ import org.apache.logging.log4j.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.math.BigDecimal;
 
 /**
@@ -24,7 +24,7 @@ public class AddItemCommand implements Command {
     private static final ItemService itemService = new ItemServiceImpl();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException, IOException {
         Item item = new Item();
         item.setLabel(request.getParameter(Parameter.LABEL));
         item.setDosageId(Long.parseLong(request.getParameter(Parameter.DOSAGE_ID)));
@@ -47,7 +47,7 @@ public class AddItemCommand implements Command {
         } catch (ServiceException e) {
             throw LOGGER.throwing(Level.ERROR, new CommandException("Failed to add new item to database", e));
         }
-        return JspPage.ADD_ITEM.getPath();
+        response.sendRedirect(request.getHeader(Parameter.REFERER));
     }
 }
 

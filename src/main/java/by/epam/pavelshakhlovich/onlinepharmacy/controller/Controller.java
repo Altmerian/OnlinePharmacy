@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,21 +39,13 @@ public class Controller extends HttpServlet {
 
     }
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String page = null;
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             Command command = CommandFactory.getInstance().getCommand(request);
             LOGGER.debug("executing " + command);
-            page = command.execute(request, response);
-        } catch (CommandException e) {
+            command.execute(request, response);
+        } catch (CommandException | ServletException e) {
             LOGGER.throwing(Level.ERROR, new CommandException("Command execution failed", e));
-        }
-        if (page != null) {
-            request.setAttribute("currentPage", page);
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-            dispatcher.forward(request, response);
-        } else {
-            LOGGER.error("Page not found. Business logic error.");
             response.sendError(500);
         }
     }
