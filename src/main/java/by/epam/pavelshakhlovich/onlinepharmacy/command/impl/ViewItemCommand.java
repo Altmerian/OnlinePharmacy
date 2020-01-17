@@ -10,6 +10,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.service.ItemService;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ServiceException;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.impl.ItemServiceImpl;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,7 +24,7 @@ public class ViewItemCommand implements Command {
     private static final ItemService itemService = new ItemServiceImpl();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException, ServletException, IOException {
         long itemId = Long.parseLong(request.getParameter(Parameter.ID));
         try {
             Item item = itemService.selectItemById(itemId);
@@ -31,7 +32,7 @@ public class ViewItemCommand implements Command {
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
-        response.sendRedirect(JspPage.VIEW_ITEM.getPath());
+        request.getRequestDispatcher(JspPage.VIEW_ITEM.getPath()).forward(request, response);
     }
 }
 

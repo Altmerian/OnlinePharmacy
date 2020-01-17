@@ -4,6 +4,7 @@ package by.epam.pavelshakhlovich.onlinepharmacy.command.impl;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.Command;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -20,10 +21,10 @@ public class ChangeLocaleCommand implements Command {
      * @return URL, from which locale was changed
      */
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String locale = request.getParameter(Parameter.LOCALE);
         HttpSession session = request.getSession();
         session.setAttribute(Parameter.LOCALE,locale);
-        response.sendRedirect(request.getHeader(Parameter.REFERER));
+        response.sendRedirect(request.getParameter(Parameter.FROM));
     }
 }

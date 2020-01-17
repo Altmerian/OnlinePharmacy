@@ -20,7 +20,6 @@ public class CommandFactory {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private CommandFactory() {
-
         commandMap.put(CommandName.ADD_ITEM, new AddItemCommand());
         commandMap.put(CommandName.ADD_ITEM_TO_SHOPPING_CART, new AddItemToShoppingCart());
         commandMap.put(CommandName.CHANGE_LOCALE, new ChangeLocaleCommand());
@@ -31,7 +30,6 @@ public class CommandFactory {
         commandMap.put(CommandName.VIEW_ADD_ITEM, new ViewAddItemCommand());
         commandMap.put(CommandName.VIEW_ITEM, new ViewItemCommand());
         commandMap.put(CommandName.UNKNOWN, new UnknownCommand());
-
     }
 
     public static CommandFactory getInstance() {

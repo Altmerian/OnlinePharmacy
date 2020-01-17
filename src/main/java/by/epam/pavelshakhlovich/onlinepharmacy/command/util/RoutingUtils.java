@@ -22,7 +22,8 @@ public final class RoutingUtils {
 		resp.getWriter().close();
 	}
 
-	public static void redirect(String url, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		resp.sendRedirect(url);
+	public static void redirect(String url, HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+		resp.sendRedirect(JspPage.ROOT.getPath());
+		req.getRequestDispatcher(url).forward(req, resp);
 	}
 }
