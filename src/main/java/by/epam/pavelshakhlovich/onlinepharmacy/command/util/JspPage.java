@@ -5,20 +5,20 @@ package by.epam.pavelshakhlovich.onlinepharmacy.command.util;
  */
 public enum JspPage {
     ROOT("/"),
-    ADD_ITEM("/WEB-INF/jsp/catalog/add-item.jsp"),
+    ADD_ITEM("/add-item"),
     ADMIN_HEADER("/WEB-INF/jsp/headers/admin-header.jsp"),
     COMMON_HEADER("/WEB-INF/jsp/headers/common-header.jsp"),
     DOCTOR_HEADER("/WEB-INF/jsp/headers/doctor-header.jsp"),
-    ERROR("/WEB-INF/jsp/error.jsp"),
+    ERROR("/error"),
     GUEST_HEADER("/WEB-INF/jsp/headers/guest-header.jsp"),
     INDEX("/index.jsp"),
-    LOGIN("/WEB-INF/jsp/user/login.jsp"),
+    LOGIN("/login"),
     MANAGER_HEADER("/WEB-INF/jsp/headers/admin-header.jsp"),
-    MAIN("/WEB-INF/jsp/main.jsp"),
-    REGISTER("/WEB-INF/jsp/user/register.jsp"),
-    SHOPPING_CART("/WEB-INF/jsp/shopping-cart.jsp"),
+    MAIN("/main"),
+    REGISTER("/register"),
+    SHOPPING_CART("/shopping-cart"),
     USER_HEADER("/WEB-INF/jsp/headers/user-header.jsp"),
-    VIEW_ITEM ("/WEB-INF/jsp/catalog/view-item.jsp");
+    VIEW_ITEM ("/view-item");
 
     private String path;
 

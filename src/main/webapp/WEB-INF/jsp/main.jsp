@@ -16,12 +16,12 @@
 		<c:choose>
 			<c:when test="${sessionScope.user != null}">
 				<fmt:message key="text.welcome"/>, ${sessionScope.user.login} <br/>
-				<a href="/controller?command=logout"><fmt:message key="link.logout"/></a>
+				<a href="${pageContext.request.contextPath}/controller?command=logout"><fmt:message key="link.logout"/></a>
 			</c:when>
 			<c:otherwise>
-				<a href="/loginJsp"><fmt:message key="link.login"/></a>
+				<a href="${pageContext.request.contextPath}/login"><fmt:message key="link.login"/></a>
 				<br/>
-				<a href="/registerJsp"><fmt:message key="link.register"/></a>
+				<a href="${pageContext.request.contextPath}/register"><fmt:message key="link.register"/></a>
 			</c:otherwise>
 		</c:choose>
 		<hr/>

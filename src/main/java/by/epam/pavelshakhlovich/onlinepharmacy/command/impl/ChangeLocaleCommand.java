@@ -3,12 +3,11 @@ package by.epam.pavelshakhlovich.onlinepharmacy.command.impl;
 
 import by.epam.pavelshakhlovich.onlinepharmacy.command.Command;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Path;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 /**
  * Class {@code ChangeLocaleCommand} is an implementation of {@see Command}
@@ -21,10 +20,10 @@ public class ChangeLocaleCommand implements Command {
      * @return URL, from which locale was changed
      */
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public Path execute(HttpServletRequest request, HttpServletResponse response) {
         String locale = request.getParameter(Parameter.LOCALE);
         HttpSession session = request.getSession();
         session.setAttribute(Parameter.LOCALE,locale);
-        response.sendRedirect(request.getParameter(Parameter.FROM));
+        return new Path(false, request.getHeader(Parameter.REFERER));
     }
 }

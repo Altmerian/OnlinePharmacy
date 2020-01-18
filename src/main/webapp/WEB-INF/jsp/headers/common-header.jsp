@@ -4,9 +4,12 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="local"/>
 
-<html><head><title>Common header</title></head>
+<html>
+<head><title>Common header</title></head>
 <body>
-<a href="/controller"><fmt:message key="link.home"/></a>
+<a href="${pageContext.request.contextPath}/controller">
+    <fmt:message key="link.home"/>
+</a>
 <br/><br/>
 <div class="change-locale">
     <form action="/controller" method="post">
@@ -23,4 +26,5 @@
     </form>
 </div>
 <hr/>
-</body></html>
+</body>
+</html>

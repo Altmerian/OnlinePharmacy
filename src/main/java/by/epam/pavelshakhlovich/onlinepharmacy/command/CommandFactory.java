@@ -2,6 +2,14 @@ package by.epam.pavelshakhlovich.onlinepharmacy.command;
 
 
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.*;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.item.AddItemCommand;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.shoppingcart.AddItemToShoppingCart;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.item.ViewAddItemCommand;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.item.ViewItemCommand;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.shoppingcart.ClearShoppingCart;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.user.LoginCommand;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.user.LogoutCommand;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.user.RegisterCommand;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;

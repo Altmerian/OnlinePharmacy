@@ -10,7 +10,7 @@ public final class Parameter {
     public static final String COUNTRY = "country";
     public static final String COMPANIES = "companies";
     public static final String CURRENT_PAGE = "current_page";
-    public static final String CURRENT_SHOPPING_CART = "current_shopping_cart";
+    public static final String SHOPPING_CART = "shopping_cart";
     public static final String DOSAGE= "dosage";
     public static final String DOSAGES= "dosages";
     public static final String DOSAGE_ID= "dosage_id";

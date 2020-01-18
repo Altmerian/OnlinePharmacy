@@ -1,14 +1,13 @@
-package by.epam.pavelshakhlovich.onlinepharmacy.command.impl;
+package by.epam.pavelshakhlovich.onlinepharmacy.command.impl.user;
 
 
 import by.epam.pavelshakhlovich.onlinepharmacy.command.Command;
-import by.epam.pavelshakhlovich.onlinepharmacy.command.CommandException;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.JspPage;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Path;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 /**
  * Class {@code LoginCommand} is an authorized-only implementation of {@see Command}
@@ -21,12 +20,11 @@ public class LogoutCommand implements Command {
      *
      * @param request request from the servlet, containing user's login and password
      * @return path to index.jsp, and set remove user attribute from session
-     * @throws CommandException
      */
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException, IOException {
+    public Path execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         session.invalidate();
-        response.sendRedirect(JspPage.MAIN.getPath());
+        return new Path(true, JspPage.MAIN.getPath());
     }
 }

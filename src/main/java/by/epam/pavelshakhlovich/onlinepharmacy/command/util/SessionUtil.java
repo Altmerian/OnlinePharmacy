@@ -12,7 +12,7 @@ public class SessionUtil {
     }
 
     public static ShoppingCart getCurrentShoppingCart(HttpServletRequest request) {
-        ShoppingCart shoppingCart = (ShoppingCart) request.getSession().getAttribute(Parameter.CURRENT_SHOPPING_CART);
+        ShoppingCart shoppingCart = (ShoppingCart) request.getSession().getAttribute(Parameter.SHOPPING_CART);
         if (shoppingCart == null) {
             shoppingCart = new ShoppingCart();
             setCurrentShoppingCart(request, shoppingCart);
@@ -21,15 +21,15 @@ public class SessionUtil {
     }
 
     public static boolean isCurrentShoppingCartCreated(HttpServletRequest request) {
-        return request.getSession().getAttribute(Parameter.CURRENT_SHOPPING_CART) != null;
+        return request.getSession().getAttribute(Parameter.SHOPPING_CART) != null;
     }
 
     public static void setCurrentShoppingCart(HttpServletRequest request, ShoppingCart shoppingCart) {
-        request.getSession().setAttribute(Parameter.CURRENT_SHOPPING_CART, shoppingCart);
+        request.getSession().setAttribute(Parameter.SHOPPING_CART, shoppingCart);
     }
 
     public static void clearCurrentShoppingCart(HttpServletRequest request, HttpServletResponse response) {
-        request.getSession().removeAttribute(Parameter.CURRENT_SHOPPING_CART);
+        request.getSession().removeAttribute(Parameter.SHOPPING_CART);
         WebUtil.setCookie(Cookie.SHOPPING_CART.getName(), null, 0, response);
         WebUtil.setCookie(Cookie.SHOPPING_CART.getName(), null, 0, response);
         WebUtil.setCookie("opSCC", null, 0, response);

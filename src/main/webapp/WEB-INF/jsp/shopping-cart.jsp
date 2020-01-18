@@ -9,14 +9,14 @@
     <h4><fmt:message key="title.shoppingCart"/>:</h4>
     <hr/>
     <c:choose>
-    	<c:when test="${current_shopping_cart != null and sessionScope.user != null}">
-    		<fmt:message key="text.totalCount"/> = ${current_shopping_cart.totalCount}<br>
+    	<c:when test="${shopping_cart != null and sessionScope.user != null}">
+    		<fmt:message key="text.totalCount"/> = ${shopping_cart.totalCount}<br>
     		<fmt:message key="text.products"/>: <br>
-    		<c:forEach var="item" items="${current_shopping_cart.items}">
+    		<c:forEach var="item" items="${shopping_cart.items}">
     			${item.drugId}-&gt;${item.count}<br>
     		</c:forEach>
     		<hr/>
-            <a href="controller?command=clear_shopping_cart">Clear</a>
+            <a href="${pageContext.request.contextPath}/controller?command=clear_shopping_cart">Clear</a>
     	</c:when>
     	<c:otherwise>
     		<fmt:message key="title.shoppingCart.isEmpty"/>

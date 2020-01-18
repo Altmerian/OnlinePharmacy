@@ -1,19 +1,21 @@
-package by.epam.pavelshakhlovich.onlinepharmacy.command.impl;
+package by.epam.pavelshakhlovich.onlinepharmacy.command.impl.shoppingcart;
 
 
 import by.epam.pavelshakhlovich.onlinepharmacy.command.Command;
-import by.epam.pavelshakhlovich.onlinepharmacy.command.CommandException;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Path;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
+/**
+ *  Deletes all items from shopping cart
+ */
 public class ClearShoppingCart implements Command {
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException, IOException {
+    public Path execute(HttpServletRequest request, HttpServletResponse response) {
         SessionUtil.clearCurrentShoppingCart(request, response);
-        response.sendRedirect(request.getHeader(Parameter.REFERER));
+        return new Path(false, request.getHeader(Parameter.REFERER));
     }
 }

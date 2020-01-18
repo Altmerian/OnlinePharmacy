@@ -13,31 +13,44 @@
          <tr valign = "top">
             <td width = "40%"><b>Error:</b></td>
             <td>
-               <c:if test="${pageContext.errorData.statusCode == 500}">
+				<c:choose>
+				<c:when test="${pageContext.errorData.statusCode == 500}">
                     Internal Server Error
-               </c:if>
-                ${pageContext.exception}
+				</c:when>
+				<c:when test="${pageContext.errorData.statusCode == 404}">
+                    Page not found
+				</c:when>
+				<c:otherwise>
+					</br>
+					${pageContext.exception}
+				</c:otherwise>
+				
             </td>
-         </tr>
+        </tr>
 
-         <tr valign = "top">
-            <td><b>URI:</b></td>
+        <tr valign = "top">
+			<td><b>URI:</b></td>
             <td>${pageContext.errorData.requestURI}</td>
-         </tr>
+        </tr>
 
-         <tr valign = "top">
+        <tr valign = "top">
             <td><b>Status code:</b></td>
             <td>${pageContext.errorData.statusCode}</td>
-         </tr>
+        </tr>
 
-         <tr valign = "top">
+		<tr valign = "top">
+             <td><b>Message:</b></td>
+             <td>${pageContext.exception.message}</td>
+		</tr>
+
+        <tr valign = "top">
             <td><b>Stack trace:</b></td>
             <td>
                <c:forEach var = "trace"
-                  items = "${pageContext.exception.stackTrace}">
-                  <p>${trace}</p>
+					items = "${pageContext.exception.stackTrace}">
+					<p>${trace}</p>
                </c:forEach>
             </td>
-         </tr>
+        </tr>
       </table>
 </body></html>

@@ -3,6 +3,8 @@ package by.epam.pavelshakhlovich.onlinepharmacy.controller;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.Command;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.CommandException;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.CommandFactory;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Path;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPool;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPoolException;
 import org.apache.logging.log4j.Level;
@@ -39,12 +41,23 @@ public class Controller extends HttpServlet {
 
     }
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
             Command command = CommandFactory.getInstance().getCommand(request);
             LOGGER.debug("executing " + command);
-            command.execute(request, response);
-        } catch (CommandException | ServletException e) {
+            Path path = command.execute(request, response);
+            if (path.getUrl() != null) {
+                request.setAttribute(Parameter.CURRENT_PAGE, path.getUrl());
+                if (path.isForward()) {
+                    request.getRequestDispatcher(path.getUrl()).forward(request, response);
+                } else {
+                    response.sendRedirect(path.getUrl());
+                }
+            } else {
+                LOGGER.error("Page not found.");
+                response.sendError(404);
+            }
+        } catch (CommandException e) {
             LOGGER.throwing(Level.ERROR, new CommandException("Command execution failed", e));
             response.sendError(500);
         }

@@ -1,9 +1,10 @@
-package by.epam.pavelshakhlovich.onlinepharmacy.command.impl;
+package by.epam.pavelshakhlovich.onlinepharmacy.command.impl.item;
 
 import by.epam.pavelshakhlovich.onlinepharmacy.command.Command;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.CommandException;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.JspPage;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Path;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Company;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Dosage;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.VolumeType;
@@ -30,7 +31,7 @@ public class ViewAddItemCommand implements Command {
     private static final CompanyService companyService = new CompanyServiceImpl();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException, IOException {
+    public Path execute(HttpServletRequest request, HttpServletResponse response) throws CommandException, IOException {
         try {
             List<Dosage> dosages = itemService.getDosages();
             List<String> volumeTypes = Arrays.stream(VolumeType.values())
@@ -43,6 +44,6 @@ public class ViewAddItemCommand implements Command {
         } catch (ServiceException e) {
             throw LOGGER.throwing(Level.ERROR, new CommandException(e));
         }
-        response.sendRedirect(JspPage.ADD_ITEM.getPath());
+        return new Path(true, JspPage.ADD_ITEM.getPath());
     }
 }

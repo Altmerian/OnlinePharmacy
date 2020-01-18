@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Represents a user of the system.
  * Each user has its unique login, along with a password, email and {@link by.epam.pavelshakhlovich.onlinepharmacy.entity.UserRole}.
- * May contain First Name, Last Name, address, phone number.
+ * May contain First Name, Last Name, address.
  */
 public class User implements Serializable {
     private static final long serialVersionUID = 6014321206337821939L;

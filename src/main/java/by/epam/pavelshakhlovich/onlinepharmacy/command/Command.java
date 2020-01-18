@@ -1,11 +1,14 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.command;
 
+import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Path;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -20,5 +23,11 @@ public interface Command {
      * @param response response from the servlet
      * @throws CommandException
      */
-    void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException, IOException, ServletException;
+    Path execute(HttpServletRequest request, HttpServletResponse response) throws CommandException, IOException, ServletException;
+
+    default void rememberLastRequest(HttpServletRequest req) {
+        HttpSession session = req.getSession(true);
+        String url = req.getRequestURL() + "?" + req.getQueryString();
+        session.setAttribute(Parameter.CURRENT_PAGE, url);
+    }
 }

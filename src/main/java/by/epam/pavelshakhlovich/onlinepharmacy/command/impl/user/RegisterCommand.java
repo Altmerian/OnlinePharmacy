@@ -1,9 +1,10 @@
-package by.epam.pavelshakhlovich.onlinepharmacy.command.impl;
+package by.epam.pavelshakhlovich.onlinepharmacy.command.impl.user;
 
 import by.epam.pavelshakhlovich.onlinepharmacy.command.Command;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.CommandException;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.JspPage;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Path;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ServiceException;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.UserService;
@@ -26,7 +27,7 @@ public class RegisterCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws CommandException, IOException {
+    public Path execute(HttpServletRequest request, HttpServletResponse response) throws CommandException, IOException {
         boolean result;
         User user = new User();
         user.setLogin(request.getParameter(Parameter.LOGIN));
@@ -53,10 +54,10 @@ public class RegisterCommand implements Command {
             } catch (ServiceException e) {
                 LOGGER.throwing(Level.ERROR, new CommandException(e));
             }
-            response.sendRedirect(JspPage.MAIN.getPath());
+            return new Path(false, JspPage.MAIN.getPath());
         } else {
             session.setAttribute(Parameter.ERROR_MESSAGE, Boolean.TRUE);
-            response.sendRedirect(JspPage.REGISTER.getPath());
+            return new Path(false, JspPage.REGISTER.getPath());
         }
     }
 }
