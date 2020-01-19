@@ -21,7 +21,9 @@ public enum CommandName {
     REGISTER(false, UserRole.GUEST),
     UNKNOWN(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     VIEW_ITEM(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
-    VIEW_ADD_ITEM(true,  UserRole.MANAGER, UserRole.ADMIN);
+    VIEW_ADD_ITEM(true,  UserRole.MANAGER, UserRole.ADMIN),
+    VIEW_CATALOG(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
+    VIEW_SHOPPING_CART(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR);
 
     private boolean isGetAllowed;
     private List<UserRole> rolesAllowed = new ArrayList<>();

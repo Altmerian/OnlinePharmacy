@@ -10,21 +10,23 @@
 <a href="${pageContext.request.contextPath}/controller">
     <fmt:message key="link.home"/>
 </a>
-<br/><br/>
-<div class="change-locale">
-    <form action="/controller" method="post">
+<span class="change-locale">
+
+    <span>
+    <form action="controller" method="post">
         <input type="hidden" name="command" value="change_locale"/>
         <input type="hidden" name="locale" value="ru_RU"/>
         <input type="hidden" name="from" value="${pageContext.request.requestURI}?${pageContext.request.queryString}"/>
         <input type="submit" value="<fmt:message key="button.name.ru"/>"/>
-    </form>
-    <form action="/controller" method="post">
+    </form></span>
+    <span>
+    <form action="controller" method="post">
         <input type="hidden" name="command" value="change_locale"/>
         <input type="hidden" name="locale" value="en_US"/>
         <input type="hidden" name="from" value="${pageContext.request.requestURI}?${pageContext.request.queryString}"/>
         <input type="submit" value="<fmt:message key="button.name.en"/>">
-    </form>
-</div>
+    </form></span>
+</span>
 <hr/>
 </body>
 </html>

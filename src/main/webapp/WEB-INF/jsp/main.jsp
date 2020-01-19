@@ -24,11 +24,6 @@
 				<a href="${pageContext.request.contextPath}/register"><fmt:message key="link.register"/></a>
 			</c:otherwise>
 		</c:choose>
-		<hr/>
-		<br/>
-		<jsp:include page="/WEB-INF/jsp/shopping-cart.jsp"/>
-		<hr/>
-		<br/>
 		<c:if test="${sessionScope.success_message}">
 			<div>
 				<fmt:message key="message.register.success"/>: <c:out value="${sessionScope.user_name}"/>
