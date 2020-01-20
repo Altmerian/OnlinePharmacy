@@ -27,22 +27,22 @@
     </c:if>
     <c:set var="number_of_pages" value="${requestScope.number_of_items div param.limit + 1}"/>
     <div style="padding: 10px;">
-        <span><fmt:message key="local.text.number.of.items.on.page"/>:</span>
-        <form style="display: inline-block" role="form" action="Controller" method="get">
+        <span><fmt:message key="text.number.of.items.on.page"/>:</span>
+        <form style="display: inline-block" role="form" action="controller" method="get">
             <input type="hidden" name="command" value="view-catalog">
             <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number"
          value="${((param.page_number-1)* param.limit) / 5 + 1}"/>"/>
             <input type="hidden" name="limit" value="5"/>
             <input class="btn btn-default" type="submit" value="5"/>
         </form>
-        <form style="display: inline-block" role="form" action="Controller" method="get">
+        <form style="display: inline-block" role="form" action="controller" method="get">
             <input type="hidden" name="command" value="view-catalog">
             <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number"
          value="${((param.page_number-1)* param.limit) / 10 + 1}"/>"/>
             <input type="hidden" name="limit" value="10"/>
             <input class="btn btn-default" type="submit" value="10"/>
         </form>
-        <form style="display: inline-block" role="form" action="Controller" method="get">
+        <form style="display: inline-block" role="form" action="controller" method="get">
             <input type="hidden" name="command" value="view-catalog">
             <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number"
          value="${((param.page_number-1)* param.limit) / 20 + 1}"/>"/>
@@ -50,39 +50,39 @@
             <input class="btn btn-default" type="submit" value="20"/>
         </form>
 
-        <span><fmt:message key="local.text.go.to.page"/>:</span>
-        <form style="display: inline-block" role="form" action="Controller" method="get">
+        <span><fmt:message key="text.go.to.page"/>:</span>
+        <form style="display: inline-block" role="form" action="controller" method="get">
             <input type="hidden" name="command" value="view-catalog">
             <input type="number" max="${number_of_pages}" min="1" name="page_number"
                    placeholder="${param.page_number}/<fmt:parseNumber integerOnly="true" type="number"
                 value="${number_of_pages}"/>" required/>
             <input type="hidden" name="limit" value="${param.limit}"/>
-            <input class="btn btn-default" type="submit" value="<fmt:message key="local.text.go"/>"/>
+            <input class="btn btn-default" type="submit" value="<fmt:message key="text.go"/>"/>
         </form>
         <c:choose>
             <c:when test="${param.page_number != 1}">
-                <form style="display: inline-block" role="form" action="Controller" method="get">
+                <form style="display: inline-block" role="form" action="controller" method="get">
                     <input type="hidden" name="command" value="view-catalog">
                     <input type="hidden" name="page_number" value="${param.page_number - 1}"/>
                     <input type="hidden" name="limit" value="${param.limit}"/>
-                    <input class="btn btn-default" type="submit" value="<fmt:message key="local.text.previous"/>"/>
+                    <input class="btn btn-default" type="submit" value="<fmt:message key="text.previous"/>"/>
                 </form>
             </c:when>
             <c:otherwise>
-                <input class="btn btn-default" type="submit" value="<fmt:message key="local.text.previous"/>" disabled/>
+                <input class="btn btn-default" type="submit" value="<fmt:message key="text.previous"/>" disabled/>
             </c:otherwise>
         </c:choose>
         <c:choose>
             <c:when test="${param.page_number < (number_of_pages - 1)}">
-                <form style="display: inline-block" role="form" action="Controller" method="get">
+                <form style="display: inline-block" role="form" action="controller" method="get">
                     <input type="hidden" name="command" value="view-catalog">
                     <input type="hidden" name="page_number" value="${param.page_number + 1}"/>
                     <input type="hidden" name="limit" value="${param.limit}"/>
-                    <input class="btn btn-default" type="submit" value="<fmt:message key="local.text.next"/>"/>
+                    <input class="btn btn-default" type="submit" value="<fmt:message key="м"/>"/>
                 </form>
             </c:when>
             <c:otherwise>
-                <input class="btn btn-default" type="submit" value="<fmt:message key="local.text.next"/>" disabled/>
+                <input class="btn btn-default" type="submit" value="<fmt:message key="text.next"/>" disabled/>
             </c:otherwise>
         </c:choose>
     </div>
@@ -90,31 +90,25 @@
         <thead>
         <tr>
             <th>
-                <fmt:message key="local.text.label"/>
+                <fmt:message key="text.label"/>
             </th>
             <th>
-                <fmt:message key="local.text.dosage.type"/>
+                <fmt:message key="text.dosage"/>
             </th>
             <th>
-                <fmt:message key="local.text.dosage"/>
+                <fmt:message key="text.volume"/>
             </th>
             <th>
-                <fmt:message key="local.text.volume"/>
+                <fmt:message key="text.manufacturer"/>
             </th>
             <th>
-                <fmt:message key="local.text.manufacturer"/>
+                <fmt:message key="text.price"/>
             </th>
             <th>
-                <fmt:message key="local.text.price"/>
+                <fmt:message key="text.byPrescription"/>
             </th>
             <th>
-                <fmt:message key="local.text.byprescription"/>
-            </th>
-            <th>
-                <fmt:message key="local.text.description"/>
-            </th>
-            <th>
-                <fmt:message key="local.text.image"/>
+                <fmt:message key="text.description"/>
             </th>
             <th></th>
         </tr>
@@ -124,9 +118,6 @@
             <tr>
                 <td>
                         ${item.label}
-                </td>
-                <td>
-                        ${item.dosageFormName}
                 </td>
                 <td>
                         ${item.dosage}
@@ -149,26 +140,21 @@
                         ${item.description}
                 </td>
                 <td>
-                    <c:if test="${item.imagePath != null}">
-                        <img src="${item.imagePath}"/>
-                    </c:if>
-                </td>
-                <td>
-                    <form class="inline" action="Controller" method="post">
-                        <input type="hidden" name="command" value="add-item-to-order"/>
+                    <form class="inline" action="controller" method="post">
+                        <input type="hidden" name="command" value="add_item_to_shopping_cart"/>
                         <input type="hidden" name="item_id" value="${item.id}"/>
                         <input type="hidden" name="page_number" value="${param.page_number}"/>
                         <input type="hidden" name="limit" value="${param.limit}"/>
-                        <input type="number" min="1" max="999" name="quantity" value="1"/>
+                        <input type="number" min="1" max="200" name="quantity" value="1"/>
                         <input type="submit" class="btn btn-warning"
-                               value="<fmt:message key="local.button.item.buy"/>"/>
+                               value="<fmt:message key="button.item.buy"/>"/>
                     </form>
                     <c:if test="${sessionScope.user.role eq 'ADMIN' or sessionScope.user.role eq 'MANAGER'}">
                         <form class="inline" action="Controller" method="get">
                             <input type="hidden" name="command" value="view-edit-item"/>
                             <input type="hidden" name="id" value="${item.id}"/>
                             <input type="submit" class="btn btn-success"
-                                   value="<fmt:message key="local.button.change"/>"/>
+                                   value="<fmt:message key="button.change"/>"/>
                         </form>
 
                     </c:if>

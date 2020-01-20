@@ -21,11 +21,10 @@ public interface Command {
      * it to the request if necessary, also redirect or forward request
      * @param request request from the servlet
      * @param response response from the servlet
-     * @throws CommandException
      */
     Path execute(HttpServletRequest request, HttpServletResponse response) throws CommandException, IOException, ServletException;
 
-    default void rememberLastRequest(HttpServletRequest req) {
+    default void rememberLastUrl(HttpServletRequest req) {
         HttpSession session = req.getSession(true);
         String url = req.getRequestURL() + "?" + req.getQueryString();
         session.setAttribute(Parameter.CURRENT_PAGE, url);

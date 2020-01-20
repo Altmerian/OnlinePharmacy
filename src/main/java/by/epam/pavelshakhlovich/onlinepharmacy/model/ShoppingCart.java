@@ -16,18 +16,22 @@ public class ShoppingCart implements Serializable {
     private int totalCount = 0;
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public void addItem(int itemId, int count) {
-        validateShoppingCartSize(itemId);
-        ShoppingCartItem shoppingCartItem = items.get(itemId);
-        if (shoppingCartItem == null) {
-            validateItemCount(count);
-            shoppingCartItem = new ShoppingCartItem(itemId, count);
-            items.put(itemId, shoppingCartItem);
+    public Boolean addItem(int itemId, int count) {
+        if (isLimitShoppingCartSizeReached(itemId)) {
+            return false;
         } else {
-            validateItemCount(count + shoppingCartItem.getCount());
-            shoppingCartItem.setCount(shoppingCartItem.getCount() + count);
+            ShoppingCartItem shoppingCartItem = items.get(itemId);
+            if (shoppingCartItem == null) {
+                count = validateItemCount(count);
+                shoppingCartItem = new ShoppingCartItem(itemId, count);
+                items.put(itemId, shoppingCartItem);
+            } else {
+                validateItemCount(count + shoppingCartItem.getCount());
+                shoppingCartItem.setCount(shoppingCartItem.getCount() + count);
+            }
+            refreshStatistics();
+            return true;
         }
-        refreshStatistics();
     }
 
     public void removeItem(Integer idProduct, int count) {
@@ -50,17 +54,22 @@ public class ShoppingCart implements Serializable {
         return totalCount;
     }
 
-    private void validateItemCount(int count) {
+    private int validateItemCount(int count) {
         if (count > MAX_ITEM_COUNT_PER_SHOPPING_CART) {
-            LOGGER.throwing(new IllegalArgumentException("Limit for product count reached: count=" + count));
+            LOGGER.error("Limit for product count reached, item count was set as max default=" +
+                    MAX_ITEM_COUNT_PER_SHOPPING_CART);
+            return MAX_ITEM_COUNT_PER_SHOPPING_CART;
         }
+        return count;
     }
 
-    private void validateShoppingCartSize(int idProduct) {
+    private Boolean isLimitShoppingCartSizeReached(int idProduct) {
         if (items.size() > MAX_ITEMS_PER_SHOPPING_CART ||
                 (items.size() == MAX_ITEMS_PER_SHOPPING_CART && !items.containsKey(idProduct))) {
-            LOGGER.throwing (new IllegalArgumentException("Limit for ShoppingCart size reached: size=" + items.size()));
+            LOGGER.error ("Limit for ShoppingCart size reached: size=" + items.size());
+            return false;
         }
+        return true;
     }
 
     private void refreshStatistics() {
