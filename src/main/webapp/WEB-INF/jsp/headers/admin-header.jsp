@@ -8,15 +8,15 @@
 <div>
     <ul>
         <li>
-            <a href="${pageContext.request.contextPath}/сontroller?command=view-orders">
+            <a href="${pageContext.request.contextPath}/controller?command=view-orders">
             <fmt:message key="link.orders.view.own"/></a>
         <span>
-            <a href="${pageContext.request.contextPath}/сontroller?command=view-all-orders&limit=20&page_number=1">
+            <a href="${pageContext.request.contextPath}/controller?command=view-all-orders&limit=20&page_number=1">
             <fmt:message key="link.orders.view.all"/></a>
         </span>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/сontroller?command=view-prescriptions" class="current">
+            <a href="${pageContext.request.contextPath}/controller?command=view-prescriptions" class="current">
             <fmt:message key="link.prescriptions"/></a>
         </li>
         <li>
@@ -32,11 +32,19 @@
                 <fmt:message key="link.view.catalog"/>
             </a>
         </span>
-            <a href="${pageContext.request.contextPath}/controller?command=view-add-item">
+            <a href="${pageContext.request.contextPath}/controller?command=view_add_item">
             <fmt:message key="button.item.add"/></a>
         </span>
         </li>
     </ul>
+    <hr>
+     <c:if test="${sessionScope.success_message}">
+            <div>
+                <fmt:message key="message.register.success"/>: <c:out value="${sessionScope.user_name}"/>
+                <c:set var="success_message" value="false" scope="session"/>
+            </div>
+    </c:if>
+    <fmt:message key="text.welcome"/>, ${sessionScope.user.login} <br/>
     <form action="controller" method="post">
         <input type="hidden" name="command" value="logout"/>
         <button type="submit" class="btn btn-link"><fmt:message
@@ -48,6 +56,7 @@
         </div>
         <button type="submit" class="btn btn-link"><fmt:message key="link.profile"/></button>
     </form>
+    <br>
     <form role="search" action="controller" method="get">
         <input type="hidden" name="command" value="search-item">
         <input type="hidden" name="page_number" value="1"/>

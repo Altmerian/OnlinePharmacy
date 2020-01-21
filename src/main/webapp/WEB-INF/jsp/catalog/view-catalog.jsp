@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="ctg" uri="customtags" %>
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="resources.local"/>
+<fmt:setBundle basename="local"/>
 
 <html>
 <head>
@@ -27,7 +27,7 @@
     </c:if>
     <c:set var="number_of_pages" value="${requestScope.number_of_items div param.limit + 1}"/>
     <div style="padding: 10px;">
-        <span><fmt:message key="text.number.of.items.on.page"/>:</span>
+        <span><fmt:message key="text.numberOfItems.onPage"/>:</span>
         <form style="display: inline-block" role="form" action="controller" method="get">
             <input type="hidden" name="command" value="view-catalog">
             <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number"
@@ -50,7 +50,7 @@
             <input class="btn btn-default" type="submit" value="20"/>
         </form>
 
-        <span><fmt:message key="text.go.to.page"/>:</span>
+        <span><fmt:message key="text.goTo.page"/>:</span>
         <form style="display: inline-block" role="form" action="controller" method="get">
             <input type="hidden" name="command" value="view-catalog">
             <input type="number" max="${number_of_pages}" min="1" name="page_number"
@@ -78,7 +78,7 @@
                     <input type="hidden" name="command" value="view-catalog">
                     <input type="hidden" name="page_number" value="${param.page_number + 1}"/>
                     <input type="hidden" name="limit" value="${param.limit}"/>
-                    <input class="btn btn-default" type="submit" value="<fmt:message key="м"/>"/>
+                    <input class="btn btn-default" type="submit" value="<fmt:message key="text.next"/>"/>
                 </form>
             </c:when>
             <c:otherwise>
@@ -150,13 +150,12 @@
                                value="<fmt:message key="button.item.buy"/>"/>
                     </form>
                     <c:if test="${sessionScope.user.role eq 'ADMIN' or sessionScope.user.role eq 'MANAGER'}">
-                        <form class="inline" action="Controller" method="get">
+                        <form class="inline" action="controller" method="get">
                             <input type="hidden" name="command" value="view-edit-item"/>
                             <input type="hidden" name="id" value="${item.id}"/>
                             <input type="submit" class="btn btn-success"
                                    value="<fmt:message key="button.change"/>"/>
                         </form>
-
                     </c:if>
                 </td>
             </tr>

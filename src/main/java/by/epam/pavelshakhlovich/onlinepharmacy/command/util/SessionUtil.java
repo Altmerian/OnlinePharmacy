@@ -30,8 +30,8 @@ public class SessionUtil {
 
     public static void clearCurrentShoppingCart(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().removeAttribute(Parameter.SHOPPING_CART);
-        WebUtil.setCookie(Cookie.SHOPPING_CART.getName(), null, 0, response);
-        WebUtil.setCookie(Cookie.SHOPPING_CART.getName(), null, 0, response);
+        WebUtil.setCookie(Cookie.SHOPPING_CART.getName() + "-" + request.getSession().getAttribute(Parameter.USER_NAME),
+                null, 0, response);
         WebUtil.setCookie("opSCC", null, 0, response);
         WebUtil.setCookie("opSCC-null", null, 0, response);
     }

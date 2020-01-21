@@ -10,25 +10,6 @@
 		<title>Online Pharmacy</title>
 	</head>
 	<body>
-		<header>
-            <ctg:header/>
-		</header>
-		<c:choose>
-			<c:when test="${sessionScope.user != null}">
-				<fmt:message key="text.welcome"/>, ${sessionScope.user.login} <br/>
-				<a href="${pageContext.request.contextPath}/controller?command=logout"><fmt:message key="link.logout"/></a>
-			</c:when>
-			<c:otherwise>
-				<a href="${pageContext.request.contextPath}/login"><fmt:message key="link.login"/></a>
-				<br/>
-				<a href="${pageContext.request.contextPath}/register"><fmt:message key="link.register"/></a>
-			</c:otherwise>
-		</c:choose>
-		<c:if test="${sessionScope.success_message}">
-			<div>
-				<fmt:message key="message.register.success"/>: <c:out value="${sessionScope.user_name}"/>
-				<c:set var="success_message" value="false" scope="session"/>
-			</div>
-		</c:if>
+        <jsp:include page="/WEB-INF/jsp/catalog/view-catalog.jsp"/>
 	</body>
 </html>
