@@ -50,14 +50,14 @@ public class ItemDaoSQLImpl implements ItemDao {
             "ORDER BY d.label " +
             "LIMIT ?,?";
     private static final String SELECT_ITEMS_BY_LABEL = "SELECT d.id, d.label, d.dosage_id, ddf.name as dosage_form_name, " +
-            "d.dosage, d.volume, d.volume_type, d.manufacturer_id, CONCAT(c.type,' \"',c.name,'\" (',c.country,')')" +
-            " AS manufacturer_name,d.price,d.by_prescription,d.description,d.image_path \n" +
-            "  From drugs d\n" +
-            "  LEFT JOIN drugs_dosage_forms ddf ON d.dosage_form_id = ddf.id\n" +
-            "  LEFT JOIN companies c ON d.manufacturer_id = c.id" +
-            " WHERE d.label = ?" +
-            " ORDER BY ddf.name " +
-            " LIMIT ?,?";
+            "d.dosage, d.volume, d.volume_type, d.manufacturer_id, m.name" +
+            " AS manufacturer_name, d.price, d.by_prescription, d.description " +
+            "From drugs d " +
+            "LEFT JOIN dosages dos ON d.dosage_id = dos.id " +
+            "LEFT JOIN manufacturers m ON d.manufacturer_id = m.id " +
+            "WHERE d.label = ? " +
+            "ORDER BY dos.name " +
+            "LIMIT ?,?";
     private static final String COUNT_ALL_ITEMS = "SELECT COUNT(*) AS number_of_items FROM drugs";
     private static final String COUNT_ITEMS_BY_LABEL = "SELECT COUNT(*) FROM drugs" +
             "  GROUP BY label" +

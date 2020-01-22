@@ -23,7 +23,7 @@ public class AddItemToShoppingCart implements Command {
         if (request.getSession().getAttribute(Parameter.USER) != null) {
             ShoppingCart shoppingCart = SessionUtil.getCurrentShoppingCart(request);
             Random r = new Random();
-            shoppingCart.addItem(r.nextInt(2), r.nextInt(1) + 1);
+            shoppingCart.addItem((long) r.nextInt(2), r.nextInt(1) + 1);
             return new Path(false, request.getHeader(Parameter.REFERER));
         } else {
             request.getSession().setAttribute(Parameter.ERROR_MESSAGE, Boolean.TRUE);

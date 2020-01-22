@@ -30,7 +30,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>shopping-cart</servlet-name>
-        <jsp-file>/WEB-INF/jsp/shopping-cart.jsp</jsp-file>
+        <jsp-file>/WEB-INF/jsp/orders/shopping-cart.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>shopping-cart</servlet-name>

@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,42 +11,41 @@ public class ShoppingCart implements Serializable {
     private static final long serialVersionUID = 1535770438453611801L;
     public static final int MAX_ITEM_COUNT_PER_SHOPPING_CART = 100;
     public static final int MAX_ITEMS_PER_SHOPPING_CART = 20;
-    private Map<Integer, ShoppingCartItem> items = new HashMap<>();
+    private Map<Long, Integer> items = new HashMap<>();
     private int totalCount = 0;
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public Boolean addItem(int itemId, int count) {
+    public Boolean addItem(Long itemId, int count) {
         if (isLimitShoppingCartSizeReached(itemId)) {
             return false;
         } else {
-            ShoppingCartItem shoppingCartItem = items.get(itemId);
-            if (shoppingCartItem == null) {
+            Integer oldCount = items.get(itemId);
+            if (oldCount == null) {
                 count = validateItemCount(count);
-                shoppingCartItem = new ShoppingCartItem(itemId, count);
-                items.put(itemId, shoppingCartItem);
+                items.put(itemId, count);
             } else {
-                validateItemCount(count + shoppingCartItem.getCount());
-                shoppingCartItem.setCount(shoppingCartItem.getCount() + count);
+                validateItemCount(count + oldCount);
+                items.put(itemId, oldCount + count);
             }
             refreshStatistics();
             return true;
         }
     }
 
-    public void removeItem(Integer idProduct, int count) {
-        ShoppingCartItem shoppingCartItem = items.get(idProduct);
-        if (shoppingCartItem != null) {
-            if (shoppingCartItem.getCount() > count) {
-                shoppingCartItem.setCount(shoppingCartItem.getCount() - count);
+    public void removeItem(Long itemId, int count) {
+        Integer oldCount= items.get(itemId);
+        if (oldCount != null) {
+            if (oldCount > count) {
+                items.put(itemId, oldCount - count);
             } else {
-                items.remove(idProduct);
+                items.remove(itemId);
             }
             refreshStatistics();
         }
     }
 
-    public Collection<ShoppingCartItem> getItems() {
-        return items.values();
+    public Map<Long, Integer> getItems() {
+        return items;
     }
 
     public int getTotalCount() {
@@ -63,7 +61,7 @@ public class ShoppingCart implements Serializable {
         return count;
     }
 
-    private Boolean isLimitShoppingCartSizeReached(int idProduct) {
+    private Boolean isLimitShoppingCartSizeReached(Long idProduct) {
         if (items.size() > MAX_ITEMS_PER_SHOPPING_CART ||
                 (items.size() == MAX_ITEMS_PER_SHOPPING_CART && !items.containsKey(idProduct))) {
             LOGGER.error ("Limit for ShoppingCart size reached: size=" + items.size());
@@ -74,8 +72,8 @@ public class ShoppingCart implements Serializable {
 
     private void refreshStatistics() {
         totalCount = 0;
-        for (ShoppingCartItem shoppingCartItem : getItems()) {
-            totalCount += shoppingCartItem.getCount();
+        for (Integer count : items.values()) {
+            totalCount += count;
         }
     }
 

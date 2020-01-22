@@ -7,6 +7,9 @@
 
 <html><head><title>Login</title></head>
 <body>
+<header>
+    <ctg:header/>
+</header>
 <h4><fmt:message key="text.register"/>:</h4>
 <div>
     <form action="controller" method="POST">
@@ -53,5 +56,8 @@
         </div>
     </c:if>
 </div>
+<footer class="footer">
+    <jsp:include page="/WEB-INF/jsp/footer.jsp" />
+</footer>
 </body>
 </html>
