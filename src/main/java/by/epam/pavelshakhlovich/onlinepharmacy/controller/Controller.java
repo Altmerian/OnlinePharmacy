@@ -3,7 +3,6 @@ package by.epam.pavelshakhlovich.onlinepharmacy.controller;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.Command;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.CommandException;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.CommandFactory;
-import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Path;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPool;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPoolException;
@@ -47,7 +46,6 @@ public class Controller extends HttpServlet {
             LOGGER.debug("executing " + command);
             Path path = command.execute(request, response);
             if (path.getUrl() != null) {
-                request.setAttribute(Parameter.CURRENT_PAGE, path.getUrl());
                 if (path.isForward()) {
                     request.getRequestDispatcher(path.getUrl()).forward(request, response);
                 } else {

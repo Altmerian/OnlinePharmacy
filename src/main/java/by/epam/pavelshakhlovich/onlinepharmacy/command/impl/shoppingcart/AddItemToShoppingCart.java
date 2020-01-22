@@ -24,8 +24,9 @@ public class AddItemToShoppingCart implements Command {
             ShoppingCart shoppingCart = SessionUtil.getCurrentShoppingCart(request);
             Random r = new Random();
             shoppingCart.addItem(r.nextInt(2), r.nextInt(1) + 1);
-            return new Path(false, JspPage.MAIN.getPath());
+            return new Path(false, request.getHeader(Parameter.REFERER));
         } else {
+            request.getSession().setAttribute(Parameter.ERROR_MESSAGE, Boolean.TRUE);
             return new Path(false, JspPage.LOGIN.getPath());
         }
     }

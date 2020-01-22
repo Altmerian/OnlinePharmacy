@@ -11,7 +11,9 @@
     <title><fmt:message key="title.catalog"/></title>
 </head>
 <body>
-<ctg:header/>
+<header>
+    <ctg:header/>
+</header>
 <div class="container-fluid">
     <c:if test="${sessionScope.error_message}">
         <div class="alert alert-danger">
@@ -163,5 +165,8 @@
         </tbody>
     </table>
 </div>
+<footer class="footer">
+    <jsp:include page="/WEB-INF/jsp/footer.jsp" />
+</footer>
 </body>
 </html>

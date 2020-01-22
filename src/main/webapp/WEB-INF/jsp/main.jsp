@@ -6,10 +6,18 @@
 <fmt:setBundle basename="local"/>
 
 <html>
-	<head>
-		<title>Online Pharmacy</title>
-	</head>
-	<body>
-        <jsp:include page="/WEB-INF/jsp/catalog/view-catalog.jsp"/>
-	</body>
+<head>
+    <title>Online Pharmacy</title>
+</head>
+<body>
+    <header>
+        <ctg:header/>
+    </header>
+    <main class="main">
+        <h5>HERE YOU WILL SEE NEWS AND OTHER INFORMATION<h5>
+    </main>
+    <footer class="footer">
+		<jsp:include page="/WEB-INF/jsp/footer.jsp" />
+	</footer>
+</body>
 </html>

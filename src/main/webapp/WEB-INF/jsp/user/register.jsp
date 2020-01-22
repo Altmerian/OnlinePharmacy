@@ -7,7 +7,6 @@
 
 <html><head><title>Login</title></head>
 <body>
-<ctg:header/>
 <h4><fmt:message key="text.register"/>:</h4>
 <div>
     <form action="controller" method="POST">
@@ -41,7 +40,7 @@
                 <input type="submit" value="<fmt:message key="button.name.register"/>"/>
         </div>
     </form>
-     <c:if test="${sessionScope.success_message}">
+    <c:if test="${sessionScope.success_message}">
         <div>
             <fmt:message key="message.register.success"/>: <c:out value="${sessionScope.user_name}"/>
             <c:set var="success_message" value="false" scope="session"/>

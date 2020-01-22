@@ -10,7 +10,9 @@
     <title>Add item</title>
 </head>
 <body>
-<ctg:header/>
+<header>
+    <ctg:header/>
+</header>
 <div class="container">
     <div class="col-sm-offset-2 col-sm-8">
         <c:if test="${sessionScope.success_message}">
@@ -105,5 +107,8 @@
         </form>
     </div>
 </div>
+<footer class="footer">
+    <jsp:include page="/WEB-INF/jsp/footer.jsp" />
+</footer>
 </body>
 </html>

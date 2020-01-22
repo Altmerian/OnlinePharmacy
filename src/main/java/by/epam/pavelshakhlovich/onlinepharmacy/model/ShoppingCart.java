@@ -67,9 +67,9 @@ public class ShoppingCart implements Serializable {
         if (items.size() > MAX_ITEMS_PER_SHOPPING_CART ||
                 (items.size() == MAX_ITEMS_PER_SHOPPING_CART && !items.containsKey(idProduct))) {
             LOGGER.error ("Limit for ShoppingCart size reached: size=" + items.size());
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     private void refreshStatistics() {

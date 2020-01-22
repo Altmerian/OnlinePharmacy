@@ -44,14 +44,22 @@
         <servlet-name>add-item</servlet-name>
         <url-pattern>/add-item</url-pattern>
     </servlet-mapping>
-  <servlet>
-    <servlet-name>view-item</servlet-name>
-    <jsp-file>/WEB-INF/jsp/catalog/view-item.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>view-item</servlet-name>
-    <url-pattern>/view-item</url-pattern>
-  </servlet-mapping>
+    <servlet>
+        <servlet-name>view-item</servlet-name>
+        <jsp-file>/WEB-INF/jsp/catalog/view-item.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>view-item</servlet-name>
+        <url-pattern>/view-item</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>view-catalog</servlet-name>
+        <jsp-file>/WEB-INF/jsp/catalog/view-catalog.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>view-catalog</servlet-name>
+        <url-pattern>/view-catalog</url-pattern>
+    </servlet-mapping>
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>

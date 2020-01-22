@@ -60,10 +60,9 @@ public class LoginCommand implements Command {
                 }
                 request.getSession().setAttribute(Parameter.SHOPPING_CARD_DESERIALIZATION_DONE, Boolean.TRUE);
             }
-            return new Path(false, JspPage.MAIN.getPath());
+            return new Path(false, request.getHeader(Parameter.REFERER));
         } else {
             session.setAttribute(Parameter.LOGIN_FAILED, Boolean.TRUE);
-            session.setAttribute("errorLoginPassMessage", "Incorrect login or password.");
             return new Path(false, JspPage.LOGIN.getPath());
         }
     }

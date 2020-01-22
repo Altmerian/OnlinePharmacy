@@ -7,7 +7,12 @@
 
 <html><head><title>Login</title></head>
 <body>
-    <ctg:header/>
+    <c:if test="${sessionScope.error_message}">
+        <div>
+            <fmt:message key="message.login.required"/>
+            <c:set var="error_message" value="false" scope="session"/>
+        </div>
+    </c:if>
     <h4><fmt:message key="message.login"/></h4>
     <form name="loginForm" method="POST" action="/controller">
         <input type="hidden" name="command" value="login" />
@@ -16,7 +21,11 @@
         <br/><fmt:message key="text.password"/>:<br/>
         <input type="password" name="password" value=""/>
         <br/><br/>
-        ${errorLoginPassMessage}
+        <c:if test="${sessionScope.login_failed}">
+            <div>
+                <fmt:message key="message.login.error"/>
+            </div>
+        </c:if>
         <br/>
         <input type="submit" value="<fmt:message key="button.name.login"/>"/>
     </form><hr/>

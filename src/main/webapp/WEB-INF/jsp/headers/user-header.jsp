@@ -28,18 +28,19 @@
             <c:set var="success_message" value="false" scope="session"/>
         </div>
     </c:if>
-    <fmt:message key="text.welcome"/>, ${sessionScope.user.login} <br/>
-    <form action="controller" method="post">
+    <fmt:message key="text.welcome"/>, ${sessionScope.user.login}
+    <form action="controller" method="post" id=logout>
         <input type="hidden" name="command" value="logout"/>
-        <button type="submit" class="btn btn-link"><fmt:message
+    </form>
+    <form action="controller" method="get" id="profile">
+        <input type="hidden" name="command" value="view-user"/>
+        <input type="hidden" name="user_id" value="${sessionScope.user.id}"/>
+    </form>
+    <div class="btn-group">
+        <button type="submit" class="btn btn-link" form="profile"><fmt:message key="link.profile"/></button>
+        <button type="submit" class="btn btn-link" form="logout"><fmt:message
                 key="link.logout"/></button>
-    </form>
-    <form action="controller" method="get">
-            <input type="hidden" name="command" value="view-user"/>
-            <input type="hidden" name="user_id" value="${sessionScope.user.id}"/>
-        </div>
-        <button type="submit" class="btn btn-link"><fmt:message key="link.profile"/></button>
-    </form>
+    </div>
     <br>
     <form role="search" action="controller" method="get">
         <input type="hidden" name="command" value="search-item">
@@ -47,7 +48,7 @@
         <input type="hidden" name="limit" value="10"/>
         <div class="form-group">
             <input type="text" name="search" class="form-control" style="width: 300px;"
-                   placeholder="<fmt:message key="text.enter.drug.name"/> "/>
+                    placeholder="<fmt:message key="text.enter.drug.name"/> "/>
             <input class="btn btn-default" type="submit" value="<fmt:message key="text.search"/>"/>
         </div>
     </form>
@@ -55,6 +56,6 @@
         <input type="hidden" name="command" value="view-shopping-cart"/>
         <input class="btn btn-default" type="submit"
         value="<fmt:message key="link.shopping.cart"/>(${shopping_cart.totalCount})"/>
-    </form></span>
+    </form>
 </div>
 <hr/>

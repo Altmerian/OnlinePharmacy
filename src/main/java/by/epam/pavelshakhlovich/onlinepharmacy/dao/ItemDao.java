@@ -27,7 +27,7 @@ public interface ItemDao extends BaseDao<Item>{
                                        String volumeType, long manufacturerId) throws DaoException;
 
     /**Counts all items in the storage.
-     * @return number of items .
+     * @return number of items.
      * @throws DaoException
      */
     int countAllItems() throws DaoException;
