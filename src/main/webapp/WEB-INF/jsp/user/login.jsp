@@ -7,6 +7,9 @@
 
 <html><head><title>Login</title></head>
 <body>
+    <header>
+        <ctg:header/>
+    </header>
     <c:if test="${sessionScope.error_message}">
         <div>
             <fmt:message key="message.login.required"/>
@@ -29,5 +32,8 @@
         <br/>
         <input type="submit" value="<fmt:message key="button.name.login"/>"/>
     </form><hr/>
+    <footer class="footer">
+        <jsp:include page="/WEB-INF/jsp/footer.jsp" />
+    </footer>
 </body>
 </html>
