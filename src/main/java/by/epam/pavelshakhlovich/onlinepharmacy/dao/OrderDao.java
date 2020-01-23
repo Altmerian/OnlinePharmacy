@@ -39,27 +39,6 @@ public interface OrderDao extends BaseDao<Order> {
     int countOrdersByStatus(List<String> statusList) throws DaoException;
 
     /**
-     * Removes all items with a specified id from given order
-     *
-     * @param itemId  id of the item to remove
-     * @param orderId id of the order
-     * @return {@code true} if removed successfully, {@code false} if delete failed
-     * @throws DaoException if failed to retrieve data from the storage due to technical problems
-     */
-    boolean deleteItemFromOrder(long itemId, long orderId) throws DaoException;
-
-    /**
-     * Adds an item with a specified id of a specified quantity to a given order
-     *
-     * @param itemId   id of the item to add
-     * @param quantity quantity of items
-     * @param orderId  id of the order
-     * @return {@code true} if inserted successfully, {@code false} if insert failed
-     * @throws DaoException if failed to retrieve data from the storage due to technical problems
-     */
-    boolean insertItemToOrder(long itemId, int quantity, long orderId) throws DaoException;
-
-    /**
      * Update status of given order
      *
      * @param orderStatus is orderStatus to update

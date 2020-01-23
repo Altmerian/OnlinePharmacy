@@ -42,6 +42,7 @@ public final class Parameter {
     public static final String PASSWORD_MD5 = "password_md5";
     public static final String PRICE = "price";
     public static final String QUANTITY = "quantity";
+    public static final String REMOVE_ALL = "count_to_remove";
     public static final String REFERER = "referer";
     public static final String ROLE = "role";
     public static final String SALT = "salt";

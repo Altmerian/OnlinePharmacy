@@ -5,11 +5,10 @@ package by.epam.pavelshakhlovich.onlinepharmacy.entity;
  */
 public enum OrderStatus {
     OPENED("opened"),
-    PROCESSING("in process"),
-    AWAITING_PRESCRIPTION("awaiting prescription"),
-    PAYMENT_CONFIRMATION("payment confirmation"),
+    IN_PROCESS("in_process"),
+    PAYMENT_CONFIRMATION("payment_confirmation"),
     PAID("paid"),
-    COMPLETED("delivered"),
+    COMPLETED("completed"),
     CANCELED ("canceled");
 
     private String status;

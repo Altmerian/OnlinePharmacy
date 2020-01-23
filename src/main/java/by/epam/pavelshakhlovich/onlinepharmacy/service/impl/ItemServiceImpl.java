@@ -7,6 +7,8 @@ import by.epam.pavelshakhlovich.onlinepharmacy.entity.Dosage;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Item;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ItemService;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ServiceException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
@@ -14,7 +16,7 @@ import java.util.List;
  * An implementation of the {@see ItemService} interface
  */
 public class ItemServiceImpl implements ItemService {
-
+    private static final Logger LOGGER = LogManager.getLogger();
     private static ItemDao itemDao = new ItemDaoSQLImpl();
 
 

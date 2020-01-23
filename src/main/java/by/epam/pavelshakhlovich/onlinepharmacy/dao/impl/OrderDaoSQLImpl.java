@@ -7,7 +7,6 @@ import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPool;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPoolException;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Item;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Order;
-import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,13 +21,6 @@ import java.util.List;
 
 public class OrderDaoSQLImpl implements OrderDao {
 
-    private static final String DELETE_ITEM_FROM_ORDER = "DELETE FROM `drugs_ordered` " +
-            "WHERE" +
-            "  order_id = ? " +
-            "  AND drug_id = ?";
-    private static final String INSERT_ITEM_TO_ORDER = "INSERT INTO drugs_ordered (order_id, drug_id, quantity) " +
-            "VALUES (?,?,?) " +
-            "ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)";
     private static final String SELECT_USER_ORDERS = "SELECT id, date, amount, status" +
             " FROM orders" +
             " WHERE customer_id = ?" +
@@ -39,7 +31,7 @@ public class OrderDaoSQLImpl implements OrderDao {
             "LEFT JOIN drugs d ON dro.drug_id = d.id " +
             "WHERE o.id = ? " +
             "ORDER BY d.label";
-    private static final String SELECT_ALL_ORDERS = "SELECT o.id, o.customer_id, u.first_name, u.last_name, u.login, u.address, " +
+    private static final String SELECT_ALL_ORDERS_BY_STATUS = "SELECT o.id, o.customer_id, u.first_name, u.last_name, u.login, u.address, " +
             "o.date, o.amount, o.status FROM orders o " +
             "JOIN  users u ON o.customer_id = u.id " +
             "WHERE o.status IN(?,?,?,?) " +
@@ -94,10 +86,8 @@ public class OrderDaoSQLImpl implements OrderDao {
                 return null;
             }
             resultSet.next();
-            User owner = new User();
-            owner.setId(resultSet.getLong(Parameter.CUSTOMER_ID));
             Order order = new Order();
-            order.setOwner(owner);
+            order.setUserId(resultSet.getLong(Parameter.CUSTOMER_ID));
             order.setId(resultSet.getLong(Parameter.ID));
             order.setDate(resultSet.getTimestamp(Parameter.DATE));
             order.setAmount(resultSet.getBigDecimal(Parameter.AMOUNT));
@@ -132,7 +122,7 @@ public class OrderDaoSQLImpl implements OrderDao {
         ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
-            preparedStatement = cn.prepareStatement(SELECT_ALL_ORDERS);
+            preparedStatement = cn.prepareStatement(SELECT_ALL_ORDERS_BY_STATUS);
             preparedStatement.setInt(1, offset);
             preparedStatement.setInt(2, limit);
             resultSet = preparedStatement.executeQuery();
@@ -141,13 +131,7 @@ public class OrderDaoSQLImpl implements OrderDao {
             }
             while (resultSet.next()) {
                 Order order = new Order();
-                User user = new User();
-                user.setId(resultSet.getLong(Parameter.CUSTOMER_ID));
-                user.setFirstName(resultSet.getString(Parameter.FIRST_NAME));
-                user.setLastName(resultSet.getString(Parameter.LAST_NAME));
-                user.setLogin(resultSet.getString(Parameter.LOGIN));
-                user.setAddress(resultSet.getString(Parameter.ADDRESS));
-                order.setOwner(user);
+                order.setUserId(resultSet.getLong(Parameter.CUSTOMER_ID));
                 order.setId(resultSet.getLong(Parameter.ID));
                 order.setDate(resultSet.getTimestamp(Parameter.DATE));
                 order.setAmount(resultSet.getBigDecimal(Parameter.AMOUNT));
@@ -187,63 +171,6 @@ public class OrderDaoSQLImpl implements OrderDao {
     }
 
     @Override
-    public boolean create(Order entity) throws DaoException {
-        return false;
-    }
-
-    @Override
-    public List<Order> selectAll(int offset, int limit) throws DaoException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean update(Order entity) throws DaoException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean delete(long id) throws DaoException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean deleteItemFromOrder(long itemId, long orderId) throws DaoException {
-        Connection cn = null;
-        PreparedStatement preparedStatement = null;
-        try {
-            cn = ConnectionPool.getInstance().getConnection();
-            preparedStatement = cn.prepareStatement(DELETE_ITEM_FROM_ORDER);
-            preparedStatement.setLong(1, orderId);
-            preparedStatement.setLong(2, itemId);
-            int result = preparedStatement.executeUpdate();
-            return result > 0;
-        } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            closeResources(cn, preparedStatement);
-        }
-    }
-
-    @Override
-    public boolean insertItemToOrder(long itemId, int quantity, long orderId) throws DaoException {
-        Connection cn = null;
-        PreparedStatement preparedStatement = null;
-        try {
-            cn = ConnectionPool.getInstance().getConnection();
-            preparedStatement = cn.prepareStatement(INSERT_ITEM_TO_ORDER);
-            preparedStatement.setLong(1, orderId);
-            preparedStatement.setLong(2, itemId);
-            preparedStatement.setInt(3, quantity);
-            int result = preparedStatement.executeUpdate();
-            return result > 0;
-        } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException(e);
-        } finally {
-            closeResources(cn, preparedStatement);
-        }
-    }
-
-    @Override
     public boolean updateOrderStatus(String orderStatus, long orderId) throws DaoException {
         Connection cn = null;
         PreparedStatement preparedStatement = null;
@@ -259,5 +186,25 @@ public class OrderDaoSQLImpl implements OrderDao {
         } finally {
             closeResources(cn, preparedStatement);
         }
+    }
+
+    @Override
+    public boolean create(Order order) throws DaoException {
+        return false; //Todo
+    }
+
+    @Override
+    public List<Order> selectAll(int offset, int limit) throws DaoException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean update(Order entity) throws DaoException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean delete(long id) throws DaoException {
+        throw new UnsupportedOperationException();
     }
 }

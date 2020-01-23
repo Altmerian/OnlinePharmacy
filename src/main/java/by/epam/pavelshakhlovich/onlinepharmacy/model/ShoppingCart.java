@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class ShoppingCart implements Serializable {
     private static final long serialVersionUID = 1535770438453611801L;
-    public static final int MAX_ITEM_COUNT_PER_SHOPPING_CART = 100;
+    public static final int MAX_ITEM_COUNT_PER_SHOPPING_CART = 999;
     public static final int MAX_ITEMS_PER_SHOPPING_CART = 20;
     private Map<Long, Integer> items = new HashMap<>();
     private int totalCount = 0;
@@ -61,9 +61,9 @@ public class ShoppingCart implements Serializable {
         return count;
     }
 
-    private Boolean isLimitShoppingCartSizeReached(Long idProduct) {
+    private Boolean isLimitShoppingCartSizeReached(Long itemId) {
         if (items.size() > MAX_ITEMS_PER_SHOPPING_CART ||
-                (items.size() == MAX_ITEMS_PER_SHOPPING_CART && !items.containsKey(idProduct))) {
+                (items.size() == MAX_ITEMS_PER_SHOPPING_CART && !items.containsKey(itemId))) {
             LOGGER.error ("Limit for ShoppingCart size reached: size=" + items.size());
             return true;
         }

@@ -13,7 +13,7 @@ import java.util.Map;
 public class Order implements Serializable {
     private static final long serialVersionUID = 4320267879429888765L;
     private long id;
-    private User owner;
+    private long userId;
     private Timestamp date;
     private BigDecimal amount;
     private String status;
@@ -30,12 +30,12 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public User getOwner() {
-        return owner;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public Timestamp getDate() {
@@ -85,7 +85,7 @@ public class Order implements Serializable {
             return false;
         }
 
-        if (!owner.equals(order.owner)) {
+        if (userId != order.userId) {
             return false;
         }
         if (!date.equals(order.date)) {
@@ -94,7 +94,7 @@ public class Order implements Serializable {
         if (!amount.equals(order.amount)) {
             return false;
         }
-        if (status != order.status) {
+        if (!status.equals(order.status)) {
             return false;
         }
         return items.equals(order.items);
@@ -103,7 +103,7 @@ public class Order implements Serializable {
     @Override
     public int hashCode() {
         int result = Long.hashCode(id);
-        result = 31 * result + owner.hashCode();
+        result = 31 * result + Long.hashCode(userId);
         result = 31 * result + date.hashCode();
         result = 31 * result + amount.hashCode();
         result = 31 * result + status.hashCode();

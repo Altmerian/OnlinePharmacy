@@ -25,9 +25,9 @@ public class ShoppingCartSerializer {
         for (String item : items) {
             String[] data = item.split("-");
             try {
-                Long idProduct = Long.parseLong(data[0]);
+                Long itemId = Long.parseLong(data[0]);
                 int count = Integer.parseInt(data[1]);
-                shoppingCart.addItem(idProduct, count);
+                shoppingCart.addItem(itemId, count);
             } catch (RuntimeException e) {
                 LOGGER.error("Wrong cookie format:", e);
             }
