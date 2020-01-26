@@ -36,30 +36,30 @@
     </c:if>
     </div>
     <!-- Carousel -->
-    <div class="container col-sm-8 mx-auto">
+    <div class="container col-sm-8 mx-auto mt-3">
       <div id="carousel" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
           <li data-target="#carousel" data-slide-to="0"></li>
           <li data-target="#carousel" data-slide-to="1" class="active"></li>
           <li data-target="#carousel" data-slide-to="2"></li>
         </ol>
-        <div class="carousel-inner h-40">
+        <div class="carousel-inner">
           <div class="carousel-item">
-            <img src="/static/img/apple-17528_1920.jpg" class="d-block w-40" alt="Girl and apple">
+            <img src="/static/img/apple-17528_1920.jpg" class="d-block w-100" alt="Girl and apple">
             <div class="carousel-caption d-none d-md-block">
               <h5>Питаемся правильно</h5>
               <p>Правила питания, или как не позволить жиру отложиться в жир</p>
             </div>
           </div>
           <div class="carousel-item active">
-            <img src="/static/img/Вирус.jpg" class="d-block w-45" alt="Virus">
+            <img src="/static/img/Вирус.jpg" class="d-block w-100" alt="Virus" height="333">
             <div class="carousel-caption d-none d-md-block">
               <h5>Новости науки</h5>
               <p>Модифицированный вирус гриппа убивает рак</p>
             </div>
           </div>
           <div class="carousel-item">
-            <img src="/static/img/Сотовый телефон.jpg" class="d-block w-40" alt="telephone">
+            <img src="/static/img/Сотовый телефон.jpg" class="d-block w-100" alt="telephone">
             <div class="carousel-caption d-none d-md-block">
               <h5>Гаджеты и здоровье</h5>
               <p>Вреден ли сотовый телефон: новые данные о старой проблеме</p>
