@@ -5,32 +5,41 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="local"/>
 
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Awesome icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <title>Add item</title>
 </head>
 <body>
 <header>
     <ctg:header/>
 </header>
-<div class="container">
+<div class="container mx-auto">
     <div class="col-sm-offset-2 col-sm-8">
+        <div class="container col-sm-8">
+            <h4><fmt:message key="text.addItem"/></h4>
+        </div>
         <c:if test="${sessionScope.success_message}">
-            <div class="alert alert-info">
-            <span>
-                <fmt:message key="message.item.add.success"/> :
-                <a href="${pageContext.request.contextPath}/controller?command=view_item&id=${sessionScope.item.id}">
-                ${sessionScope.item.label}
-                </a>
-             </span>
-                <c:set var="success_message" value="false" scope="session"/>
+            <div class="alert alert-success" role="alert">
+                <fmt:message key="message.item.add.success"/> : <a class="alert-link" href="${pageContext.request.contextPath}/controller?command=view_item&id=${sessionScope.item.id}"> ${sessionScope.item.label}</a>
             </div>
+            <c:set var="success_message" value="false" scope="session"/>
         </c:if>
         <c:if test="${sessionScope.error_message}">
-            <div class="alert alert-info">
+            <div class="alert alert-warning" role="alert"">
                 <fmt:message key="message.item.add.error"/>
-                <c:set var="error_message" value="false" scope="session"/>
             </div>
+            <c:set var="error_message" value="false" scope="session"/>
         </c:if>
         <form action="controller" method="POST">
             <input type="hidden" name="command" value="add-item"/>
@@ -102,7 +111,7 @@
                 </textarea>
             </div>
             <div style="padding: 10px 10px 0 0">
-                <input type="submit" value="<fmt:message key="button.item.add"/>"/>
+                <input class="btn btn-primary" type="submit" value="<fmt:message key="button.item.add"/>"/>
             </div>
         </form>
     </div>

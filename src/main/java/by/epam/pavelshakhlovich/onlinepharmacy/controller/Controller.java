@@ -53,11 +53,11 @@ public class Controller extends HttpServlet {
                 }
             } else {
                 LOGGER.error("Page not found.");
-                response.sendError(404);
+                response.sendError(404, "Page not found.");
             }
         } catch (CommandException e) {
             LOGGER.throwing(Level.ERROR, new CommandException("Command execution failed", e));
-            response.sendError(500);
+            response.sendError(500, "Command execution failed");
         }
     }
 

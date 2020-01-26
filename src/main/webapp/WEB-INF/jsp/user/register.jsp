@@ -5,56 +5,87 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="local"/>
 
-<html><head><title>Login</title></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Awesome icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <title><fmt:message key="link.register"/></title>
+</head>
 <body>
 <header>
     <ctg:header/>
 </header>
-<h4><fmt:message key="text.register"/>:</h4>
-<div>
-    <form action="controller" method="POST">
-        <input type="hidden" name="command" value="register"/>
-        <div>
-            <fmt:message key="text.username"/>:
-            <input type="text" id="login" name="login" pattern="[a-zA-Z0-9]{5,20}" required> <br/>
-        </div>
-        <div class="form-group">
-            <fmt:message key="text.email"/>:
-            <input type="email" id="email" name="email" pattern="\w{2,40}@\w{2,20}.\w{2,4}" required> <br/>
-        </div>
-        <div>
-            <fmt:message key="text.password"/>:
-            <input type="password" id="password" name="password" pattern=".{4,}" required> <br/>
-        </div>
-        <div>
-            <fmt:message key="text.firstName"/>:
-            <input type="text" id="first_name" name="first_name"> <br/>
-        </div>
-        <div>
-            <fmt:message key="text.lastName"/>:
-            <input type="text" id="last_name" name="last_name"> <br/>
-        </div>
-        <div>
-            <fmt:message key="text.address"/>:
-            <input type="text" id="address" name="address" value="${requestScope.address}"> <br/>
-        </div>
-        <div>
-            <!-- Button --> <br/>
-                <input type="submit" value="<fmt:message key="button.name.register"/>"/>
-        </div>
-    </form>
+<div class="container">
+  <div class="container col-sm-offset-2 col-sm-8">
     <c:if test="${sessionScope.success_message}">
-        <div>
+        <div class="alert alert-success" role="alert">
             <fmt:message key="message.register.success"/>: <c:out value="${sessionScope.user_name}"/>
-            <c:set var="success_message" value="false" scope="session"/>
         </div>
+        <c:set var="success_message" value="false" scope="session"/>
     </c:if>
     <c:if test="${sessionScope.error_message}">
-        <div>
+        <div class="alert alert-warning" role="alert">
             <fmt:message key="message.register.error"/>
-            <c:set var="error_message" value="false" scope="session"/>
         </div>
+        <c:set var="error_message" value="false" scope="session"/>
     </c:if>
+    <div class="container mx-auto">
+        <h4><fmt:message key="text.register"/>:</h4>
+    </div>
+    <form action="/controller" method="POST">
+        <input type="hidden" name="command" value="register"/>
+        <div class="form-group">
+            <label for="login">
+                <fmt:message key="text.username"/>:
+            </label>
+            <input type="text" class="form-control" id="login" name="login" pattern="[a-zA-Z0-9]{5,20}" required> <br/>
+        </div>
+        <div class="form-group">
+            <label for="email">
+                <fmt:message key="text.email"/>:
+            </label>
+            <input type="email" class="form-control" id="email" name="email" pattern="\w{2,40}@\w{2,20}.\w{2,4}" required> <br/>
+        </div>
+        <div class="form-group">
+            <label for="password">
+                <fmt:message key="text.password"/>:
+            </label>
+            <input type="password" class="form-control" id="password" name="password" pattern=".{4,}" required> <br/>
+        </div>
+        <div class="form-group">
+            <label for="first_name">
+                <fmt:message key="text.firstName"/>:
+            </label>
+            <input type="text" class="form-control" id="first_name" name="first_name"> <br/>
+        </div>
+        <div class="form-group">
+            <label for="last_name">
+                <fmt:message key="text.lastName"/>:
+            </label>
+            <input type="text" class="form-control" id="last_name" name="last_name"> <br/>
+        </div>
+        <div class="form-group">
+            <label for="address">
+                <fmt:message key="text.address"/>:
+            </label>
+            <input type="text" class="form-control" id="address" name="address" value="${requestScope.address}"> <br/>
+        </div>
+            <!-- Button -->
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="<fmt:message key="button.name.register"/>"/>
+        </div>
+    </form>
+    
+  </div>
 </div>
 <footer class="footer">
     <jsp:include page="/WEB-INF/jsp/footer.jsp" />

@@ -6,12 +6,19 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="local"/>
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Awesome icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <title><fmt:message key="title.catalog"/></title>
 </head>
 <body>
@@ -20,16 +27,16 @@
 </header>
 <div class="container-fluid">
     <c:if test="${sessionScope.error_message}">
-        <div class="alert alert-danger">
+        <div class="alert alert-danger" role="alert">
             <fmt:message key="message.item.add.error"/>
-            <c:set var="error_message" scope="session" value="false"/>
         </div>
+        <c:set var="error_message" scope="session" value="false"/>
     </c:if>
     <c:if test="${sessionScope.success_message}">
-        <div class="alert alert-success">
+        <div class="alert alert-success" role="alert">
             <fmt:message key="message.item.add.success"/>
-            <c:set var="success_message" scope="session" value="false"/>
         </div>
+        <c:set var="success_message" scope="session" value="false"/>
     </c:if>
     <c:set var="number_of_pages" value="${requestScope.number_of_items div param.limit + 1}"/>
     <div style="padding: 10px;">
@@ -39,21 +46,21 @@
             <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number"
          value="${((param.page_number-1)* param.limit) / 5 + 1}"/>"/>
             <input type="hidden" name="limit" value="5"/>
-            <input class="btn btn-default" type="submit" value="5"/>
+            <input class="btn btn-secondary" type="submit" value="5"/>
         </form>
         <form style="display: inline-block" role="form" action="controller" method="get">
             <input type="hidden" name="command" value="view-catalog">
             <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number"
          value="${((param.page_number-1)* param.limit) / 10 + 1}"/>"/>
             <input type="hidden" name="limit" value="10"/>
-            <input class="btn btn-default" type="submit" value="10"/>
+            <input class="btn btn-secondary" type="submit" value="10"/>
         </form>
         <form style="display: inline-block" role="form" action="controller" method="get">
             <input type="hidden" name="command" value="view-catalog">
             <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number"
          value="${((param.page_number-1)* param.limit) / 20 + 1}"/>"/>
             <input type="hidden" name="limit" value="20"/>
-            <input class="btn btn-default" type="submit" value="20"/>
+            <input class="btn btn-secondary" type="submit" value="20"/>
         </form>
 
         <span><fmt:message key="text.goTo.page"/>:</span>
@@ -63,7 +70,7 @@
                    placeholder="${param.page_number}/<fmt:parseNumber integerOnly="true" type="number"
                 value="${number_of_pages}"/>" required/>
             <input type="hidden" name="limit" value="${param.limit}"/>
-            <input class="btn btn-default" type="submit" value="<fmt:message key="text.go"/>"/>
+            <input class="btn btn-secondary" type="submit" value="<fmt:message key="text.go"/>"/>
         </form>
         <c:choose>
             <c:when test="${param.page_number != 1}">
@@ -71,11 +78,11 @@
                     <input type="hidden" name="command" value="view-catalog">
                     <input type="hidden" name="page_number" value="${param.page_number - 1}"/>
                     <input type="hidden" name="limit" value="${param.limit}"/>
-                    <input class="btn btn-default" type="submit" value="<fmt:message key="text.previous"/>"/>
+                    <input class="btn btn-secondary" type="submit" value="<fmt:message key="text.previous"/>"/>
                 </form>
             </c:when>
             <c:otherwise>
-                <input class="btn btn-default" type="submit" value="<fmt:message key="text.previous"/>" disabled/>
+                <input class="btn btn-secondary" type="submit" value="<fmt:message key="text.previous"/>" disabled/>
             </c:otherwise>
         </c:choose>
         <c:choose>
@@ -84,16 +91,16 @@
                     <input type="hidden" name="command" value="view-catalog">
                     <input type="hidden" name="page_number" value="${param.page_number + 1}"/>
                     <input type="hidden" name="limit" value="${param.limit}"/>
-                    <input class="btn btn-default" type="submit" value="<fmt:message key="text.next"/>"/>
+                    <input class="btn btn-secondary" type="submit" value="<fmt:message key="text.next"/>"/>
                 </form>
             </c:when>
             <c:otherwise>
-                <input class="btn btn-default" type="submit" value="<fmt:message key="text.next"/>" disabled/>
+                <input class="btn btn-secondary" type="submit" value="<fmt:message key="text.next"/>" disabled/>
             </c:otherwise>
         </c:choose>
     </div>
-    <table class="table table-striped table-condensed">
-        <thead>
+    <table class="table table-striped">
+        <thead class="thead-light">
         <tr>
             <th>
                 <fmt:message key="text.label"/>
@@ -139,7 +146,7 @@
                 </td>
                 <td>
                     <c:if test="${item.byPrescription}">
-                        <span class="glyphicon glyphicon-ok"></span>
+                        <i class="fas fa-check"></i>
                     </c:if>
                 </td>
                 <td>
@@ -172,8 +179,5 @@
 <footer class="footer">
     <jsp:include page="/WEB-INF/jsp/footer.jsp" />
 </footer>
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 </html>

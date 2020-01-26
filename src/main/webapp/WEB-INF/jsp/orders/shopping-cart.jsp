@@ -5,7 +5,21 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="local"/>
 
-<html><head><title>Shopping Cart</title></head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Awesome icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <title>Shopping Cart</title>
+</head>
 <body>
 <header>
     <ctg:header/>
@@ -19,20 +33,18 @@
     <c:set var="total_amount" value="0" scope="page"/>
     <div class="container-fluid">
         <c:if test="${sessionScope.success_message}">
-            <div class="alert alert-success">
-                <span>
-                    <fmt:message key="message.quantity.change.success"/>
-                 </span>
-                <c:set var="success_message" value="false" scope="session"/>
+            <div class="alert alert-success" role="alert">
+                <fmt:message key="message.quantity.change.success"/>
             </div>
+            <c:set var="success_message" value="false" scope="session"/>
         </c:if>
         <c:if test="${sessionScope.error_message}">
-            <div class="alert alert-danger">
+            <div class="alert alert-danger" role="alert">
                 <fmt:message key="message.quantity.change.error"/>
-                <c:set var="error_message" value="false" scope="session"/>
             </div>
+            <c:set var="error_message" value="false" scope="session"/>
         </c:if>
-        <table class="table">
+        <table class="table table-striped">
             <thead>
             <tr>
                 <th>
@@ -139,7 +151,7 @@
     <a href="${pageContext.request.contextPath}/controller?command=clear_shopping_cart">Clear</a>
 </c:when>
 <c:otherwise>
-    <fmt:message key="title.shoppingCart.isEmpty"/>
+    <p><fmt:message key="title.shoppingCart.isEmpty"/></p>
 </c:otherwise>
 </c:choose>
 <footer class="footer">

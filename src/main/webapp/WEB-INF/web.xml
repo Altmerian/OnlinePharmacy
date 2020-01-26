@@ -66,12 +66,11 @@
     </welcome-file-list>
 
     <error-page>
-        <location>/jsp/error.jsp</location>
+        <location>/WEB-INF/jsp/error.jsp</location>
     </error-page>
-
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
-        <location>/jsp/error.jsp</location>
+        <location>/WEB-INF/jsp/error.jsp</location>
     </error-page>
 </web-app>
         

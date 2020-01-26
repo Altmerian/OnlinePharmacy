@@ -49,7 +49,7 @@ public class LoginCommand implements Command {
         if (user != null) {
             session.setAttribute(Parameter.USER, user);
             session.setAttribute(Parameter.USER_NAME, user.getLogin());
-            session.setAttribute(Parameter.LOGIN_FAILED, Boolean.FALSE);
+            session.setAttribute(Parameter.SUCCESS_MESSAGE, Boolean.TRUE);
             if (request.getSession().getAttribute(Parameter.SHOPPING_CARD_DESERIALIZATION_DONE) == null) {
                 if (!SessionUtil.isCurrentShoppingCartCreated(request)) {
                     Cookie cookie = SessionUtil.findShoppingCartCookie(request);
@@ -60,9 +60,9 @@ public class LoginCommand implements Command {
                 }
                 request.getSession().setAttribute(Parameter.SHOPPING_CARD_DESERIALIZATION_DONE, Boolean.TRUE);
             }
-            return new Path(false, request.getHeader(Parameter.REFERER));
+            return new Path(false, JspPage.MAIN.getPath());
         } else {
-            session.setAttribute(Parameter.LOGIN_FAILED, Boolean.TRUE);
+            session.setAttribute(Parameter.ERROR_MESSAGE, Boolean.TRUE);
             return new Path(false, JspPage.LOGIN.getPath());
         }
     }

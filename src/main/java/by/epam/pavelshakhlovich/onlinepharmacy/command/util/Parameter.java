@@ -32,7 +32,7 @@ public final class Parameter {
     public static final String LIMIT = "limit";
     public static final String LOCALE = "locale";
     public static final String LOGIN = "login";
-    public static final String LOGIN_FAILED = "login_failed";
+    public static final String LOGIN_SUCCESS = "login_success";
     public static final String MANUFACTURER_ID = "manufacturer_id";
     public static final String MANUFACTURER_NAME = "manufacturer_name";
     public static final String NAME = "name";

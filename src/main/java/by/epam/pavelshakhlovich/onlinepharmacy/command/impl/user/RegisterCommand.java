@@ -54,10 +54,9 @@ public class RegisterCommand implements Command {
             } catch (ServiceException e) {
                 LOGGER.throwing(Level.ERROR, new CommandException(e));
             }
-            return new Path(false, JspPage.MAIN.getPath());
         } else {
             session.setAttribute(Parameter.ERROR_MESSAGE, Boolean.TRUE);
-            return new Path(false, JspPage.REGISTER.getPath());
         }
+        return new Path(false, JspPage.REGISTER.getPath());
     }
 }
