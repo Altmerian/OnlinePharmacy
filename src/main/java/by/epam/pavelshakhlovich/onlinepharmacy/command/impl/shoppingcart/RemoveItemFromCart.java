@@ -23,9 +23,8 @@ public class RemoveItemFromCart implements Command { //todo
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         long itemId = Long.parseLong(request.getParameter(Parameter.ITEM_ID));
-        int quantity = Integer.parseInt(request.getParameter(Parameter.QUANTITY));
         ShoppingCart shoppingCart = SessionUtil.getCurrentShoppingCart(request);
-        shoppingCart.removeItem(itemId, quantity);
+        shoppingCart.removeItem(itemId);
         return new Path(false, request.getHeader(Parameter.REFERER));
     }
 }

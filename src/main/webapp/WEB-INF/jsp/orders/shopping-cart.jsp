@@ -24,26 +24,13 @@
 <header>
     <ctg:header/>
 </header>
-<h4><fmt:message key="title.shoppingCart"/>:</h4>
-<hr/>
-<c:choose>
-<c:when test="${shopping_cart != null and sessionScope.user != null}">
+<div class="container col-sm-6 text-center">
+    <h4><fmt:message key="title.shoppingCart"/>:</h4>
+</div>
     <c:set var="count" value="0" scope="page"/>
     <c:set var="total_quantity" value="0" scope="page"/>
     <c:set var="total_amount" value="0" scope="page"/>
     <div class="container-fluid">
-        <c:if test="${sessionScope.success_message}">
-            <div class="alert alert-success" role="alert">
-                <fmt:message key="message.quantity.change.success"/>
-            </div>
-            <c:set var="success_message" value="false" scope="session"/>
-        </c:if>
-        <c:if test="${sessionScope.error_message}">
-            <div class="alert alert-danger" role="alert">
-                <fmt:message key="message.quantity.change.error"/>
-            </div>
-            <c:set var="error_message" value="false" scope="session"/>
-        </c:if>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -82,7 +69,7 @@
                     </td>
                     <td>
                         <form class="form-inline" action="controller" method="post">
-                            <input type="hidden" name="command" value="add-item-to-order"/>
+                            <input type="hidden" name="command" value="add_item_to_shopping_cart"/>
                             <input type="hidden" name="change_quantity" value="true"/>
                             <input type="hidden" name="old_quantity" value="${entry.value}"/>
                             <input type="hidden" name="item_id" value="${entry.key.id}"/>
@@ -104,7 +91,7 @@
                     </td>
                     <td>
                         <form action="controller" method="post">
-                            <input type="hidden" name="command" value="remove-item-from-cart"/>
+                            <input type="hidden" name="command" value="remove_item_from_shopping_cart"/>
                             <input type="hidden" name="item_id" value="${entry.key.id}"/>
                             <input type="submit" class="btn btn-danger" value="<fmt:message key="button.delete"/> "/>
                         </form>
@@ -124,28 +111,38 @@
                     ${total_amount}
                 </th>
                 <th></th>
-                <th></th>
-                <th></th>
+                <th> 
+                    <div class="container col-sm-6 ml-0 pl-0">
+                        <a class="badge badge-danger" href="${pageContext.request.contextPath}/controller?command=clear_shopping_cart">
+                        Clear shopping cart</a>
+                    </div>
+                </th>
             </tfoot>
         </table>
         <c:if test="${count != 0}">
-        <form action="Controller" method="post">
+        <form action="controller" method="post">
             <input type="hidden" name="command" value="submit-order"/>
-            <div class="col-sm-offset-4 col-sm-4">
-                <input type="submit" style="padding: 10px" class="btn btn-success btn-lg btn-block btn-huge"
+            <div class="col-sm-4 mx-auto">
+                <input type="submit" style="padding: 10px" class="btn btn-success btn-lg btn-block active"
                        value="<fmt:message key="button.order.submit"/> "/>
             </div>
         </form>
         </c:if>
-
     </div>
-    <hr/>
-    <a href="${pageContext.request.contextPath}/controller?command=clear_shopping_cart">Clear</a>
-</c:when>
-<c:otherwise>
-    <p><fmt:message key="title.shoppingCart.isEmpty"/></p>
-</c:otherwise>
-</c:choose>
+<div class="container col-sm-4 text-center">
+    <c:if test="${sessionScope.success_message}">
+        <div class="alert alert-success" role="alert">
+            <fmt:message key="message.quantity.change.success"/>
+        </div>
+        <c:set var="success_message" value="false" scope="session"/>
+    </c:if>
+    <c:if test="${sessionScope.error_message}">
+        <div class="alert alert-danger" role="alert">
+            <fmt:message key="message.quantity.change.error"/>
+        </div>
+        <c:set var="error_message" value="false" scope="session"/>
+    </c:if>
+</div>
 <footer class="footer">
     <jsp:include page="/WEB-INF/jsp/footer.jsp" />
 </footer>

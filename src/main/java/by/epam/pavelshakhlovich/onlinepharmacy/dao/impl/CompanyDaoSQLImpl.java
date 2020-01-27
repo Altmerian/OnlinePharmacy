@@ -23,7 +23,11 @@ public class CompanyDaoSQLImpl implements CompanyDao {
     private static final String SELECT_COMPANIES = "SELECT m.id, m.name, c.name " +
             "AS country, website FROM manufacturers m, countries c WHERE m.country_id = c.id" +
             " ORDER BY m.name";
-    private static final String INSERT_COMPANY = "INSERT INTO manufacturers(name, country, website) " +
+    private static final String SELECT_COMPANY_BY_NAME_AND_COUNTRY = "SELECT m.id, m.name, c.id AS country_id, " +
+            "website FROM manufacturers m " +
+            "JOIN countries c ON m.country_id = c.id " +
+            "WHERE m.name = ? AND c.id = ?";
+    private static final String INSERT_COMPANY = "INSERT INTO manufacturers (name, country_id, website) " +
             "VALUES(?, ?, ?)";
 
     @Override
@@ -55,6 +59,32 @@ public class CompanyDaoSQLImpl implements CompanyDao {
     }
 
     @Override
+    public Company getCompanyByNameAndCountry(String name, long countryId) throws DaoException {
+        Connection cn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            cn = ConnectionPool.getInstance().getConnection();
+            preparedStatement = cn.prepareStatement(SELECT_COMPANY_BY_NAME_AND_COUNTRY);
+            preparedStatement.setString(1, name);
+            preparedStatement.setLong(2, countryId);
+            resultSet = preparedStatement.executeQuery();
+            if (!resultSet.isBeforeFirst()) {
+                return null;
+            }
+            resultSet.next();
+            Company company = new Company();
+            company.setName(resultSet.getString(Parameter.NAME));
+            company.setCountry(resultSet.getString(Parameter.COUNTRY));
+            return company;
+        } catch (ConnectionPoolException | SQLException e) {
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
+        } finally {
+            closeResources(cn, preparedStatement, resultSet);
+        }
+    }
+
+    @Override
     public boolean create(Company company) throws DaoException {
         Connection cn = null;
         PreparedStatement preparedStatement = null;
@@ -62,7 +92,7 @@ public class CompanyDaoSQLImpl implements CompanyDao {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(INSERT_COMPANY);
             preparedStatement.setString(1, company.getName());
-            preparedStatement.setString(2, company.getCountry());
+            preparedStatement.setLong(2, company.getCountryId());
             preparedStatement.setString(3, company.getWebsite());
             return preparedStatement.executeUpdate() > 0;
         } catch (ConnectionPoolException e) {

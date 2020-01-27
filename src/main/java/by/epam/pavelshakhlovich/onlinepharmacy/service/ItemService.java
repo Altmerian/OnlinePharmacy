@@ -85,4 +85,12 @@ public interface ItemService {
      */
     int countItemsByLabel(String label) throws ServiceException;
 
+    /**
+     * Attempts to add a new dosage.
+     * @param dosage to add
+     * @return true if adding succeeded, false if dosage already exists
+     * @throws ServiceException if DaoException occurred
+     */
+    boolean addDosage(String dosage) throws ServiceException;
+
 }

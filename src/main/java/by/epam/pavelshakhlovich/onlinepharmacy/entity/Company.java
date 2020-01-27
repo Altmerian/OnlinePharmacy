@@ -11,6 +11,7 @@ public class Company implements Comparable<Company>, Serializable {
     private long id;
     private String name;
     private String country;
+    private long countryId;
     private String website;
 
     public Company() {
@@ -40,6 +41,14 @@ public class Company implements Comparable<Company>, Serializable {
         this.country = country;
     }
 
+    public long getCountryId() {
+        return countryId;
+    }
+
+    public void setCountryId(long countryId) {
+        this.countryId = countryId;
+    }
+
     public String getWebsite() {
         return website;
     }
@@ -64,6 +73,9 @@ public class Company implements Comparable<Company>, Serializable {
         if (!country.equals(company.country)) {
             return false;
         }
+        if (countryId != company.countryId) {
+            return false;
+        }
         return website != null ? website.equals(company.website) : company.website == null;
     }
 
@@ -72,6 +84,7 @@ public class Company implements Comparable<Company>, Serializable {
         int result = Long.hashCode(id);
         result = 31 * result + name.hashCode();
         result = 31 * result + country.hashCode();
+        result = 31 * result + Long.hashCode(countryId);
         result = 31 * result + (website != null ? website.hashCode() : 0);
         return result;
     }

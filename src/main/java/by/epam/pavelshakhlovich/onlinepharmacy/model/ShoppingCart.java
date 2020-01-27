@@ -32,17 +32,11 @@ public class ShoppingCart implements Serializable {
         }
     }
 
-    public void removeItem(Long itemId, int count) {
-        Integer oldCount= items.get(itemId);
-        if (oldCount != null) {
-            if (oldCount > count) {
-                items.put(itemId, oldCount - count);
-            } else {
-                items.remove(itemId);
-            }
+    public void removeItem(Long itemId) {
+            items.remove(itemId);
             refreshStatistics();
-        }
     }
+
 
     public Map<Long, Integer> getItems() {
         return items;
@@ -64,7 +58,7 @@ public class ShoppingCart implements Serializable {
     private Boolean isLimitShoppingCartSizeReached(Long itemId) {
         if (items.size() > MAX_ITEMS_PER_SHOPPING_CART ||
                 (items.size() == MAX_ITEMS_PER_SHOPPING_CART && !items.containsKey(itemId))) {
-            LOGGER.error ("Limit for ShoppingCart size reached: size=" + items.size());
+            LOGGER.error("Limit for ShoppingCart size reached: size=" + items.size());
             return true;
         }
         return false;

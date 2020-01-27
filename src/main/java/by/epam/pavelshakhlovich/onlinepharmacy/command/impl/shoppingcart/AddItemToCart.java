@@ -25,6 +25,10 @@ public class AddItemToCart implements Command {
             ShoppingCart shoppingCart = SessionUtil.getCurrentShoppingCart(request);
             long itemId = Long.parseLong(request.getParameter(Parameter.ITEM_ID));
             int quantity = Integer.parseInt(request.getParameter(Parameter.QUANTITY));
+            if (Boolean.parseBoolean(request.getParameter(Parameter.CHANGE_QUANTITY))) {
+                int oldQuantity = Integer.parseInt(request.getParameter(Parameter.OLD_QUANTITY));
+                quantity = quantity - oldQuantity;
+            }
             if (shoppingCart.addItem(itemId, quantity)) {
                 session.setAttribute(Parameter.SUCCESS_MESSAGE, Boolean.TRUE);
             } else {
@@ -32,7 +36,6 @@ public class AddItemToCart implements Command {
             }
             return new Path(false, request.getHeader(Parameter.REFERER));
         } else {
-            request.getSession().setAttribute(Parameter.ERROR_MESSAGE, Boolean.TRUE);
             return new Path(false, JspPage.LOGIN.getPath());
         }
     }

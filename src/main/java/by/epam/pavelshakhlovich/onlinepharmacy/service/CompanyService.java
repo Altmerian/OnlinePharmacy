@@ -18,9 +18,9 @@ public interface CompanyService {
 
     /**
      * Insert company to the storage, e.g. database
-     * @param company new company
+     * @param company company name to add
      * @return true if insert to the storage was successful, and false if storage already contains such value
      */
-    boolean insertCompany(Company company) throws ServiceException;
+    boolean addCompany(Company company) throws ServiceException;
 
 }

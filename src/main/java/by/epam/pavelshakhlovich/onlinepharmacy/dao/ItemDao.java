@@ -11,11 +11,6 @@ import java.util.List;
  */
 public interface ItemDao extends BaseDao<Item>{
     /**
-     * Retrieves all possible dosages from database
-     */
-    List<Dosage> getDosages() throws DaoException;
-
-    /**
      * Retrieves an item with given id.
      * @param label item's label
      * @param dosageId item's dosage ID
@@ -40,4 +35,26 @@ public interface ItemDao extends BaseDao<Item>{
      * @throws DaoException
      */
     int countItemsByLabel(String label) throws DaoException;
+
+    /**
+     * Add a new dosage to the storage, e.g. into database
+     *
+     * @param dosage that should be stored in database
+     * @return true if dosage was added and false if dosage with such parameters already exists
+     * @throws DaoException if failed to retrieve data from the storage due to technical problems
+     */
+    boolean addDosage(String dosage) throws DaoException;
+
+    /**
+     * Retrieves all possible dosages from database
+     */
+    List<Dosage> getDosages() throws DaoException;
+
+    /**
+     * Retrieves dosage by name from database
+     * @param dosage dosage name
+     * @return dosage with given name
+     * @throws DaoException if failed to retrieve data from the storage due to technical problems
+     */
+    Dosage getDosageByName(String dosage) throws DaoException;
 }

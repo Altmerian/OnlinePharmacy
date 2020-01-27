@@ -7,6 +7,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.entity.Dosage;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Item;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ItemService;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ServiceException;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,17 +20,6 @@ public class ItemServiceImpl implements ItemService {
     private static final Logger LOGGER = LogManager.getLogger();
     private static ItemDao itemDao = new ItemDaoSQLImpl();
 
-
-    @Override
-    public List<Dosage> getDosages() throws ServiceException {
-        try {
-            return itemDao.getDosages();
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-    }
-
-
     @Override
     public boolean addItem(Item item) throws ServiceException {
         try {
@@ -40,7 +30,7 @@ public class ItemServiceImpl implements ItemService {
                 return itemDao.create(item);
             }
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }
     }
 
@@ -49,7 +39,7 @@ public class ItemServiceImpl implements ItemService {
         try {
             return itemDao.update(item);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }
     }
 
@@ -62,7 +52,7 @@ public class ItemServiceImpl implements ItemService {
                 return false;
             }
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }
     }
 
@@ -71,7 +61,7 @@ public class ItemServiceImpl implements ItemService {
         try {
             return itemDao.selectById(id);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }
     }
 
@@ -81,7 +71,7 @@ public class ItemServiceImpl implements ItemService {
         try {
             return itemDao.selectItemByLabelDosageVolume(label, dosageId, volume, volumeType, manufacturerId);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }
     }
 
@@ -90,7 +80,7 @@ public class ItemServiceImpl implements ItemService {
         try {
             return itemDao.selectAll(offset, limit);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }
     }
 
@@ -99,7 +89,7 @@ public class ItemServiceImpl implements ItemService {
         try {
             return itemDao.selectItemsByLabel(label, offset, limit);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }
     }
 
@@ -108,7 +98,29 @@ public class ItemServiceImpl implements ItemService {
         try {
             return itemDao.countItemsByLabel(label);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
+        }
+    }
+
+    @Override
+    public List<Dosage> getDosages() throws ServiceException {
+        try {
+            return itemDao.getDosages();
+        } catch (DaoException e) {
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
+        }
+    }
+
+    @Override
+    public boolean addDosage(String dosage) throws ServiceException {
+        try {
+            if (itemDao.getDosageByName(dosage) != null) {
+                return false;
+            } else {
+                return itemDao.addDosage(dosage);
+            }
+        } catch (DaoException e) {
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }
     }
 }
