@@ -18,14 +18,15 @@
     <!-- Awesome icons -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <!-- Custom css -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/custom.css"/>
     <title><fmt:message key="link.register"/></title>
 </head>
 <body>
 <header>
     <ctg:header/>
 </header>
-<div class="container">
-  <div class="container col-sm-offset-2 col-sm-8">
+<div class="container col-sm-offset-2 col-sm-8">
     <c:if test="${sessionScope.success_message}">
         <div class="alert alert-success" role="alert">
             <fmt:message key="message.register.success"/>: <c:out value="${sessionScope.user_name}"/>
@@ -84,8 +85,6 @@
             <input type="submit" class="btn btn-primary" value="<fmt:message key="button.name.register"/>"/>
         </div>
     </form>
-    
-  </div>
 </div>
 <footer class="footer">
     <jsp:include page="/WEB-INF/jsp/footer.jsp" />

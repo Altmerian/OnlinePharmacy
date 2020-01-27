@@ -26,12 +26,6 @@ public interface ItemDao extends BaseDao<Item>{
     Item selectItemByLabelDosageVolume(String label, long dosageId, double volume,
                                        String volumeType, long manufacturerId) throws DaoException;
 
-    /**Counts all items in the storage.
-     * @return number of items.
-     * @throws DaoException
-     */
-    int countAllItems() throws DaoException;
-
     /**
      * Retrieves a list of items with given label from {@param offset}. List's max limit is {@param limit}.
      * @param offset set the number of the first row from request

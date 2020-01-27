@@ -18,8 +18,8 @@
     <!-- Awesome icons -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <!-- Custom styles for this template
-    <link href="${pageContext.request.contextPath}/static/css/custom.css" rel="stylesheet"> -->
+    <!-- Custom css -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/custom.css"/>
     <title><fmt:message key="text.login"/></title>
 </head>
 <body>

@@ -27,6 +27,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=view-catalog&page_number=1&limit=10">
                     <fmt:message key="link.view.catalog"/></a></li>
+            <!-- Registration -->
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/register"/>
+                <i class="fas fa-user"></i> <fmt:message key="link.register"/></a>
+            </li>
         </ul>
         <ul class="navbar-nav ml-auto">
             <!-- Change locale -->
@@ -40,9 +45,9 @@
                 <input type="hidden" name="locale" value="en_US"/>
                 <input type="hidden" name="from" value="${pageContext.request.requestURI}?${pageContext.request.queryString}"/>
             </form>
-            <div class="btn-group-sm mr-2">
-                <button type="submit" class="navbar-btn" form="toRU"><fmt:message key="button.name.ru"/></>
-                <button type="submit" class="navbar-btn" form="toEN"><fmt:message key="button.name.en"/></>
+            <div class="btn-group btn-group-sm mr-2" role="group">
+                <button type="submit" class="btn btn-secondary btn-sm" form="toRU"><fmt:message key="button.name.ru"/></>
+                <button type="submit" class="btn btn-secondary btn-sm" form="toEN"><fmt:message key="button.name.en"/></>
             </div>
             <!-- Search -->
             <form class="form-inline" role="search" action="controller" method="get" height="80%">

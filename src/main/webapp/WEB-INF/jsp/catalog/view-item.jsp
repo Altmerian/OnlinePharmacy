@@ -18,6 +18,8 @@
     <!-- Awesome icons -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <!-- Custom css -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/custom.css"/>
     <title>View item</title>
 </head>
 <body>
@@ -25,7 +27,7 @@
     <ctg:header/>
 </header>
 <div class="container-fluid">
-    <table class="table">
+    <table class="table table-striped">
         <thead>
         <tr>
             <th>
@@ -49,6 +51,7 @@
             <th>
                 <fmt:message key="text.description"/>
             </th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -70,11 +73,32 @@
             </td>
             <td>
                 <c:if test="${item.byPrescription}">
-                    <span class="glyphicon glyphicon-ok"></span>
+                    <i class="fas fa-check"></i>
                 </c:if>
             </td>
             <td>
                 ${item.description}
+            </td>
+            <td>
+                <form class="form-inline" action="controller" method="post">
+                    <input type="hidden" name="command" value="add_item_to_shopping_cart"/>
+                    <input type="hidden" name="item_id" value="${item.id}"/>
+                    <input type="hidden" name="page_number" value="${param.page_number}"/>
+                    <input type="hidden" name="limit" value="${param.limit}"/>
+                    <div class="form-group row">
+                        <input type="number" min="1" max="200" name="quantity" value="1"/>
+                        <input type="submit" class="btn btn-warning btn-sm"
+                               value="<fmt:message key="button.item.buy"/>"/>
+                   </div>
+                </form>
+                <c:if test="${sessionScope.user.role eq 'ADMIN' or sessionScope.user.role eq 'MANAGER'}">
+                    <form class="form-inline ml-0" action="controller" method="get">
+                        <input type="hidden" name="command" value="view-edit-item"/>
+                        <input type="hidden" name="id" value="${item.id}"/>
+                        <input type="submit" class="btn btn-success btn-sm"
+                               value="<fmt:message key="button.change"/>"/>
+                    </form>
+                </c:if>
             </td>
         </tr>
         </tbody>

@@ -19,6 +19,8 @@
     <!-- Awesome icons -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <!-- Custom css -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/custom.css"/>
     <title><fmt:message key="title.catalog"/></title>
 </head>
 <body>
@@ -35,6 +37,7 @@
     <c:if test="${sessionScope.success_message}">
         <div class="alert alert-success" role="alert">
             <fmt:message key="message.item.add.success"/>
+            href="${pageContext.request.contextPath}/controller?command=view_item&id=${sessionScope.item.id}"> ${sessionScope.item.label}</a>
         </div>
         <c:set var="success_message" scope="session" value="false"/>
     </c:if>
@@ -43,24 +46,24 @@
         <span><fmt:message key="text.numberOfItems.onPage"/>:</span>
         <form style="display: inline-block" role="form" action="controller" method="get">
             <input type="hidden" name="command" value="view-catalog">
-            <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number"
-         value="${((param.page_number-1)* param.limit) / 5 + 1}"/>"/>
+            <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number" 
+                value="${((param.page_number-1)* param.limit) / 5 + 1}"/>"/>
             <input type="hidden" name="limit" value="5"/>
-            <input class="btn btn-secondary" type="submit" value="5"/>
+            <input class="btn btn-secondary btn-sm" type="submit" value="5"/>
         </form>
         <form style="display: inline-block" role="form" action="controller" method="get">
             <input type="hidden" name="command" value="view-catalog">
             <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number"
-         value="${((param.page_number-1)* param.limit) / 10 + 1}"/>"/>
+                value="${((param.page_number-1)* param.limit) / 10 + 1}"/>"/>
             <input type="hidden" name="limit" value="10"/>
-            <input class="btn btn-secondary" type="submit" value="10"/>
+            <input class="btn btn-secondary btn-sm" type="submit" value="10"/>
         </form>
         <form style="display: inline-block" role="form" action="controller" method="get">
             <input type="hidden" name="command" value="view-catalog">
             <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number"
-         value="${((param.page_number-1)* param.limit) / 20 + 1}"/>"/>
+                value="${((param.page_number-1)* param.limit) / 20 + 1}"/>"/>
             <input type="hidden" name="limit" value="20"/>
-            <input class="btn btn-secondary" type="submit" value="20"/>
+            <input class="btn btn-secondary btn-sm" type="submit" value="20"/>
         </form>
 
         <span><fmt:message key="text.goTo.page"/>:</span>
@@ -70,7 +73,7 @@
                    placeholder="${param.page_number}/<fmt:parseNumber integerOnly="true" type="number"
                 value="${number_of_pages}"/>" required/>
             <input type="hidden" name="limit" value="${param.limit}"/>
-            <input class="btn btn-secondary" type="submit" value="<fmt:message key="text.go"/>"/>
+            <input class="btn btn-secondary btn-sm" type="submit" value="<fmt:message key="text.go"/>"/>
         </form>
         <c:choose>
             <c:when test="${param.page_number != 1}">
@@ -78,11 +81,11 @@
                     <input type="hidden" name="command" value="view-catalog">
                     <input type="hidden" name="page_number" value="${param.page_number - 1}"/>
                     <input type="hidden" name="limit" value="${param.limit}"/>
-                    <input class="btn btn-secondary" type="submit" value="<fmt:message key="text.previous"/>"/>
+                    <input class="btn btn-secondary btn-sm" type="submit" value="<fmt:message key="text.previous"/>"/>
                 </form>
             </c:when>
             <c:otherwise>
-                <input class="btn btn-secondary" type="submit" value="<fmt:message key="text.previous"/>" disabled/>
+                <input class="btn btn-secondary btn-sm" type="submit" value="<fmt:message key="text.previous"/>" disabled/>
             </c:otherwise>
         </c:choose>
         <c:choose>
@@ -91,11 +94,11 @@
                     <input type="hidden" name="command" value="view-catalog">
                     <input type="hidden" name="page_number" value="${param.page_number + 1}"/>
                     <input type="hidden" name="limit" value="${param.limit}"/>
-                    <input class="btn btn-secondary" type="submit" value="<fmt:message key="text.next"/>"/>
+                    <input class="btn btn-secondary btn-sm" type="submit" value="<fmt:message key="text.next"/>"/>
                 </form>
             </c:when>
             <c:otherwise>
-                <input class="btn btn-secondary" type="submit" value="<fmt:message key="text.next"/>" disabled/>
+                <input class="btn btn-secondary btn-sm" type="submit" value="<fmt:message key="text.next"/>" disabled/>
             </c:otherwise>
         </c:choose>
     </div>
@@ -153,20 +156,22 @@
                         ${item.description}
                 </td>
                 <td>
-                    <form class="inline" action="controller" method="post">
+                    <form class="form-inline" action="controller" method="post">
                         <input type="hidden" name="command" value="add_item_to_shopping_cart"/>
                         <input type="hidden" name="item_id" value="${item.id}"/>
                         <input type="hidden" name="page_number" value="${param.page_number}"/>
                         <input type="hidden" name="limit" value="${param.limit}"/>
-                        <input type="number" min="1" max="200" name="quantity" value="1"/>
-                        <input type="submit" class="btn btn-warning"
-                               value="<fmt:message key="button.item.buy"/>"/>
+                        <div class="form-group row">
+                            <input type="number" min="1" max="200" name="quantity" value="1"/>
+                            <input type="submit" class="btn btn-warning btn-sm"
+                                   value="<fmt:message key="button.item.buy"/>"/>
+                       </div>
                     </form>
                     <c:if test="${sessionScope.user.role eq 'ADMIN' or sessionScope.user.role eq 'MANAGER'}">
-                        <form class="inline" action="controller" method="get">
+                        <form class="form-inline ml-0" action="controller" method="get">
                             <input type="hidden" name="command" value="view-edit-item"/>
                             <input type="hidden" name="id" value="${item.id}"/>
-                            <input type="submit" class="btn btn-success"
+                            <input type="submit" class="btn btn-success btn-sm"
                                    value="<fmt:message key="button.change"/>"/>
                         </form>
                     </c:if>

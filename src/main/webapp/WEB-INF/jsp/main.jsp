@@ -27,17 +27,17 @@
     <header>
         <ctg:header/>
     </header>
-    <div class="container col-sm-8">
+    <div class="container col-sm-6 text-center">
     <c:if test="${sessionScope.success_message}">
-        <div class="alert alert-success mx-auto" role="alert">
+        <div class="alert alert-success" role="alert">
             <fmt:message key="message.login.success"/> <b><c:out value=" ${sessionScope.user_name}"/></b>
         </div>
         <c:set var="success_message" value="false" scope="session"/>
     </c:if>
     </div>
     <!-- Carousel -->
-    <div class="container col-sm-8 mx-auto mt-3">
-      <div id="carousel" class="carousel slide" data-ride="carousel">
+    <div class="container col-sm-8 mx-auto mt-5">
+      <div id="carousel" class="carousel slide mx-auto" data-ride="carousel">
         <ol class="carousel-indicators">
           <li data-target="#carousel" data-slide-to="0"></li>
           <li data-target="#carousel" data-slide-to="1" class="active"></li>
@@ -52,7 +52,7 @@
             </div>
           </div>
           <div class="carousel-item active">
-            <img src="/static/img/Вирус.jpg" class="d-block w-100" alt="Virus" height="333">
+            <img src="/static/img/Вирус.jpg" class="d-block w-100" alt="Virus">
             <div class="carousel-caption d-none d-md-block">
               <h5>Новости науки</h5>
               <p>Модифицированный вирус гриппа убивает рак</p>

@@ -73,26 +73,4 @@ public interface OrderService {
      * @throws ServiceException if exception occurred on an underlying level
      */
     boolean updateOrderStatus(User user, String orderStatus, long orderId) throws ServiceException;
-
-    /**
-     * Adds a specified quantity of items with a given id to the shoppi
-     *
-     * @param itemId   id of the item to add
-     * @param quantity quantity of items
-     * @return {@code true} if added successfully
-     * @throws ServiceException if exception occurred on an underlying level
-     */
-    boolean addItemToCart(long itemId, int quantity) throws ServiceException;
-
-    /**
-     * Removes all items with a given id from the specified order
-     *
-     * @param itemId    id of the item
-     * @param removeAll defines whether to remove all item from the shopping cart or only one
-     * @return {@code true} if removed successfully
-     * @throws ServiceException if exception occurred on an underlying level
-     */
-    boolean removeItemFromCart(long itemId, boolean removeAll) throws ServiceException;
-
-
 }

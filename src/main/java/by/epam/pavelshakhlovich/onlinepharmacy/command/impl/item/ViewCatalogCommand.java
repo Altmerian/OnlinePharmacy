@@ -9,6 +9,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.entity.Item;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ItemService;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ServiceException;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.impl.ItemServiceImpl;
+import org.apache.logging.log4j.Level;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,9 +30,9 @@ public class ViewCatalogCommand implements Command {
         try {
             List<Item> itemList = itemService.selectAllItems(offset, limit);
             request.setAttribute(Parameter.ITEMS, itemList);
-            request.setAttribute(Parameter.NUMBER_OF_ITEMS, itemService.countAllItems());
+            request.setAttribute(Parameter.NUMBER_OF_ITEMS, itemList.size());
         } catch ( ServiceException e) {
-            throw new CommandException(e);
+            throw LOGGER.throwing(Level.ERROR, new CommandException(e));
         }
        return new Path(true, JspPage.VIEW_CATALOG.getPath());
     }

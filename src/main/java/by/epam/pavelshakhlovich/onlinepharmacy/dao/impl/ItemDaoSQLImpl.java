@@ -58,7 +58,6 @@ public class ItemDaoSQLImpl implements ItemDao {
             "WHERE d.label = ? " +
             "ORDER BY dos.name " +
             "LIMIT ?,?";
-    private static final String COUNT_ALL_ITEMS = "SELECT COUNT(*) AS number_of_items FROM drugs";
     private static final String COUNT_ITEMS_BY_LABEL = "SELECT COUNT(*) FROM drugs" +
             "  GROUP BY label" +
             "  HAVING label = ?";
@@ -165,27 +164,6 @@ public class ItemDaoSQLImpl implements ItemDao {
             }
             return itemList;
 
-        } catch (ConnectionPoolException | SQLException e) {
-            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
-        } finally {
-            closeResources(cn, preparedStatement, resultSet);
-        }
-    }
-
-    @Override
-    public int countAllItems() throws DaoException {
-        Connection cn = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            cn = ConnectionPool.getInstance().getConnection();
-            preparedStatement = cn.prepareStatement(COUNT_ALL_ITEMS);
-            resultSet = preparedStatement.executeQuery();
-            if (!resultSet.isBeforeFirst()) {
-                return 0;
-            }
-            resultSet.next();
-            return resultSet.getInt(1);
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {

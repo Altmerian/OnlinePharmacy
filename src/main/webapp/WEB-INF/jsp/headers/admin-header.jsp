@@ -66,7 +66,7 @@
             <!-- Shopping Cart -->
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=view-shopping-cart"/>
-                <fmt:message key="link.shopping.cart"/> (${shopping_cart.totalCount})</a>
+                <i class="fas fa-shopping-cart"></i> <fmt:message key="link.shopping.cart"/> (${shopping_cart.totalCount})</a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
@@ -81,9 +81,9 @@
                 <input type="hidden" name="locale" value="en_US"/>
                 <input type="hidden" name="from" value="${pageContext.request.requestURI}?${pageContext.request.queryString}"/>
             </form>
-            <div class="btn-group-sm my-2 mr-2">
-                <button type="submit" class="navbar-btn" form="toRU"><fmt:message key="button.name.ru"/></>
-                <button type="submit" class="navbar-btn" form="toEN"><fmt:message key="button.name.en"/></>
+            <div class="btn-group btn-group-sm mr-2" role="group">
+                <button type="submit" class="btn btn-secondary btn-sm" form="toRU"><fmt:message key="button.name.ru"/></>
+                <button type="submit" class="btn btn-secondary btn-sm" form="toEN"><fmt:message key="button.name.en"/></>
             </div>
             <!-- Search -->
             <form class="form-inline" role="search" action="controller" method="get" height="80%">
@@ -91,7 +91,8 @@
                 <input type="hidden" name="page_number" value="1"/>
                 <input type="hidden" name="limit" value="10"/>
                 <div class="input-group">
-                    <input class="form-control" type="search" aria-label="Search" placeholder="<fmt:message key="text.enter.drug.name"/>"/>
+                    <input class="form-control" type="search" aria-label="Search" 
+                        placeholder="<fmt:message key="text.enter.drug.name"/>"/>
                     <div class="input-group-append">
                         <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
                     </div>

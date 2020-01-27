@@ -18,6 +18,8 @@
     <!-- Awesome icons -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <!-- Custom css -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/custom.css"/>
     <title>Add item</title>
 </head>
 <body>
@@ -31,7 +33,8 @@
         </div>
         <c:if test="${sessionScope.success_message}">
             <div class="alert alert-success" role="alert">
-                <fmt:message key="message.item.add.success"/> : <a class="alert-link" href="${pageContext.request.contextPath}/controller?command=view_item&id=${sessionScope.item.id}"> ${sessionScope.item.label}</a>
+                <fmt:message key="message.item.add.success"/> : <a class="alert-link"
+                href="${pageContext.request.contextPath}/controller?command=view_item&id=${sessionScope.item.id}"> ${sessionScope.item.label}</a>
             </div>
             <c:set var="success_message" value="false" scope="session"/>
         </c:if>

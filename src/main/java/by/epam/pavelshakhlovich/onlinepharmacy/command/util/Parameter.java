@@ -7,12 +7,12 @@ public final class Parameter {
     public static final String ADDRESS = "address";
     public static final String AMOUNT = "amount";
     public static final String BY_PRESCRIPTION = "by_prescription";
+    public static final String CART_ITEMS = "cart_items";
     public static final String CUSTOMER_ID = "customer_id";
     public static final String COMMAND = "command";
     public static final String COUNTRY = "country";
     public static final String COMPANIES = "companies";
     public static final String CURRENT_PAGE = "current_page";
-    public static final String SHOPPING_CART = "shopping_cart";
     public static final String DATE = "date";
     public static final String DOSAGE= "dosage";
     public static final String DOSAGES= "dosages";
@@ -46,6 +46,7 @@ public final class Parameter {
     public static final String REFERER = "referer";
     public static final String ROLE = "role";
     public static final String SALT = "salt";
+    public static final String SHOPPING_CART = "shopping_cart";
     public static final String SHOPPING_CARD_DESERIALIZATION_DONE = "shopping_card_deserialization_done";
     public static final String STATUS = "status";
     public static final String SUCCESS_MESSAGE = "success_message";

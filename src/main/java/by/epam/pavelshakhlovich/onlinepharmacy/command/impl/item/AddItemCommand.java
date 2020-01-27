@@ -39,8 +39,7 @@ public class AddItemCommand implements Command {
         try {
             if (itemService.addItem(item)) {
                 session.setAttribute(Parameter.SUCCESS_MESSAGE, Boolean.TRUE);
-                session.setAttribute(Parameter.ITEM, itemService.selectItemByLabelDosageVolume(item.getLabel(),
-                        item.getDosageId(), item.getVolume(), item.getVolumeType(), item.getManufacturerId()));
+                session.setAttribute(Parameter.ITEM, item);
             } else {
                 session.setAttribute(Parameter.ERROR_MESSAGE, Boolean.TRUE);
             }

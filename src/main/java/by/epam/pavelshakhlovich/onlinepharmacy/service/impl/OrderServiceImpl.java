@@ -93,17 +93,4 @@ public class OrderServiceImpl implements OrderService {
         return false;
     }
 
-
-    @Override
-    public boolean addItemToCart(long itemId, int quantity) throws ServiceException {
-        //todo
-        return false;
-    }
-
-    @Override
-    public boolean removeItemFromCart(long itemId, boolean removeAll) throws ServiceException {
-        //todo
-        return false;
-    }
-
 }

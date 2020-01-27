@@ -67,7 +67,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="entry" items="${sessionScope.shopping_cart.items}">
+            <c:forEach var="entry" items="${sessionScope.cart_items}">
                 <c:set var="count" value="${count+1}"/>
                 <c:set var="total_quantity" value="${total_quantity + entry.value}"/>
                 <c:set var="total_amount" value="${total_amount + entry.value * entry.key.price}"/>
@@ -76,12 +76,12 @@
                             ${count}
                     </td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/Controller?command=view-item&id=${entry.key.id}">
+                        <a href="${pageContext.request.contextPath}/controller?command=view-item&id=${entry.key.id}">
                             <b>${entry.key.label}</b> ${entry.key.dosage}, ${entry.key.volume} ${entry.key.volumeType}
                         </a>
                     </td>
                     <td>
-                        <form class="form-inline" action="Controller" method="post">
+                        <form class="form-inline" action="controller" method="post">
                             <input type="hidden" name="command" value="add-item-to-order"/>
                             <input type="hidden" name="change_quantity" value="true"/>
                             <input type="hidden" name="old_quantity" value="${entry.value}"/>
@@ -91,28 +91,21 @@
                                        value="${entry.value}"/>
                             </div>
                             <button type="submit" class="btn btn-warning" value=""><fmt:message
-                                    key="local.button.change"/></button>
+                                    key="button.change"/></button>
                         </form>
-
                     </td>
                     <td>
-                            ${entry.key.price}
+                        ${entry.key.price}
                     </td>
                     <td>
                         <c:if test="${entry.key.byPrescription}">
-                            <span class="glyphicon glyphicon-ok"></span>
-                        </c:if>
-                    </td>
-                    <td>
-                        <c:if test="${entry.key.imagePath != null}">
-                            <img src="${entry.key.imagePath}"/>
+                            <i class="fas fa-check"></i>
                         </c:if>
                     </td>
                     <td>
                         <form action="controller" method="post">
                             <input type="hidden" name="command" value="remove-item-from-cart"/>
                             <input type="hidden" name="item_id" value="${entry.key.id}"/>
-                            <input type="hidden" name="order_id" value="${sessionScope.shopping_cart.id}"/>
                             <input type="submit" class="btn btn-danger" value="<fmt:message key="button.delete"/> "/>
                         </form>
                     </td>
@@ -138,7 +131,6 @@
         <c:if test="${count != 0}">
         <form action="Controller" method="post">
             <input type="hidden" name="command" value="submit-order"/>
-            <input type="hidden" name="order_id" value="${sessionScope.shopping_cart.id}"/>
             <div class="col-sm-offset-4 col-sm-4">
                 <input type="submit" style="padding: 10px" class="btn btn-success btn-lg btn-block btn-huge"
                        value="<fmt:message key="button.order.submit"/> "/>

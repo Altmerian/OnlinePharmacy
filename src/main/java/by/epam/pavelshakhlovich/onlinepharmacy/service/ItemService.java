@@ -70,12 +70,6 @@ public interface ItemService {
      */
     List<Item> selectAllItems(int offset, int limit) throws ServiceException;
 
-    /**Counts all items in the storage.
-     * @return number of items .
-     * @throws ServiceException
-     */
-    int countAllItems() throws ServiceException;
-
     /**
      * Retrieves a list of items with given label from {@param offset}. List's max limit is {@param limit}.
      * @param offset set the number of the first row from request

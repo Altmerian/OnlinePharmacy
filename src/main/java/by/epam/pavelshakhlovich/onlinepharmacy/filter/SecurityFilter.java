@@ -44,12 +44,12 @@ public class SecurityFilter implements Filter {
             try {
                 commandName = CommandName.valueOf(command.replace("-", "_").toUpperCase());
             } catch (IllegalArgumentException e) {
-                response.sendRedirect(JspPage.ROOT.getPath());
+                response.sendRedirect(JspPage.INDEX.getPath());
                 return;
             }
             if (!commandName.isRoleAllowed(role) ||
                     (!commandName.isGetAllowed() && request.getMethod().equalsIgnoreCase(GET))) {
-                response.sendRedirect(JspPage.ROOT.getPath());
+                response.sendRedirect(JspPage.INDEX.getPath());
                 return;
             }
         }

@@ -17,7 +17,7 @@ public enum CommandName {
     CLEAR_SHOPPING_CART(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER),
     LOGIN(false, UserRole.GUEST),
     LOGOUT(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
-    REGISTER(false, UserRole.GUEST),
+    REGISTER(false, UserRole.GUEST, UserRole.ADMIN),
     UNKNOWN(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     VIEW_ITEM(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     VIEW_ADD_ITEM(true,  UserRole.MANAGER, UserRole.ADMIN),
