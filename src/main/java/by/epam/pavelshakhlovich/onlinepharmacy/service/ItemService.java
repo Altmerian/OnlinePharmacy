@@ -12,11 +12,6 @@ import java.util.List;
 public interface ItemService {
 
     /**
-     * Retrieves all possible dosage forms from dao layer
-     */
-    List<Dosage> getDosages() throws ServiceException;
-
-    /**
      * Attempts to add a new item with given parameters.
      * @param item item with given parameters
      * @return true if adding succeeded, false if item with such label, dosage and volume already exists
@@ -79,11 +74,22 @@ public interface ItemService {
      */
     List<Item> selectItemsByLabel(String label, int offset, int limit) throws ServiceException;
 
+    /**Counts all items in the storage.
+     * @return number of items .
+     * @throws ServiceException
+     */
+    int countAllItems() throws ServiceException;
+
     /**Counts only currently searched items in the storage.
      * @return number of items .
      * @throws ServiceException
      */
     int countItemsByLabel(String label) throws ServiceException;
+
+    /**
+     * Retrieves all possible dosage forms from dao layer
+     */
+    List<Dosage> getDosages() throws ServiceException;
 
     /**
      * Attempts to add a new dosage.

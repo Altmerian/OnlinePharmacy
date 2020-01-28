@@ -58,6 +58,8 @@
                 <div class="dropdown-menu" aria-labelledby="dropdown3">
                     <a class="dropdown-item" href="${pageContext.request.contextPath}/controller?command=view-add-item">
                         <fmt:message key="button.item.add"/></a>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath}/controller?command=view-add-company">
+                        <fmt:message key="button.company.add"/></a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="${pageContext.request.contextPath}/controller?command=view-catalog&page_number=1&limit=10">
                             <fmt:message key="link.view.catalog"/></a>

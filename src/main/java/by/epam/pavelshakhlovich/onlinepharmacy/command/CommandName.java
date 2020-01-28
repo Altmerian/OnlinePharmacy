@@ -14,6 +14,7 @@ public enum CommandName {
     ADD_ITEM(false, UserRole.MANAGER, UserRole.ADMIN),
     ADD_ITEM_TO_SHOPPING_CART(false, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER),
     ADD_COMPANY(false, UserRole.ADMIN, UserRole.MANAGER),
+    ADD_COUNTRY(false, UserRole.ADMIN, UserRole.MANAGER),
     ADD_DOSAGE(false, UserRole.ADMIN, UserRole.MANAGER),
     CHANGE_LOCALE(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER,UserRole.DOCTOR),
     CLEAR_SHOPPING_CART(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER),
@@ -24,6 +25,7 @@ public enum CommandName {
     UNKNOWN(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     VIEW_ITEM(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     VIEW_ADD_ITEM(true,  UserRole.MANAGER, UserRole.ADMIN),
+    VIEW_ADD_COMPANY(true,  UserRole.MANAGER, UserRole.ADMIN),
     VIEW_CATALOG(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     VIEW_SHOPPING_CART(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR);
 

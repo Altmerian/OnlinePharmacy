@@ -1,10 +1,9 @@
-package by.epam.pavelshakhlovich.onlinepharmacy.command.impl;
+package by.epam.pavelshakhlovich.onlinepharmacy.command.impl.company;
 
 import by.epam.pavelshakhlovich.onlinepharmacy.command.Command;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.CommandException;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Path;
-import by.epam.pavelshakhlovich.onlinepharmacy.entity.Company;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.CompanyService;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ServiceException;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.impl.CompanyServiceImpl;
@@ -15,29 +14,26 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Class {@code AddCompanyCommand} is an admin-only implementation of {@see Command}
- * for adding new company into the data source
+ * Class {@code AddCountryCommand} is an admin-only implementation of {@see Command}
+ * for adding new country into the data source
  */
-public class AddCompanyCommand implements Command {
+public class AddCountryCommand implements Command {
 
     private static final CompanyService companyService = new CompanyServiceImpl();
 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        Company company = new Company();
-        company.setName(request.getParameter(Parameter.MANUFACTURER_NAME));
-        company.setCountryId(Long.parseLong(request.getParameter(Parameter.COUNTRY_ID)));
-        company.setWebsite(request.getParameter(Parameter.WEBSITE));
+        String country = request.getParameter(Parameter.COUNTRY);
         HttpSession session = request.getSession();
         try {
-            if (companyService.addCompany(company)) {
-                session.setAttribute(Parameter.SUCCESS_MESSAGE, Boolean.TRUE);
-                session.setAttribute(Parameter.COMPANY, company);
+            if (companyService.addCountry(country)) {
+                session.setAttribute(Parameter.SUCCESS_COUNTRY_MESSAGE, Boolean.TRUE);
+                session.setAttribute(Parameter.COUNTRY, country);
             } else {
-                session.setAttribute(Parameter.ERROR_MESSAGE, Boolean.TRUE);
+                session.setAttribute(Parameter.ERROR_COUNTRY_MESSAGE, Boolean.TRUE);
             }
         } catch (ServiceException e) {
-            throw LOGGER.throwing(Level.ERROR, new CommandException("Failed to add new company to database", e));
+            throw LOGGER.throwing(Level.ERROR, new CommandException("Failed to add new dosage to database", e));
         }
        return new Path(false, request.getHeader(Parameter.REFERER));
     }

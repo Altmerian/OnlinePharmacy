@@ -43,7 +43,14 @@
         <c:set var="success_message" scope="session" value="false"/>
     </c:if>
     <!-- Page navigation -->
-    <c:set var="number_of_pages" value="${requestScope.number_of_items div param.limit + 1}"/>
+     <c:choose>
+        <c:when test="${requestScope.number_of_items == 10}">
+            <c:set var="number_of_pages" value="1"/>
+        </c:when>
+        <c:otherwise>
+            <c:set var="number_of_pages" value="${requestScope.number_of_items div param.limit + 1}"/>
+        </c:otherwise>
+    </c:choose>
     <div class="page-btns" style="padding: 10px;">
         <span><fmt:message key="text.numberOfItems.onPage"/>:</span>
         <form style="display: inline-block" role="form" action="controller" method="get">

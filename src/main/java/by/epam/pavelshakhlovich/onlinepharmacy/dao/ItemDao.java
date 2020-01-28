@@ -13,11 +13,11 @@ public interface ItemDao extends BaseDao<Item> {
     /**
      * Retrieves an item with given id.
      *
-     * @param label    item's label
-     * @param dosageId item's dosage ID
-     * @param volume   item's volume
-     * @param volumeType   item's volume type
-     * @param manufacturerId   item's manufacturer ID
+     * @param label          item's label
+     * @param dosageId       item's dosage ID
+     * @param volume         item's volume
+     * @param volumeType     item's volume type
+     * @param manufacturerId item's manufacturer ID
      * @return Item with corresponding label,dosage and volume and other parameters or {@code null} if such item doesn't exist
      * @throws DaoException if failed to retrieve data from the storage due to technical problems
      */
@@ -34,6 +34,14 @@ public interface ItemDao extends BaseDao<Item> {
      * @throws DaoException
      */
     List<Item> selectItemsByLabel(String label, int offset, int limit) throws DaoException;
+
+    /**
+     * Counts all items in the storage.
+     *
+     * @return number of items .
+     * @throws DaoException
+     */
+    int countAllItems() throws DaoException;
 
     /**
      * Counts only currently searched items in the storage.

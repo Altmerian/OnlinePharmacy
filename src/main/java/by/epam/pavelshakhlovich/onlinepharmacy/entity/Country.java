@@ -9,7 +9,6 @@ public class Country implements Serializable { //probably might be removed
     private static final long serialVersionUID = -159247625672138922L;
     private long id;
     private String name;
-    private String codeAlpha3;
 
     public long getId() {
         return id;
@@ -27,14 +26,6 @@ public class Country implements Serializable { //probably might be removed
         this.name = name;
     }
 
-    public String getCodeAlpha3() {
-        return codeAlpha3;
-    }
-
-    public void setCodeAlpha3(String codeAlpha3) {
-        this.codeAlpha3 = codeAlpha3;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -49,17 +40,14 @@ public class Country implements Serializable { //probably might be removed
         if (id != country.id) {
             return false;
         }
-        if (!name.equals(country.name)) {
-            return false;
-        }
-        return codeAlpha3 != null ? codeAlpha3.equals(country.codeAlpha3) : country.codeAlpha3 == null;
+
+        return !name.equals(country.name);
     }
 
     @Override
     public int hashCode() {
         int result = Long.hashCode(id);
         result = 31 * result + name.hashCode();
-        result = 31 * result + (codeAlpha3 != null ? codeAlpha3.hashCode() : 0);
         return result;
     }
 }

@@ -26,26 +26,51 @@
 <header>
     <ctg:header/>
 </header>
-<div class="container col-sm-8 mx-auto mt-1">
-    <div class="container col-sm-6 text-center">
-        <h4><fmt:message key="text.addItem"/></h4>
-    </div>
+<div class="container col-sm-8 mx-auto mt-2">
     <!-- Messages -->
     <c:if test="${sessionScope.success_message}">
         <div class="alert alert-success" role="alert">
-            <fmt:message key="message.item.add.success"/> : <a class="alert-link"
-            href="${pageContext.request.contextPath}/controller?command=view_item&id=${sessionScope.item.id}"> ${sessionScope.item.label}</a>
+            <fmt:message key="message.item.add.success"/> : ${sessionScope.item.label}</a>
         </div>
         <c:set var="success_message" value="false" scope="session"/>
     </c:if>
     <c:if test="${sessionScope.error_message}">
-        <div class="alert alert-warning" role="alert"">
+        <div class="alert alert-warning" role="alert">
             <fmt:message key="message.item.add.error"/>
         </div>
         <c:set var="error_message" value="false" scope="session"/>
     </c:if>
-    <!-- Form -->
-    <form action="controller" method="POST">
+    <c:if test="${sessionScope.success_dosage_message}">
+        <div class="alert alert-success" role="alert">
+            <fmt:message key="message.dosage.add.success"/> : ${dosage}</a>
+        </div>
+        <c:set var="success_dosage_message" value="false" scope="session"/>
+    </c:if>
+    <c:if test="${sessionScope.error_dosage_message}">
+        <div class="alert alert-warning" role="alert">
+            <fmt:message key="message.dosage.add.error"/>
+        </div>
+        <c:set var="error_dosage_message" value="false" scope="session"/>
+    </c:if>
+    <!-- Dosage Form -->
+    <form id="newDosage" action="controller" method="POST">
+        <input type="hidden" name="command" value="add_dosage">
+        <div class="input-group">
+            <input class="form-control" type="text" name="dosage" aria-describedby="dosageHelp" placeholder="<fmt:message 
+                key="text.enter.dosage.name"/>"/>
+            <div class="input-group-append">
+                <button class="btn btn-outline-primary" type="submit" form="newDosage"><fmt:message
+                key="button.add"/></button>
+            </div>
+        </div>
+        <small id="dosageHelp" class="form-text text-muted"><fmt:message 
+                key="text.new.dosage.help"/></small>
+    </form>
+    <!-- Item Form -->
+    <div class="container col-sm-6 text-center">
+        <h5><fmt:message key="text.addItem"/></h5>
+    </div>
+    <form id="item" action="controller" method="POST">
         <input type="hidden" name="command" value="add-item"/>
         <input type="hidden" name="from" value="${pageContext.request.requestURI}"/>
         <div class="form-group">
@@ -55,7 +80,7 @@
             <input type="text" id="label" name="label" class="form-control"
                    placeholder="<fmt:message key="text.label"/>" required/>
         </div>
-        <div class="form-group">
+        <div class=" form-group">
             <label for="sel1">
                 <fmt:message key="text.dosage"/>:
             </label>
@@ -65,6 +90,7 @@
                 </c:forEach>
             </select>
         </div>
+        
         <div class="form-group">
             <label for="volume">
                 <fmt:message key="text.volume"/>:
@@ -83,15 +109,23 @@
                 </c:forEach>
             </select>
         </div>
-        <div class="form-group">
-            <label for="sel3">
-                <fmt:message key="text.manufacturer"/>:
-            </label>
-            <select name="manufacturer_id" class="form-control" id="sel3">
-                <c:forEach var="company" items="${companies}">
-                    <option value="${company.id}"> ${company.name}</option>
-                </c:forEach>
-            </select>
+        <!--Manufacturer-->
+        <div class="row">
+            <div class="col-sm-8 form-group">
+                <label for="sel3">
+                    <fmt:message key="text.manufacturer"/>:
+                </label>
+                <select name="manufacturer_id" class="form-control" id="sel3">
+                    <c:forEach var="company" items="${companies}">
+                        <option value="${company.id}"> ${company.name}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="col-sm-4 mt-4">
+                <label for="newManufacturer"></label> 
+                <a class="btn btn-secondary" id="newManufacturer" href="${pageContext.request.contextPath}/controller?command=view-add-company" role="button">
+                <fmt:message key="button.company.add"/></a>
+            </div>
         </div>
         <div class="form-group">
             <label for="price">
@@ -111,11 +145,10 @@
                 <fmt:message key="text.description"/>:
             </label>
             <textarea class="form-control" rows="5" id="description" name="description"
-                      placeholder="<fmt:message key="text.description"/> ">
-            </textarea>
+                      placeholder="<fmt:message key="text.description"/>"></textarea>
         </div>
         <div style="padding: 10px 10px 0 0">
-            <input class="btn btn-primary" type="submit" value="<fmt:message key="button.item.add"/>"/>
+            <input class="btn btn-primary" form="item" type="submit" value="<fmt:message key="button.item.add"/>"/>
         </div>
     </form>
 </div>

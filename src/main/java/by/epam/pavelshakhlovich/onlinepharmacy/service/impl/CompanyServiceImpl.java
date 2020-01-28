@@ -4,6 +4,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.dao.CompanyDao;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.DaoException;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.impl.CompanyDaoSQLImpl;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Company;
+import by.epam.pavelshakhlovich.onlinepharmacy.entity.Country;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.CompanyService;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ServiceException;
 import org.apache.logging.log4j.Level;
@@ -21,6 +22,19 @@ public class CompanyServiceImpl implements CompanyService {
     private static final CompanyDao companyDao = new CompanyDaoSQLImpl();
 
     @Override
+    public boolean addCompany(Company company) throws ServiceException {
+        try {
+            if (companyDao.getCompanyByNameAndCountry(company.getName(), company.getCountryId()) != null) {
+                return false;
+            } else {
+                return companyDao.create(company);
+            }
+        } catch (DaoException e) {
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
+        }
+    }
+
+    @Override
     public List<Company> getCompanyList() throws ServiceException {
         try {
             return companyDao.getCompanyList();
@@ -30,12 +44,21 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public boolean addCompany(Company company) throws ServiceException {
+    public List<Country> getCountries() throws ServiceException {
         try {
-            if (companyDao.getCompanyByNameAndCountry(company.getName(), company.getCountryId()) != null) {
+            return companyDao.getCountries();
+        } catch (DaoException e) {
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
+        }
+    }
+
+    @Override
+    public boolean addCountry(String country) throws ServiceException {
+        try {
+            if (companyDao.getCountryByName(country) != null) {
                 return false;
             } else {
-                return companyDao.create(company);
+                return companyDao.addCountry(country);
             }
         } catch (DaoException e) {
             throw LOGGER.throwing(Level.ERROR, new ServiceException(e));

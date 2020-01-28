@@ -30,7 +30,7 @@ public class ViewCatalogCommand implements Command {
         try {
             List<Item> itemList = itemService.selectAllItems(offset, limit);
             request.setAttribute(Parameter.ITEMS, itemList);
-            request.setAttribute(Parameter.NUMBER_OF_ITEMS, itemList.size());
+            request.setAttribute(Parameter.NUMBER_OF_ITEMS, itemService.countAllItems());
         } catch ( ServiceException e) {
             throw LOGGER.throwing(Level.ERROR, new CommandException(e));
         }

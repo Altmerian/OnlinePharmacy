@@ -45,6 +45,14 @@
         <url-pattern>/add-item</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>add-company</servlet-name>
+        <jsp-file>/WEB-INF/jsp/catalog/add-company.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>add-company</servlet-name>
+        <url-pattern>/add-company</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>view-item</servlet-name>
         <jsp-file>/WEB-INF/jsp/catalog/view-item.jsp</jsp-file>
     </servlet>

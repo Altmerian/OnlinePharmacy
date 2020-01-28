@@ -1,9 +1,11 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.command;
 
 
-import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.AddCompanyCommand;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.company.AddCompanyCommand;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.ChangeLocaleCommand;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.UnknownCommand;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.company.AddCountryCommand;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.company.ViewAddCompanyCommand;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.item.*;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.shoppingcart.AddItemToCart;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.shoppingcart.ClearShoppingCart;
@@ -33,6 +35,7 @@ public class CommandFactory {
         commandMap.put(CommandName.ADD_ITEM, new AddItemCommand());
         commandMap.put(CommandName.ADD_ITEM_TO_SHOPPING_CART, new AddItemToCart());
         commandMap.put(CommandName.ADD_COMPANY, new AddCompanyCommand());
+        commandMap.put(CommandName.ADD_COUNTRY, new AddCountryCommand());
         commandMap.put(CommandName.ADD_DOSAGE, new AddDosageCommand());
         commandMap.put(CommandName.REMOVE_ITEM_FROM_SHOPPING_CART, new RemoveItemFromCart());
         commandMap.put(CommandName.CHANGE_LOCALE, new ChangeLocaleCommand());
@@ -41,6 +44,7 @@ public class CommandFactory {
         commandMap.put(CommandName.LOGOUT, new LogoutCommand());
         commandMap.put(CommandName.REGISTER, new RegisterCommand());
         commandMap.put(CommandName.VIEW_ADD_ITEM, new ViewAddItemCommand());
+        commandMap.put(CommandName.VIEW_ADD_COMPANY, new ViewAddCompanyCommand());
         commandMap.put(CommandName.VIEW_ITEM, new ViewItemCommand());
         commandMap.put(CommandName.VIEW_CATALOG, new ViewCatalogCommand());
         commandMap.put(CommandName.VIEW_SHOPPING_CART, new ViewShoppingCart());

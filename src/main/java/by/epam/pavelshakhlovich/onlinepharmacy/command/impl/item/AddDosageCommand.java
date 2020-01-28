@@ -27,10 +27,10 @@ public class AddDosageCommand implements Command {
         HttpSession session = request.getSession();
         try {
             if (itemService.addDosage(dosage)) {
-                session.setAttribute(Parameter.SUCCESS_MESSAGE, Boolean.TRUE);
+                session.setAttribute(Parameter.SUCCESS_DOSAGE_MESSAGE, Boolean.TRUE);
                 session.setAttribute(Parameter.DOSAGE, dosage);
             } else {
-                session.setAttribute(Parameter.ERROR_MESSAGE, Boolean.TRUE);
+                session.setAttribute(Parameter.ERROR_DOSAGE_MESSAGE, Boolean.TRUE);
             }
         } catch (ServiceException e) {
             throw LOGGER.throwing(Level.ERROR, new CommandException("Failed to add new dosage to database", e));

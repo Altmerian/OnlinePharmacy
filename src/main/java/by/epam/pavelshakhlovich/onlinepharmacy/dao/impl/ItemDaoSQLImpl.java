@@ -21,7 +21,6 @@ import java.util.List;
  */
 public class ItemDaoSQLImpl implements ItemDao {
 
-    private static final String SELECT_DOSAGES = "SELECT id, name FROM dosages";
     private static final String SELECT_ITEM_BY_ID = "SELECT d.id, d.label, d.dosage_id, dos.name AS dosage, " +
             "d.volume, d.volume_type, d.manufacturer_id, m.name AS manufacturer_name, d.price, " +
             "d.by_prescription, d.description FROM drugs d " +
@@ -58,63 +57,13 @@ public class ItemDaoSQLImpl implements ItemDao {
             "WHERE d.label = ? " +
             "ORDER BY dos.name " +
             "LIMIT ?,?";
+    private static final String COUNT_ALL_ITEMS = "SELECT COUNT(*) AS number_of_items FROM drugs";
     private static final String COUNT_ITEMS_BY_LABEL = "SELECT COUNT(*) FROM drugs" +
             "  GROUP BY label" +
             "  HAVING label = ?";
+    private static final String SELECT_DOSAGES = "SELECT id, name FROM dosages";
     private static final String SELECT_DOSAGE_BY_NAME = "SELECT dos.id, dos.name FROM dosages dos WHERE dos.name = ?";
     private static final String INSERT_DOSAGE = "INSERT INTO dosages (name) VALUES(?)";
-
-    @Override
-    public List<Dosage> getDosages() throws DaoException {
-        List<Dosage> dosages = new ArrayList<>();
-        Connection cn = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            cn = ConnectionPool.getInstance().getConnection();
-            preparedStatement = cn.prepareStatement(SELECT_DOSAGES);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.isBeforeFirst()) {
-                while (resultSet.next()) {
-                    Dosage dosage = new Dosage();
-                    dosage.setId(resultSet.getLong(1));
-                    dosage.setName(resultSet.getString(2));
-                    dosages.add(dosage);
-                }
-            }
-        } catch (ConnectionPoolException | SQLException e) {
-            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
-        } finally {
-            closeResources(cn, preparedStatement, resultSet);
-        }
-        return dosages;
-    }
-
-    @Override
-    public Dosage getDosageByName(String dosageName) throws DaoException {
-        Connection cn = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            cn = ConnectionPool.getInstance().getConnection();
-            preparedStatement = cn.prepareStatement(SELECT_DOSAGE_BY_NAME);
-            preparedStatement.setString(1, dosageName);
-            resultSet = preparedStatement.executeQuery();
-            if (!resultSet.isBeforeFirst()) {
-                return null;
-            }
-            resultSet.next();
-            Dosage dosage = new Dosage();
-            dosage.setId(resultSet.getLong(Parameter.ID));
-            dosage.setName(resultSet.getString(Parameter.NAME));
-            return dosage;
-        } catch (ConnectionPoolException | SQLException e) {
-            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
-        } finally {
-            closeResources(cn, preparedStatement, resultSet);
-        }
-    }
 
     @Override
     public Item selectById(long id) throws DaoException {
@@ -223,6 +172,27 @@ public class ItemDaoSQLImpl implements ItemDao {
 
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
+        } finally {
+            closeResources(cn, preparedStatement, resultSet);
+        }
+    }
+
+    @Override
+    public int countAllItems() throws DaoException {
+        Connection cn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            cn = ConnectionPool.getInstance().getConnection();
+            preparedStatement = cn.prepareStatement(COUNT_ALL_ITEMS);
+            resultSet = preparedStatement.executeQuery();
+            if (!resultSet.isBeforeFirst()) {
+                return 0;
+            }
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (ConnectionPoolException | SQLException e) {
+            throw new DaoException(e);
         } finally {
             closeResources(cn, preparedStatement, resultSet);
         }
@@ -344,6 +314,58 @@ public class ItemDaoSQLImpl implements ItemDao {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
             closeResources(cn, preparedStatement);
+        }
+    }
+
+    @Override
+    public List<Dosage> getDosages() throws DaoException {
+        List<Dosage> dosages = new ArrayList<>();
+        Connection cn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            cn = ConnectionPool.getInstance().getConnection();
+            preparedStatement = cn.prepareStatement(SELECT_DOSAGES);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.isBeforeFirst()) {
+                while (resultSet.next()) {
+                    Dosage dosage = new Dosage();
+                    dosage.setId(resultSet.getLong(1));
+                    dosage.setName(resultSet.getString(2));
+                    dosages.add(dosage);
+                }
+            }
+        } catch (ConnectionPoolException | SQLException e) {
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
+        } finally {
+            closeResources(cn, preparedStatement, resultSet);
+        }
+        return dosages;
+    }
+
+    @Override
+    public Dosage getDosageByName(String dosageName) throws DaoException {
+        Connection cn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            cn = ConnectionPool.getInstance().getConnection();
+            preparedStatement = cn.prepareStatement(SELECT_DOSAGE_BY_NAME);
+            preparedStatement.setString(1, dosageName);
+            resultSet = preparedStatement.executeQuery();
+            if (!resultSet.isBeforeFirst()) {
+                return null;
+            }
+            resultSet.next();
+            Dosage dosage = new Dosage();
+            dosage.setId(resultSet.getLong(Parameter.ID));
+            dosage.setName(resultSet.getString(Parameter.NAME));
+            return dosage;
+        } catch (ConnectionPoolException | SQLException e) {
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
+        } finally {
+            closeResources(cn, preparedStatement, resultSet);
         }
     }
 }

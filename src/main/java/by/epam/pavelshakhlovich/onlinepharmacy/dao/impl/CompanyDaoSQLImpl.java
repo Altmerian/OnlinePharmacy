@@ -6,6 +6,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.dao.DaoException;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPool;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPoolException;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Company;
+import by.epam.pavelshakhlovich.onlinepharmacy.entity.Country;
 import org.apache.logging.log4j.Level;
 
 import java.sql.Connection;
@@ -29,6 +30,9 @@ public class CompanyDaoSQLImpl implements CompanyDao {
             "WHERE m.name = ? AND c.id = ?";
     private static final String INSERT_COMPANY = "INSERT INTO manufacturers (name, country_id, website) " +
             "VALUES(?, ?, ?)";
+    private static final String SELECT_COUNTRIES = "SELECT id, name FROM countries";
+    private static final String SELECT_COUNTRY_BY_NAME = "SELECT c.id, c.name FROM countries c WHERE c.name = ?";
+    private static final String INSERT_COUNTRY = "INSERT INTO countries (name) VALUES(?)";
 
     @Override
     public List<Company> getCompanyList() throws DaoException {
@@ -110,7 +114,7 @@ public class CompanyDaoSQLImpl implements CompanyDao {
     }
 
     @Override
-    public boolean update(Company entity) throws DaoException {
+    public boolean update(Company company) throws DaoException {
         throw LOGGER.throwing(Level.ERROR, new UnsupportedOperationException());
     }
 
@@ -122,5 +126,74 @@ public class CompanyDaoSQLImpl implements CompanyDao {
     @Override
     public Company selectById(long id) throws DaoException {
         throw LOGGER.throwing(Level.ERROR, new UnsupportedOperationException());
+    }
+
+    @Override
+    public boolean addCountry(String country) throws DaoException {
+        Connection cn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            cn = ConnectionPool.getInstance().getConnection();
+            preparedStatement = cn.prepareStatement(INSERT_COUNTRY);
+            preparedStatement.setString(1, country);
+            int result = preparedStatement.executeUpdate();
+            return result > 0;
+        } catch (ConnectionPoolException | SQLException e) {
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
+        } finally {
+            closeResources(cn, preparedStatement);
+        }
+    }
+
+    @Override
+    public List<Country> getCountries() throws DaoException {
+        List<Country> countries = new ArrayList<>();
+        Connection cn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            cn = ConnectionPool.getInstance().getConnection();
+            preparedStatement = cn.prepareStatement(SELECT_COUNTRIES);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.isBeforeFirst()) {
+                while (resultSet.next()) {
+                    Country country = new Country();
+                    country.setId(resultSet.getLong(1));
+                    country.setName(resultSet.getString(2));
+                    countries.add(country);
+                }
+            }
+        } catch (ConnectionPoolException | SQLException e) {
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
+        } finally {
+            closeResources(cn, preparedStatement, resultSet);
+        }
+        return countries;
+    }
+
+    @Override
+    public Country getCountryByName(String countryName) throws DaoException {
+        Connection cn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            cn = ConnectionPool.getInstance().getConnection();
+            preparedStatement = cn.prepareStatement(SELECT_COUNTRY_BY_NAME);
+            preparedStatement.setString(1, countryName);
+            resultSet = preparedStatement.executeQuery();
+            if (!resultSet.isBeforeFirst()) {
+                return null;
+            }
+            resultSet.next();
+            Country country = new Country();
+            country.setId(resultSet.getLong(Parameter.ID));
+            country.setName(resultSet.getString(Parameter.NAME));
+            return country;
+        } catch (ConnectionPoolException | SQLException e) {
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
+        } finally {
+            closeResources(cn, preparedStatement, resultSet);
+        }
     }
 }

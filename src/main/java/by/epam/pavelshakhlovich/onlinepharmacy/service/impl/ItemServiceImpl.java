@@ -94,6 +94,15 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public int countAllItems() throws ServiceException {
+        try {
+            return itemDao.countAllItems();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
     public int countItemsByLabel(String label) throws ServiceException {
         try {
             return itemDao.countItemsByLabel(label);
