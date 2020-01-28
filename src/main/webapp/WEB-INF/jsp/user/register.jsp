@@ -26,7 +26,8 @@
 <header>
     <ctg:header/>
 </header>
-<div class="container col-sm-offset-2 col-sm-8">
+<div class="container col-sm-offset-2 col-sm-8 mt-1">
+    <!-- Messages -->
     <c:if test="${sessionScope.success_message}">
         <div class="alert alert-success" role="alert">
             <fmt:message key="message.register.success"/>: <c:out value="${sessionScope.user_name}"/>
@@ -42,6 +43,7 @@
     <div class="container mx-auto">
         <h4><fmt:message key="text.register"/>:</h4>
     </div>
+    <!-- Form -->
     <form action="/controller" method="POST">
         <input type="hidden" name="command" value="register"/>
         <div class="form-group">

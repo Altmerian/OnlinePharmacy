@@ -26,7 +26,8 @@
 <header>
     <ctg:header/>
 </header>
-<div class="container-fluid">
+<!-- Item -->
+<div class="container-fluid mt-5">
     <table class="table table-striped">
         <thead>
         <tr>
@@ -104,6 +105,7 @@
         </tbody>
     </table>
 </div>
+<!-- Messages -->
 <div class="container col-sm-6 text-center">
      <c:if test="${sessionScope.error_message}">
         <div class="alert alert-danger" role="alert">

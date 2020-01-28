@@ -26,10 +26,11 @@
 <header>
     <ctg:header/>
 </header>
-<div class="container col-sm-8 mx-auto mt-5">
+<div class="container col-sm-8 mx-auto mt-1">
     <div class="container col-sm-6 text-center">
         <h4><fmt:message key="text.addItem"/></h4>
     </div>
+    <!-- Messages -->
     <c:if test="${sessionScope.success_message}">
         <div class="alert alert-success" role="alert">
             <fmt:message key="message.item.add.success"/> : <a class="alert-link"
@@ -43,6 +44,7 @@
         </div>
         <c:set var="error_message" value="false" scope="session"/>
     </c:if>
+    <!-- Form -->
     <form action="controller" method="POST">
         <input type="hidden" name="command" value="add-item"/>
         <input type="hidden" name="from" value="${pageContext.request.requestURI}"/>

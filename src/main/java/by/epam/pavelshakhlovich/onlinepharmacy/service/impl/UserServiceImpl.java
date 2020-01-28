@@ -8,7 +8,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.entity.UserRole;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ServiceException;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.UserService;
 import by.epam.pavelshakhlovich.onlinepharmacy.util.Hasher;
-import by.epam.pavelshakhlovich.onlinepharmacy.util.Validator;
+import by.epam.pavelshakhlovich.onlinepharmacy.service.util.Validator;
 import by.epam.pavelshakhlovich.onlinepharmacy.util.SaltGenerator;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -45,7 +45,6 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
-
 
     @Override
     public boolean registerUser(User user) throws ServiceException {

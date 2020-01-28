@@ -2,11 +2,13 @@ package by.epam.pavelshakhlovich.onlinepharmacy.entity;
 
 import java.io.Serializable;
 
-public class Country implements Serializable {
+/**
+ * Class {@code Country} represents any country that can be used for a manufacturer identity
+ */
+public class Country implements Serializable { //probably might be removed
     private static final long serialVersionUID = -159247625672138922L;
     private long id;
-    private String shortName;
-    private String fullName;
+    private String name;
     private String codeAlpha3;
 
     public long getId() {
@@ -17,20 +19,12 @@ public class Country implements Serializable {
         this.id = id;
     }
 
-    public String getShortName() {
-        return shortName;
+    public String getName() {
+        return name;
     }
 
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getCodeAlpha3() {
@@ -55,10 +49,7 @@ public class Country implements Serializable {
         if (id != country.id) {
             return false;
         }
-        if (!shortName.equals(country.shortName)) {
-            return false;
-        }
-        if (fullName != null ? !fullName.equals(country.fullName) : country.fullName != null) {
+        if (!name.equals(country.name)) {
             return false;
         }
         return codeAlpha3 != null ? codeAlpha3.equals(country.codeAlpha3) : country.codeAlpha3 == null;
@@ -67,8 +58,7 @@ public class Country implements Serializable {
     @Override
     public int hashCode() {
         int result = Long.hashCode(id);
-        result = 31 * result + shortName.hashCode();
-        result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
+        result = 31 * result + name.hashCode();
         result = 31 * result + (codeAlpha3 != null ? codeAlpha3.hashCode() : 0);
         return result;
     }

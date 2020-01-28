@@ -29,8 +29,9 @@ public interface BaseDao<T> {
 
     /**
      * Returns a list of all entities from db
+     *
      * @param offset index of the first element on the page
-     * @param limit is a number of entities on the page
+     * @param limit  is a number of entities on the page
      * @return null if no entities were found
      * @throws DaoException if failed to retrieve data from the storage due to technical problems
      */
@@ -63,6 +64,12 @@ public interface BaseDao<T> {
      */
     boolean delete(long id) throws DaoException;
 
+    /**
+     * Closes all following resources
+     *
+     * @param connection        connection to data base
+     * @param preparedStatement statement
+     */
     default void closeResources(Connection connection, PreparedStatement preparedStatement) {
         try {
             if (preparedStatement != null) {
@@ -80,6 +87,13 @@ public interface BaseDao<T> {
         }
     }
 
+    /**
+     * Closes all following resources
+     *
+     * @param connection        connection to data base
+     * @param preparedStatement statement
+     * @param resultSet         query results
+     */
     default void closeResources(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet) {
         try {
             if (preparedStatement != null) {

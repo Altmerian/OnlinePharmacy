@@ -18,13 +18,16 @@
     <!-- Awesome icons -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <!-- Custom css -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/custom.css"/>
     <title>Shopping Cart</title>
 </head>
 <body>
 <header>
     <ctg:header/>
 </header>
-<div class="container col-sm-6 text-center">
+<!-- Shopping cart -->
+<div class="container col-sm-6 text-center mt-1">
     <h4><fmt:message key="title.shoppingCart"/>:</h4>
 </div>
     <c:set var="count" value="0" scope="page"/>
@@ -63,7 +66,7 @@
                             ${count}
                     </td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/controller?command=view-item&id=${entry.key.id}">
+                        <a class="badge badge-warning" href="${pageContext.request.contextPath}/controller?command=view-item&id=${entry.key.id}">
                             <b>${entry.key.label}</b> ${entry.key.dosage}, ${entry.key.volume} ${entry.key.volumeType}
                         </a>
                     </td>
@@ -113,8 +116,7 @@
                 <th></th>
                 <th> 
                     <div class="container col-sm-6 ml-0 pl-0">
-                        <a class="badge badge-danger" href="${pageContext.request.contextPath}/controller?command=clear_shopping_cart">
-                        Clear shopping cart</a>
+                        <a class="badge badge-danger" href="${pageContext.request.contextPath}/controller?command=clear_shopping_cart">Clear shopping cart</a>
                     </div>
                 </th>
             </tfoot>
@@ -129,6 +131,7 @@
         </form>
         </c:if>
     </div>
+<!-- Messages -->
 <div class="container col-sm-4 text-center">
     <c:if test="${sessionScope.success_message}">
         <div class="alert alert-success" role="alert">

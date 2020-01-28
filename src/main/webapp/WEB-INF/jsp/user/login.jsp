@@ -26,11 +26,12 @@
 <header>
     <ctg:header/>
 </header>
-<div class="container">
+<div class="container mt-5">
   <div class="container col-sm-offset-2 col-sm-8">
     <div class="container col-sm-8">
         <h4><fmt:message key="message.login"/></h4>
     </div>
+    <!-- Messages -->
     <div class="container col-sm-8">
     <c:if test="${sessionScope.error_message}">
         <div class="alert alert-danger" role="alert">
@@ -39,6 +40,7 @@
         <c:set var="error_message" value="false" scope="session"/>
     </c:if>
     </div>
+    <!-- Form -->
     <form method="POST" action="/controller">
         <input type="hidden" name="command" value="login"/>
         <input type="hidden" name="from" value="${pageContext.request.requestURI}"/>

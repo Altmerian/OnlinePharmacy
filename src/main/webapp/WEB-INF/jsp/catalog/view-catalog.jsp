@@ -27,22 +27,24 @@
 <header>
     <ctg:header/>
 </header>
+<!-- Messages -->
 <div class="container-fluid">
     <c:if test="${sessionScope.error_message}">
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger text-center" role="alert">
             <fmt:message key="message.item.add.error"/>
         </div>
         <c:set var="error_message" scope="session" value="false"/>
     </c:if>
     <c:if test="${sessionScope.success_message}">
-        <div class="alert alert-success" role="alert">
+        <div class="alert alert-success text-center" role="alert">
             <fmt:message key="message.item.add.success"/>
             <a href="${pageContext.request.contextPath}/controller?command=view_item&id=${sessionScope.item.id}"> ${sessionScope.item.label}</a>
         </div>
         <c:set var="success_message" scope="session" value="false"/>
     </c:if>
+    <!-- Page navigation -->
     <c:set var="number_of_pages" value="${requestScope.number_of_items div param.limit + 1}"/>
-    <div style="padding: 10px;">
+    <div class="page-btns" style="padding: 10px;">
         <span><fmt:message key="text.numberOfItems.onPage"/>:</span>
         <form style="display: inline-block" role="form" action="controller" method="get">
             <input type="hidden" name="command" value="view-catalog">
@@ -102,6 +104,7 @@
             </c:otherwise>
         </c:choose>
     </div>
+    <!-- Table -->
     <table class="table table-striped">
         <thead class="thead-light">
         <tr>

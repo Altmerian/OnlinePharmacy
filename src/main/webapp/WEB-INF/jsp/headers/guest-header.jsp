@@ -45,7 +45,7 @@
                 <input type="hidden" name="locale" value="en_US"/>
                 <input type="hidden" name="from" value="${pageContext.request.requestURI}?${pageContext.request.queryString}"/>
             </form>
-            <div class="btn-group btn-group-sm h-80 mr-2 mb-3 mt-1" role="group">
+            <div class="btn-group btn-group-sm mr-2 mb-3 mt-2" role="group">
                 <button type="submit" class="btn btn-secondary btn-sm" form="toRU"><fmt:message key="button.name.ru"/></>
                 <button type="submit" class="btn btn-secondary btn-sm" form="toEN"><fmt:message key="button.name.en"/></>
             </div>

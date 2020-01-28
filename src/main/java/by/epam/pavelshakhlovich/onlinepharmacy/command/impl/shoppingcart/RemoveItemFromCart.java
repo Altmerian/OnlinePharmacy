@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Class {@code RemoveItemFromOrderCommand} is animplementation of {@see Command}
- * for removing from the current order an earlier added item
+ * Class {@code RemoveItemFromCart} is an implementation of {@see Command}
+ * for removing from the current shopping cart an earlier added item
  */
 public class RemoveItemFromCart implements Command { //todo
 

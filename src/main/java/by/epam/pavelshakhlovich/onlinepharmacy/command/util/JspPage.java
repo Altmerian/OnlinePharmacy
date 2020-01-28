@@ -4,10 +4,8 @@ package by.epam.pavelshakhlovich.onlinepharmacy.command.util;
  * Contains names and paths of all possible jsp pages
  */
 public enum JspPage {
-    ROOT("/"),
     ADD_ITEM("/add-item"),
     ADMIN_HEADER("/WEB-INF/jsp/headers/admin-header.jsp"),
-    COMMON_HEADER("/WEB-INF/jsp/headers/common-header.jsp"),
     DOCTOR_HEADER("/WEB-INF/jsp/headers/doctor-header.jsp"),
     ERROR("/error"),
     GUEST_HEADER("/WEB-INF/jsp/headers/guest-header.jsp"),

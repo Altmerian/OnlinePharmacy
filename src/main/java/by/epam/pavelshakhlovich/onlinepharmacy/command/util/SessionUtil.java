@@ -2,7 +2,6 @@ package by.epam.pavelshakhlovich.onlinepharmacy.command.util;
 
 
 import by.epam.pavelshakhlovich.onlinepharmacy.model.ShoppingCart;
-import by.epam.pavelshakhlovich.onlinepharmacy.util.Cookie;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -1,4 +1,4 @@
-package by.epam.pavelshakhlovich.onlinepharmacy.util;
+package by.epam.pavelshakhlovich.onlinepharmacy.command.util;
 
 public enum Cookie {
     //1 month ttl

@@ -27,7 +27,8 @@
     <header>
         <ctg:header/>
     </header>
-    <div class="container col-sm-6 text-center">
+    <!-- Messages -->
+    <div class="container col-sm-6 mt-2 text-center">
     <c:if test="${sessionScope.success_message}">
         <div class="alert alert-success" role="alert">
             <fmt:message key="message.login.success"/> <b><c:out value=" ${sessionScope.user_name}"/></b>

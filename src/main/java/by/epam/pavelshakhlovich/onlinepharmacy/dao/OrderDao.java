@@ -30,7 +30,7 @@ public interface OrderDao extends BaseDao<Order> {
     List<Order> selectAllOrdersByStatus(List<String> statusList, int limit, int offset) throws DaoException;
 
     /**
-     * Selects a list of all orders with given status by all users
+     * Counts all orders with given status by all users
      *
      * @param statusList is a String list of statuses which orders could be
      * @return a list of orders

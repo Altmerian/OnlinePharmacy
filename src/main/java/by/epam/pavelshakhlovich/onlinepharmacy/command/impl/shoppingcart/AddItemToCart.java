@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Class {@code AddItemCommand} is an implementation of {@see Command}
+ * Class {@code AddItemToCart} is an implementation of {@see Command}
  * for adding a chosen item to shopping cart.
  */
 public class AddItemToCart implements Command {

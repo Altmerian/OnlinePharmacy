@@ -1,4 +1,4 @@
-package by.epam.pavelshakhlovich.onlinepharmacy.util;
+package by.epam.pavelshakhlovich.onlinepharmacy.service.util;
 
 
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
@@ -38,11 +38,11 @@ public class Validator {
         return checkString(email, REGEX_EMAIL);
     }
 
-    private static boolean checkString(String checkingString, Pattern regex) {
-        if (checkingString == null || checkingString.isEmpty() || regex == null) {
+    private static boolean checkString(String sourceString, Pattern regex) {
+        if (sourceString == null || sourceString.isEmpty() || regex == null) {
             return false;
         } else {
-            Matcher matcher = regex.matcher(checkingString.trim());
+            Matcher matcher = regex.matcher(sourceString.trim());
             return matcher.matches();
         }
     }
