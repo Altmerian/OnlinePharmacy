@@ -14,12 +14,13 @@ import org.apache.logging.log4j.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 
 /**
- * Class {@code SubmitOrderCommand} is an implementation of {@see Command}
- * for submitting the current order from shopping cart
+ * Class {@code CreateOrderCommand} is an implementation of {@see Command}
+ * for creating an order from current shopping cart
  */
-public class SubmitOrderCommand implements Command {
+public class CreateOrderCommand implements Command {
 
     private static OrderService orderService = new OrderServiceImpl();
 
@@ -30,16 +31,18 @@ public class SubmitOrderCommand implements Command {
         User user = (User) session.getAttribute(Parameter.USER);
         order.setUser(user);
         order.setUserId(user.getId());
-        //todo
+        double amount = Double.parseDouble(request.getParameter(Parameter.TOTAL_AMOUNT));
+        order.setAmount(BigDecimal.valueOf(amount));
         try {
             if (orderService.submitOrder(order)) {
                 request.getSession().setAttribute(Parameter.SUCCESS_MESSAGE, Boolean.TRUE);
+                return new Path(false, "/controller?command=view-order&id=" + order.getId());
             } else {
                 request.getSession().setAttribute(Parameter.ERROR_MESSAGE, Boolean.TRUE);
+                return new Path(false, request.getHeader(Parameter.REFERER));
             }
         } catch (ServiceException e) {
             throw LOGGER.throwing(Level.ERROR, new CommandException(e));
         }
-        return new Path(false, "/controller?command=view-order&order_id=" + order.getId());
     }
 }

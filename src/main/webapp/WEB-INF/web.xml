@@ -45,6 +45,14 @@
         <url-pattern>/view-order</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>view-orders</servlet-name>
+        <jsp-file>/WEB-INF/jsp/orders/view-orders.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>view-orders</servlet-name>
+        <url-pattern>/view-orders</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>add-item</servlet-name>
         <jsp-file>/WEB-INF/jsp/catalog/add-item.jsp</jsp-file>
     </servlet>

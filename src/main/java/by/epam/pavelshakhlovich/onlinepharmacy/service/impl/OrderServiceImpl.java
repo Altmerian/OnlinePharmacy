@@ -22,7 +22,7 @@ public class OrderServiceImpl implements OrderService {
     private static OrderDao orderDao = new OrderDaoSQLImpl();
 
     @Override
-    public List<Order> selectOrdersByUserId(User user, long userId, boolean isCanceled) throws ServiceException {
+    public List<Order> selectOrdersByUserId(User user, long userId) throws ServiceException {
         if (user.getId() == userId || user.getRole() == UserRole.ADMIN || user.getRole() == UserRole.MANAGER) {
             try {
                 return orderDao.selectOrdersByUserId(userId);
@@ -64,12 +64,12 @@ public class OrderServiceImpl implements OrderService {
         try {
             return orderDao.countOrdersByStatus(statusList);
         } catch (DaoException e) {
-            throw new ServiceException(e);
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }
     }
 
     @Override
-    public boolean createOrder(Order order) throws ServiceException {
+    public boolean submitOrder(Order order) throws ServiceException {
         try {
             return orderDao.create(order);
         } catch (DaoException e) {
@@ -91,6 +91,15 @@ public class OrderServiceImpl implements OrderService {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean cancelOrder(User user, long orderId) throws ServiceException {
+        try{
+            return orderDao.delete(orderId);
+        } catch(DaoException e){
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
+        }
     }
 
 }

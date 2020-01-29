@@ -123,7 +123,8 @@
     </table>
     <c:if test="${count != 0}">
     <form action="controller" method="post">
-        <input type="hidden" name="command" value="submit-order"/>
+        <input type="hidden" name="total_amount" value="${total_amount}"/>
+        <input type="hidden" name="command" value="submit_order"/>
         <div class="col-sm-4 mx-auto">
             <input type="submit" style="padding: 10px" class="btn btn-success btn-lg btn-block active"
                    value="<fmt:message key="button.order.submit"/> "/>

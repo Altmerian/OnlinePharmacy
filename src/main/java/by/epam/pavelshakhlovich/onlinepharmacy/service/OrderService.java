@@ -72,4 +72,13 @@ public interface OrderService {
      * @throws ServiceException if exception occurred on an underlying level
      */
     boolean updateOrderStatus(User user, String orderStatus, long orderId) throws ServiceException;
+
+    /**
+     * Cancel a specified order and delete it from data source
+     * @param orderId id of the order to cancel
+     * @param user user that requests the command
+     * @return {@code true} if operation was successful
+     * @throws ServiceException  if exception occurred on an underlying level
+     */
+    boolean cancelOrder(User user, long orderId) throws ServiceException;
 }

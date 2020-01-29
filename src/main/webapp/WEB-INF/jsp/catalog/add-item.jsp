@@ -131,7 +131,7 @@
             <label for="price">
                 <fmt:message key="text.price"/>:
             </label>
-            <input type="number" class="form-control" id="price" step="0.01" name="price"
+            <input type="number" class="
                    placeholder="<fmt:message key="text.price"/>"
             required/>
         </div>

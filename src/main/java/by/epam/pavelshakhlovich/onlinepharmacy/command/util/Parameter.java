@@ -42,6 +42,7 @@ public final class Parameter {
     public static final String NUMBER_OF_ITEMS = "number_of_items";
     public static final String OLD_QUANTITY = "old_quantity";
     public static final String ORDER = "order";
+    public static final String ORDER_ID = "order_id";
     public static final String CHANGE_QUANTITY = "change_quantity";
     public static final String PAGE_NUMBER = "page_number";
     public static final String PASSWORD = "password";
@@ -57,6 +58,7 @@ public final class Parameter {
     public static final String SUCCESS_MESSAGE = "success_message";
     public static final String SUCCESS_COUNTRY_MESSAGE = "success_country_message";
     public static final String SUCCESS_DOSAGE_MESSAGE = "success_dosage_message";
+    public static final String TOTAL_AMOUNT = "total_amount";
     public static final String USER = "user";
     public static final String USER_NAME = "user_name";
     public static final String VOLUME = "volume";

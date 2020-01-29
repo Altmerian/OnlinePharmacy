@@ -19,6 +19,7 @@ public enum JspPage {
     USER_HEADER("/WEB-INF/jsp/headers/user-header.jsp"),
     VIEW_CATALOG("/view-catalog"),
     VIEW_ORDER("/view-order"),
+    VIEW_ORDERS("/view-orders"),
     VIEW_ITEM ("/view-item");
 
     private String path;

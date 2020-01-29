@@ -7,6 +7,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPool;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPoolException;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Item;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Order;
+import org.apache.logging.log4j.Level;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,13 +15,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This implementation of {@see OrderDao} interface based on JDBC and MySQL.
  */
 
 public class OrderDaoSQLImpl implements OrderDao {
-
+    private static final String INSERT_ORDER = "INSERT INTO orders (customer_id, amount) VALUES (?,?)";
+    private static final String INSERT_DRUGS = "INSERT INTO drugs_ordered (order_id, drug_id, quantity) " +
+            "VALUES ((SELECT MAX(id) FROM orders),?,?)";
+    private static final String INSERT_EVENT = "INSERT INTO orders_events (order_id) VALUES ((SELECT MAX(id) FROM orders))";
     private static final String SELECT_USER_ORDERS = "SELECT id, date, amount, status" +
             " FROM orders" +
             " WHERE customer_id = ?" +
@@ -37,10 +42,48 @@ public class OrderDaoSQLImpl implements OrderDao {
             "WHERE o.status IN(?,?,?,?) " +
             "ORDER BY o.date DESC " +
             "LIMIT ?,?";
-    private static final String COUNT_ALL_ORDERS = "SELECT COUNT(o.id) AS count " +
+    private static final String COUNT_ORDERS = "SELECT COUNT(o.id) AS count " +
             "FROM orders o " +
             "WHERE o.status IN(?,?,?,?)";
     private static final String UPDATE_ORDER_STATUS = "UPDATE orders SET status = ? WHERE id = ?";
+
+    @Override
+    public boolean create(Order order) throws DaoException {
+        Connection cn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            cn = ConnectionPool.getInstance().getConnection();
+            cn.setAutoCommit(false);
+
+            preparedStatement = cn.prepareStatement(INSERT_ORDER);
+            preparedStatement.setLong(1, order.getUserId());
+            preparedStatement.setBigDecimal(2, order.getAmount());
+            int operation1 = preparedStatement.executeUpdate();
+
+            preparedStatement = cn.prepareStatement(INSERT_EVENT);
+            int operation2 = preparedStatement.executeUpdate();
+
+            preparedStatement = cn.prepareStatement(INSERT_DRUGS);
+            Map<Item, Integer> drugs = order.getItems();
+            for (Map.Entry<Item, Integer> drug : drugs.entrySet()) {
+                preparedStatement.setLong(1, drug.getKey().getId());
+                preparedStatement.setInt(2, drug.getValue());
+                preparedStatement.addBatch();
+            }
+            int operations3 = preparedStatement.executeBatch().length;
+            cn.commit();
+            return operation1 == 1 && operation2 == 1 && operations3 == drugs.size();
+        } catch (ConnectionPoolException | SQLException e) {
+            try {
+                if (cn != null) {
+                    rollback(cn);
+                }
+                throw LOGGER.throwing(Level.ERROR, new DaoException("Transaction wasn't finished", e));
+            } finally {
+                closeResources(cn, preparedStatement);
+            }
+        }
+    }
 
     @Override
     public List<Order> selectOrdersByUserId(long userId) throws DaoException {
@@ -153,7 +196,7 @@ public class OrderDaoSQLImpl implements OrderDao {
         ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
-            preparedStatement = cn.prepareStatement(COUNT_ALL_ORDERS);
+            preparedStatement = cn.prepareStatement(COUNT_ORDERS);
             for (int i = 2; i < statusList.size() + 2; i++) {
                 preparedStatement.setString(i, statusList.get(i - 2));
             }
@@ -188,9 +231,12 @@ public class OrderDaoSQLImpl implements OrderDao {
         }
     }
 
-    @Override
-    public boolean create(Order order) throws DaoException {
-        return false; //Todo
+    private void rollback(Connection connection) throws DaoException {
+        try {
+            connection.rollback();
+        } catch (SQLException e) {
+            throw new DaoException("Failed to roll back transaction", e);
+        }
     }
 
     @Override
@@ -205,6 +251,7 @@ public class OrderDaoSQLImpl implements OrderDao {
 
     @Override
     public boolean delete(long id) throws DaoException {
+        //todo
         throw new UnsupportedOperationException();
     }
 }

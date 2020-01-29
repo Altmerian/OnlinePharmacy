@@ -16,17 +16,21 @@ public enum CommandName {
     ADD_COMPANY(false, UserRole.ADMIN, UserRole.MANAGER),
     ADD_COUNTRY(false, UserRole.ADMIN, UserRole.MANAGER),
     ADD_DOSAGE(false, UserRole.ADMIN, UserRole.MANAGER),
+    CANCEL_ORDER(false,UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     CHANGE_LOCALE(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER,UserRole.DOCTOR),
     CLEAR_SHOPPING_CART(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER),
     LOGIN(false, UserRole.GUEST),
     LOGOUT(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     REGISTER(false, UserRole.GUEST, UserRole.ADMIN),
     REMOVE_ITEM_FROM_SHOPPING_CART(false, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER),
+    SUBMIT_ORDER(false,UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     UNKNOWN(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     VIEW_ITEM(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     VIEW_ADD_ITEM(true,  UserRole.MANAGER, UserRole.ADMIN),
     VIEW_ADD_COMPANY(true,  UserRole.MANAGER, UserRole.ADMIN),
     VIEW_CATALOG(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
+    VIEW_ORDER(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
+    VIEW_ORDERS(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     VIEW_SHOPPING_CART(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR);
 
     private boolean isGetAllowed;
