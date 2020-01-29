@@ -4,12 +4,10 @@ package by.epam.pavelshakhlovich.onlinepharmacy.entity;
  * Represents possible order's status.
  */
 public enum OrderStatus {
-    OPENED("opened"),
-    IN_PROCESS("in_process"),
-    PAYMENT_CONFIRMATION("payment_confirmation"),
-    PAID("paid"),
-    COMPLETED("completed"),
-    CANCELED ("canceled");
+    IN_PROCESS("В работе"),
+    PAYMENT_CONFIRMATION("Подтверждение оплаты"),
+    PAID("Оплачен"),
+    COMPLETED("Выполнен");
 
     private String status;
 

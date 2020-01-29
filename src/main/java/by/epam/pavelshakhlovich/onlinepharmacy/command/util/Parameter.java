@@ -41,6 +41,7 @@ public final class Parameter {
     public static final String NAME = "name";
     public static final String NUMBER_OF_ITEMS = "number_of_items";
     public static final String OLD_QUANTITY = "old_quantity";
+    public static final String ORDER = "order";
     public static final String CHANGE_QUANTITY = "change_quantity";
     public static final String PAGE_NUMBER = "page_number";
     public static final String PASSWORD = "password";

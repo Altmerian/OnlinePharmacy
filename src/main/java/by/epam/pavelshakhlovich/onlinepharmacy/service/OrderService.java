@@ -15,11 +15,10 @@ public interface OrderService {
      *
      * @param user       is user that request orders
      * @param userId     id of the user, owning the requested orders
-     * @param isCanceled defines what type of orders to select canceled or not
      * @return list of user's orders
      * @throws ServiceException if exception occurred on an underlying level
      */
-    List<Order> selectOrdersByUserId(User user, long userId, boolean isCanceled) throws ServiceException;
+    List<Order> selectOrdersByUserId(User user, long userId) throws ServiceException;
 
     /**
      * Retrieves an order with given id
@@ -61,7 +60,7 @@ public interface OrderService {
      * @return {@code true} if submitted successfully, {@code false} if order doesn't contain any items or failed to be submitted
      * @throws ServiceException if exception occurred on an underlying level
      */
-    boolean createOrder(Order order) throws ServiceException;
+    boolean submitOrder(Order order) throws ServiceException;
 
     /**
      * Update status of given order
