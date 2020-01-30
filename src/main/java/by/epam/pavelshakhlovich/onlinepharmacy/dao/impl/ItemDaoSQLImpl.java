@@ -286,20 +286,6 @@ public class ItemDaoSQLImpl implements ItemDao {
         }
     }
 
-    private void setItemParameters(Item item, ResultSet resultSet) throws SQLException {
-        item.setId(resultSet.getLong(Parameter.ID));
-        item.setLabel(resultSet.getString(Parameter.LABEL));
-        item.setDosageId(resultSet.getLong(Parameter.DOSAGE_ID));
-        item.setDosage(resultSet.getString(Parameter.DOSAGE));
-        item.setVolume(resultSet.getInt(Parameter.VOLUME));
-        item.setVolumeType(resultSet.getString(Parameter.VOLUME_TYPE));
-        item.setManufacturerId(resultSet.getLong(Parameter.MANUFACTURER_ID));
-        item.setManufacturerName(resultSet.getString(Parameter.MANUFACTURER_NAME));
-        item.setPrice(resultSet.getBigDecimal(Parameter.PRICE));
-        item.setByPrescription(resultSet.getBoolean(Parameter.BY_PRESCRIPTION));
-        item.setDescription(resultSet.getString(Parameter.DESCRIPTION));
-    }
-
     @Override
     public boolean addDosage(String dosage) throws DaoException {
         Connection cn = null;
@@ -367,5 +353,19 @@ public class ItemDaoSQLImpl implements ItemDao {
         } finally {
             closeResources(cn, preparedStatement, resultSet);
         }
+    }
+
+    private void setItemParameters(Item item, ResultSet resultSet) throws SQLException {
+        item.setId(resultSet.getLong(Parameter.ID));
+        item.setLabel(resultSet.getString(Parameter.LABEL));
+        item.setDosageId(resultSet.getLong(Parameter.DOSAGE_ID));
+        item.setDosage(resultSet.getString(Parameter.DOSAGE));
+        item.setVolume(resultSet.getInt(Parameter.VOLUME));
+        item.setVolumeType(resultSet.getString(Parameter.VOLUME_TYPE));
+        item.setManufacturerId(resultSet.getLong(Parameter.MANUFACTURER_ID));
+        item.setManufacturerName(resultSet.getString(Parameter.MANUFACTURER_NAME));
+        item.setPrice(resultSet.getBigDecimal(Parameter.PRICE));
+        item.setByPrescription(resultSet.getBoolean(Parameter.BY_PRESCRIPTION));
+        item.setDescription(resultSet.getString(Parameter.DESCRIPTION));
     }
 }

@@ -52,7 +52,8 @@ public class CreateOrderCommand implements Command {
             if (orderService.submitOrder(order)) {
                 SessionUtil.clearCurrentShoppingCart(request, response);
                 request.getSession().setAttribute(Parameter.SUCCESS_MESSAGE, Boolean.TRUE);
-                return new Path(true, "/controller?command=view-order&id=" + order.getId());
+                Order addedOrder = orderService.getLastAddedOrder(user.getId());
+                return new Path(true, "/controller?command=view-order&id=" + addedOrder.getId());
             } else {
                 request.getSession().setAttribute(Parameter.ERROR_MESSAGE, Boolean.TRUE);
                 return new Path(false, request.getHeader(Parameter.REFERER));

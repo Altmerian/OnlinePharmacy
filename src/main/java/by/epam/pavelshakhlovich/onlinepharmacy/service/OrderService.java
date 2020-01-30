@@ -81,4 +81,13 @@ public interface OrderService {
      * @throws ServiceException  if exception occurred on an underlying level
      */
     boolean cancelOrder(User user, long orderId) throws ServiceException;
+
+    /**
+     * Returns last added {@link Order} by a specified user
+     *
+     * @param userId     id of the user, owning the requested order
+     * @return added order
+     * @throws ServiceException if exception occurred on an underlying level
+     */
+    Order getLastAddedOrder(long userId) throws ServiceException;
 }

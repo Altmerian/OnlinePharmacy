@@ -35,6 +35,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Order getLastAddedOrder(long userId) throws ServiceException {
+        try {
+            return orderDao.getLastAddedOrder(userId);
+        } catch (DaoException e) {
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
+        }
+    }
+
+
+    @Override
     public Order selectOrderById(long orderId, User user) throws ServiceException {
         try {
             Order order = orderDao.selectById(orderId);
@@ -95,9 +105,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public boolean cancelOrder(User user, long orderId) throws ServiceException {
-        try{
+        try {
             return orderDao.delete(orderId);
-        } catch(DaoException e){
+        } catch (DaoException e) {
             throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }
     }

@@ -12,6 +12,15 @@ public interface OrderDao extends BaseDao<Order> {
     /**
      * Retrieves a list of all user's orders
      *
+     * @param userId     id of the user, owning the requested order
+     * @return added order
+     * @throws DaoException if failed to retrieve data from the storage due to technical problems
+     */
+    Order getLastAddedOrder(long userId) throws DaoException;
+
+    /**
+     * Retrieves a list of all user's orders
+     *
      * @param userId     id of the user
      * @return list of user's orders or {@code null} if user has none
      * @throws DaoException if failed to retrieve data from the storage due to technical problems

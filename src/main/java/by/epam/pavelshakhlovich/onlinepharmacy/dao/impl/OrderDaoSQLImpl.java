@@ -29,6 +29,10 @@ public class OrderDaoSQLImpl implements OrderDao {
             " FROM orders" +
             " WHERE customer_id = ?" +
             " ORDER BY id DESC ";
+    private static final String SELECT_LAST_ADDED = "SELECT MAX(id) AS id, date, amount, status" +
+            " FROM orders" +
+            " WHERE customer_id = ?";
+
     private static final String SELECT_ORDER_BY_ID = "SELECT o.id, o.customer_id, o.date, o.amount, o.status, " +
             "d.id AS drug_id, d.label, dos.name AS dosage, d.volume, d.volume_type, d.by_prescription, dro.quantity, dro.price FROM orders o " +
             "LEFT JOIN drugs_ordered dro ON o.id = dro.order_id " +
@@ -102,6 +106,31 @@ public class OrderDaoSQLImpl implements OrderDao {
     }
 
     @Override
+    public Order getLastAddedOrder(long userId) throws DaoException {
+        Connection cn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            cn = ConnectionPool.getInstance().getConnection();
+            preparedStatement = cn.prepareStatement(SELECT_LAST_ADDED);
+            preparedStatement.setLong(1, userId);
+            resultSet = preparedStatement.executeQuery();
+            if (!resultSet.isBeforeFirst()) {
+                return null;
+            }
+            Order order = new Order();
+            order.setUserId(userId);
+            resultSet.next();
+            setOrderParameters(resultSet, order);
+            return order;
+        } catch (ConnectionPoolException | SQLException e) {
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
+        } finally {
+            closeResources(cn, preparedStatement, resultSet);
+        }
+    }
+
+    @Override
     public List<Order> selectOrdersByUserId(long userId) throws DaoException {
         List<Order> orderList = new ArrayList<>();
         Connection cn = null;
@@ -117,10 +146,7 @@ public class OrderDaoSQLImpl implements OrderDao {
             }
             while (resultSet.next()) {
                 Order order = new Order();
-                order.setId(resultSet.getLong(Parameter.ID));
-                order.setDate(resultSet.getTimestamp(Parameter.DATE));
-                order.setAmount(resultSet.getBigDecimal(Parameter.AMOUNT));
-                order.setStatus(resultSet.getString(Parameter.STATUS));
+                setOrderParameters(resultSet, order);
                 orderList.add(order);
             }
             return orderList;
@@ -147,10 +173,7 @@ public class OrderDaoSQLImpl implements OrderDao {
             resultSet.next();
             Order order = new Order();
             order.setUserId(resultSet.getLong(Parameter.CUSTOMER_ID));
-            order.setId(resultSet.getLong(Parameter.ID));
-            order.setDate(resultSet.getTimestamp(Parameter.DATE));
-            order.setAmount(resultSet.getBigDecimal(Parameter.AMOUNT));
-            order.setStatus(resultSet.getString(Parameter.STATUS));
+            setOrderParameters(resultSet, order);
             do {
                 Item item = new Item();
                 item.setId(resultSet.getLong(Parameter.DRUG_ID));
@@ -196,12 +219,9 @@ public class OrderDaoSQLImpl implements OrderDao {
                 user.setLastName(resultSet.getString(Parameter.LAST_NAME));
                 user.setLogin(resultSet.getString(Parameter.LOGIN));
                 user.setAddress(resultSet.getString(Parameter.ADDRESS));
-                order.setId(resultSet.getLong(Parameter.ID));
                 order.setUser(user);
                 order.setUserId(resultSet.getLong(Parameter.CUSTOMER_ID));
-                order.setDate(resultSet.getTimestamp(Parameter.DATE));
-                order.setAmount(resultSet.getBigDecimal(Parameter.AMOUNT));
-                order.setStatus(resultSet.getString(Parameter.STATUS));
+                setOrderParameters(resultSet, order);
                 orderList.add(order);
             }
             return orderList;
@@ -252,6 +272,13 @@ public class OrderDaoSQLImpl implements OrderDao {
         } finally {
             closeResources(cn, preparedStatement);
         }
+    }
+
+    private void setOrderParameters(ResultSet resultSet, Order order) throws SQLException {
+        order.setId(resultSet.getLong(Parameter.ID));
+        order.setDate(resultSet.getTimestamp(Parameter.DATE));
+        order.setAmount(resultSet.getBigDecimal(Parameter.AMOUNT));
+        order.setStatus(resultSet.getString(Parameter.STATUS));
     }
 
     private void rollback(Connection connection) throws DaoException {
