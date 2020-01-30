@@ -26,9 +26,6 @@
 <header>
     <ctg:header/>
 </header>
-<div class="container col-sm-6 text-center mt-1">
-    <h4><fmt:message key="title.order"/> #${requestScope.order.id}</h4>
-</div>
 <c:set var="count" value="0" scope="page"/>
 <c:set var="total_quantity" value="0" scope="page"/>
 <c:set var="total_amount" value="0" scope="page"/>
@@ -50,24 +47,23 @@
     <div class="container col-sm-6 text-center mt-1">
         <h4><fmt:message key="title.order"/> #${requestScope.order.id}</h4>
     </div>
-    </c:if>
-        <c:choose>
-            <c:when test="${requestScope.order.status eq 'IN_PROCESS'}">
-                <span class="label label-info"><fmt:message key="text.order.processing"/></span>
-            </c:when>
-            <c:when test="${requestScope.order.status eq 'PAYMENT_CONFIRMATION'}">
-                <span class="label label-primary"><fmt:message key="text.order.payment"/></span>
-            </c:when>
-            <c:when test="${requestScope.order.status eq 'PAID'}">
-                <span class="label label-success"><fmt:message key="text.order.paid"/></span>
-            </c:when>
-            <c:when test="${requestScope.order.status eq 'COMPLETED'}">
-                <span class="label label-default"><fmt:message key="text.order.completed"/></span>
-            </c:when>
-        </c:choose>
+    <c:choose>
+        <c:when test="${requestScope.order.status eq 'in_process'}">
+            <span class="badge badge-info"><fmt:message key="text.order.processing"/></span>
+        </c:when>
+        <c:when test="${requestScope.order.status eq 'payment_confirmation'}">
+            <span class="badge badge-primary"><fmt:message key="text.order.payment"/></span>
+        </c:when>
+        <c:when test="${requestScope.order.status eq 'paid'}">
+            <span class="badge badge-success"><fmt:message key="text.order.paid"/></span>
+        </c:when>
+        <c:when test="${requestScope.order.status eq 'completed'}">
+            <span class="badge badge-default"><fmt:message key="text.order.completed"/></span>
+        </c:when>
+    </c:choose>
 
     <h4><fmt:message key="text.date"/>: <fmt:formatDate type="both" value="${requestScope.order.date}"/></h4>
-    <h4><fmt:message key="local.text.amount"/>:<b> <c:out value="${requestScope.order.amount}"/></b></h4>
+    <h4><fmt:message key="text.amount"/>:<b> <c:out value="${requestScope.order.amount}"/></b></h4>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -96,7 +92,7 @@
                     <c:out value="${count}"/>
                 </td>
                 <td>
-                    <a class="badge badge-warning" href=" href="${pageContext.request.contextPath}/controller?command=view-item&id=${entry.key.id}">
+                    <a href="${pageContext.request.contextPath}/controller?command=view-item&id=${entry.key.id}">
                         <b>${entry.key.label}</b> ${entry.key.dosage}, ${entry.key.volume} ${entry.key.volumeType}
                     </a>
                 </td>
@@ -115,43 +111,50 @@
         </c:forEach>
         </tbody>
     </table>
-    <c:if test="${sessionScope.user.role eq 'ADMIN' or sessionScope.user.role eq 'MANAGER'}">
-        <form class="form-inline inline" role="form" action="controller" method="post">
-            <div class="input-group">
-                <input type="hidden" name="command" value="change_order_status"/>
+    <div class="row">
+        <c:if test="${sessionScope.user.role eq 'ADMIN' or sessionScope.user.role eq 'MANAGER'}">
+        <div class="col">
+            <form class="form-inline" role="form" action="controller" method="post">
+                <div class="input-group">
+                    <input type="hidden" name="command" value="change_order_status"/>
+                    <input type="hidden" name="order_id" value="${requestScope.order.id}"/>
+                    <div class="form-group">
+                        <select class="selectpicker form-control" id="sel" name="status">
+                            <c:forEach var="status" items="${sessionScope.status_list}">
+                                <c:if test="${status ne order.status}">
+                                    <option value="${status}">${status}</option>
+                                </c:if>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" style="margin: 10px"
+                               class="btn btn-warning"
+                               value="<fmt:message key="button.order.change.status"/> "/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        </c:if>
+        <c:if test="${requestScope.order.status eq 'in_process'}">
+        <div class="col">
+            <form class="col-sm-6" action="controller" method="post">
+                <input type="hidden" name="command" value="pay-order"/>
                 <input type="hidden" name="order_id" value="${requestScope.order.id}"/>
-                <div class="form-group">
-                    <select class="selectpicker form-control" id="sel" name="status">
-                        <c:forEach var="status" items="${sessionScope.status_list}">
-                            <c:if test="${status ne requestScope.order.status}">
-                                <option value="${status}">${status}</option>
-                            </c:if>
-                        </c:forEach>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <input type="submit" style="margin: 10px"
-                           class="btn btn-warning"
-                           value="<fmt:message key="button.order.change.status"/> "/>
-                </div>
-
-            </div>
-        </form>
-    </c:if>
-    <c:if test="${requestScope.order.status eq 'IN_PROCESS'}">
-        <form class="form-inline inline" action="controller" method="post">
-            <input type="hidden" name="command" value="cancel_order"/>
-            <input type="hidden" name="order_id" value="${requestScope.order.id}"/>
-            <input type="submit" style="margin: 10px" class="btn btn-danger"
-                   value="<fmt:message key="button.order.cancel"/> "/>
-        </form>
-        <form class="form-inline inline" action="controller" method="post">
-            <input type="hidden" name="command" value="pay-order"/>
-            <input type="hidden" name="order_id" value="${requestScope.order.id}"/>
-            <input type="submit" style="margin: 10px" class="btn btn-success"
-                   value="<fmt:message key="button.order.pay"/> "/>
-        </form>
-    </c:if>
+                <input type="submit" style="margin: 10px" class="btn btn-success"
+                       value="<fmt:message key="button.order.pay"/> "/>
+            </form>
+        </div>
+        <div class="col">
+            <form class="col-sm-6" action="controller" method="post">
+                <input type="hidden" name="command" value="cancel_order"/>
+                <input type="hidden" name="order_id" value="${requestScope.order.id}"/>
+                <input type="submit" style="margin: 10px" class="btn btn-danger"
+                       value="<fmt:message key="button.order.cancel"/> "/>
+            </form>
+        </div>
+        </c:if>
+    </div>
 </div>
 </body>
 </html>

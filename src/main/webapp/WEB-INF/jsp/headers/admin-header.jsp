@@ -53,8 +53,8 @@
             </li>
             <!-- Catalog -->
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="dropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                    href="#"><fmt:message key="title.catalog"/></a>
+                <a class="nav-link dropdown-toggle" id="dropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" 
+                    aria-expanded="false" href="${pageContext.request.contextPath}/controller?command=view-catalog&page_number=1&limit=10"><fmt:message key="title.catalog"/></a>
                 <div class="dropdown-menu" aria-labelledby="dropdown3">
                     <a class="dropdown-item" href="${pageContext.request.contextPath}/controller?command=view-add-item">
                         <fmt:message key="button.item.add"/></a>

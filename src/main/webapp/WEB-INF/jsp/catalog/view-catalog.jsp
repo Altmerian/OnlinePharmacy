@@ -143,7 +143,7 @@
         <c:forEach var="item" items="${requestScope.items}">
             <tr>
                 <td>
-                    <a class="badge badge-warning" href="${pageContext.request.contextPath}/controller?command=view-item&id=${item.id}"><b>${item.label}</b></a>
+                    <a href="${pageContext.request.contextPath}/controller?command=view-item&id=${item.id}"><b>${item.label}</b></a>
                 </td>
                 <td>
                         ${item.dosage}

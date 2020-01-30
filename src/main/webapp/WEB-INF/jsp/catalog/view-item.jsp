@@ -58,7 +58,7 @@
         <tbody>
         <tr>
             <td>
-                ${item.label}
+                <b>${item.label}</b>
             </td>
             <td>
                 ${item.dosage}

@@ -147,7 +147,7 @@ public class Item implements Serializable {
         if (manufacturerId != item.manufacturerId) {
             return false;
         }
-        if (!manufacturerName.equals(item.manufacturerName)) {
+        if (manufacturerName != null ? !manufacturerName.equals(item.manufacturerName) : item.manufacturerName != null) {
             return false;
         }
 
@@ -166,7 +166,7 @@ public class Item implements Serializable {
         result = 31 * result + volume;
         result = 31 * result + volumeType.hashCode();
         result = 31 * result + Long.hashCode(manufacturerId);
-        result = 31 * result + manufacturerName.hashCode();
+        result = 31 * result + (manufacturerName != null ? manufacturerName.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
         result = 31 * result + (byPrescription ? 1 : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);

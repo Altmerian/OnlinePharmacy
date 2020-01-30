@@ -26,102 +26,72 @@
 <header>
     <ctg:header/>
 </header>
-<div class="container">
-    <c:if test="${sessionScope.access_denied}">
-        <div class="alert alert-danger">
-            <fmt:message key="message.access.denied"/>
-            <c:set var="access_denied" value="false" scope="session"/>
-        </div>
-    </c:if>
+<div class="container mt-2">
+    <!-- Messages -->
     <c:if test="${requestScope.orders == null}">
         <div class="alert alert-info">
             <fmt:message key="message.orders.null"/>
         </div>
     </c:if>
     <c:if test="${sessionScope.error_message}">
-        <div class="alert alert-info">
+        <div class="alert alert-info" role="alert">
             <fmt:message key="message.order.not.found"/>
             <c:set var="error_message" scope="session" value="false"/>
         </div>
     </c:if>
     <c:if test="${sessionScope.success_message}">
-        <div class="alert alert-success">
+        <div class="alert alert-success" role="alert">
             <fmt:message key="message.order.submitted"/>
             <c:set var="success_message" scope="session" value="false"/>
         </div>
     </c:if>
-    <div style="padding-bottom: 10px">
-        <c:choose>
-            <c:when test="${param.is_canceled eq false}">
-                <form role="form" class="inline" action="controller" method="get">
-                    <input type="hidden" name="command" value="view-orders"/>
-                    <input type="hidden" name="user_id" value="${param.user_id}"/>
-                    <input type="hidden" name="is_canceled" value="true"/>
-                    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>
-                        <fmt:message key="button.orders.show.canceled"/></button>
-                </form>
-            </c:when>
-            <c:otherwise>
-                <form role="form" class="inline" action="controller" method="get">
-                    <input type="hidden" name="command" value="view-orders"/>
-                    <input type="hidden" name="user_id" value="${param.user_id}"/>
-                    <input type="hidden" name="is_canceled" value="false"/>
-                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span>
-                        <fmt:message key="button.orders.show.all"/></button>
-                </form>
-            </c:otherwise>
-        </c:choose>
-    </div>
     <table class="table table-striped table-bordered">
         <thead>
-        <th class="col-sm-1">
-            #
-        </th>
-        <th class="col-sm-3">
-            <fmt:message key="text.date"/>
-        </th>
-        <th class="col-sm-3">
-            <fmt:message key="text.amount"/>
-        </th>
-        <th class="col-sm-3">
-            <fmt:message key="text.status"/>
-        </th>
-        <th class="col-sm-2"></th>
+            <th>
+                #
+            </th>
+            <th>
+                <fmt:message key="text.date"/>
+            </th>
+            <th>
+                <fmt:message key="text.amount"/>
+            </th>
+            <th>
+                <fmt:message key="text.status"/>
+            </th>
+            <th></th>
         </thead>
         <tbody>
         <c:forEach var="order" items="${requestScope.orders}">
-            <tr <c:if test="${order.canceled}">class="danger"</c:if>>
-                <td class="col-sm-1">
+            <tr>
+                <td>
                     <c:out value="${order.id}"/>
                 </td>
-                <td class="col-sm-3">
+                <td>
                     <fmt:formatDate type="both" value="${order.date}"/>
                 </td>
-                <td class="col-sm-3">
+                <td>
                     <c:out value="${order.amount}"/>
                 </td>
-                <td class="col-sm-3">
-                    <c:if test="${order.canceled}">
-                        <span class="label label-danger"><fmt:message key="text.order.canceled"/></span>
-                    </c:if>
+                <td>
                     <c:choose>
-                        <c:when test="${order.status eq 'в работе'}">
-                            <span class="label label-info"><fmt:message key="text.order.processing"/></span>
+                        <c:when test="${order.status eq 'in_process'}">
+                            <span class="badge badge-info"><fmt:message key="text.order.processing"/></span>
                         </c:when>
-                        <c:when test="${order.status eq 'к доставке'}">
-                            <span class="label label-primary"><fmt:message key="text.order.shipping"/></span>
+                        <c:when test="${order.status eq 'payment_confirmation'}">
+                            <span class="badge badge-primary"><fmt:message key="text.order.payment"/></span>
                         </c:when>
-                        <c:when test="${order.status eq 'выполнен'}">
-                            <span class="label label-success"><fmt:message key="text.order.completed"/></span>
+                        <c:when test="${order.status eq 'paid'}">
+                            <span class="badge badge-success"><fmt:message key="text.order.paid"/></span>
                         </c:when>
-                        <c:when test="${order.status eq 'открыт'}">
-                            <span class="label label-default"><fmt:message key="link.shopping.cart"/></span>
+                        <c:when test="${order.status eq 'completed'}">
+                            <span class="badge badge-default"><fmt:message key="text.order.completed"/></span>
                         </c:when>
                     </c:choose>
                 </td>
-                <td class="col-sm-2">
+                <td>
                     <a href="${pageContext.request.contextPath}/controller?command=view-order&id=${order.id}"
-                       class="btn btn-info" role="button"><fmt:message key="button.order.view"/> </a>
+                       class="btn btn-sm btn-info" role="button"><fmt:message key="button.order.view"/> </a>
                 </td>
             </tr>
         </c:forEach>

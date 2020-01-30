@@ -14,31 +14,34 @@ import org.apache.logging.log4j.Level;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import java.util.List;
 
 /**
- * Class {@code ViewOrderCommand} is a non-guest implementation of {@see Command}
- * for viewing given order
+ * Class {@code ViewOrdersCommand} is an implementation of {@see Command}
+ * for viewing different types of submitted orders for given user
  */
-
-public class ViewOrderCommand implements Command {
+public class ViewOrdersCommand implements Command {
 
     private static OrderService orderService = new OrderServiceImpl();
 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        long orderId = Long.parseLong(request.getParameter(Parameter.ID));
-        User user = (User) request.getSession().getAttribute(Parameter.USER);
+
+        User user = (User)request.getSession().getAttribute(Parameter.USER);
+        String userIdString = request.getParameter(Parameter.USER_ID);
+        long userId;
+        if (userIdString == null || userIdString.isEmpty()) {
+            userId = user.getId();
+        } else {
+            userId = Long.parseLong(request.getParameter(Parameter.USER_ID));
+        }
+        List<Order> orderList;
         try {
-            Order order = orderService.selectOrderById(orderId, user);
-            if (order == null) {
-                return new Path(false, request.getHeader(Parameter.REFERER));
-            } else {
-                request.setAttribute(Parameter.ORDER, order);
-                return new Path(true, JspPage.VIEW_ORDER.getPath());
-            }
+            orderList = orderService.selectOrdersByUserId(user, userId);
+            request.setAttribute(Parameter.ORDERS, orderList);
         } catch (ServiceException e) {
             throw LOGGER.throwing(Level.ERROR, new CommandException(e));
         }
+        return new Path(true, JspPage.VIEW_ORDERS.getPath());
     }
 }

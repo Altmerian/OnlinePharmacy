@@ -66,7 +66,7 @@
                         ${count}
                 </td>
                 <td>
-                    <a class="badge badge-warning" href="${pageContext.request.contextPath}/controller?command=view-item&id=${entry.key.id}">
+                    <a href="${pageContext.request.contextPath}/controller?command=view-item&id=${entry.key.id}">
                         <b>${entry.key.label}</b> ${entry.key.dosage}, ${entry.key.volume} ${entry.key.volumeType}
                     </a>
                 </td>

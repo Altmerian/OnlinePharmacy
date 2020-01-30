@@ -115,7 +115,7 @@ public class Order implements Serializable {
     @Override
     public int hashCode() {
         int result = Long.hashCode(id);
-        result = 31 * result + user.hashCode();
+        result = 31 * result + (user != null ? user.hashCode() : 0);
         result = 31 * result + Long.hashCode(userId);
         result = 31 * result + date.hashCode();
         result = 31 * result + amount.hashCode();

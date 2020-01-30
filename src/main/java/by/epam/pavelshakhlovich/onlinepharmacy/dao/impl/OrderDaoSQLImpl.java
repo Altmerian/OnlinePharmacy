@@ -7,6 +7,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPool;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPoolException;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Item;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Order;
+import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
 import org.apache.logging.log4j.Level;
 
 import java.sql.Connection;
@@ -22,29 +23,31 @@ import java.util.Map;
  */
 
 public class OrderDaoSQLImpl implements OrderDao {
-    private static final String INSERT_ORDER = "INSERT INTO orders (customer_id, amount) VALUES (?,?)";
-    private static final String INSERT_DRUGS = "INSERT INTO drugs_ordered (order_id, drug_id, quantity) " +
-            "VALUES ((SELECT MAX(id) FROM orders),?,?)";
-    private static final String INSERT_EVENT = "INSERT INTO orders_events (order_id) VALUES ((SELECT MAX(id) FROM orders))";
+    private static final String INSERT_ORDER = "INSERT INTO orders (customer_id, amount) VALUES (?, ?)";
+    private static final String INSERT_DRUGS = "INSERT INTO drugs_ordered (order_id, drug_id, quantity, price) " +
+            "VALUES ((SELECT MAX(id) FROM orders), ?, ?, ?)";
+    private static final String INSERT_EVENT = "INSERT INTO orders_events (order_id, order_status) " +
+            "SELECT MAX(id), status FROM orders ";
     private static final String SELECT_USER_ORDERS = "SELECT id, date, amount, status" +
             " FROM orders" +
             " WHERE customer_id = ?" +
             " ORDER BY id DESC ";
     private static final String SELECT_ORDER_BY_ID = "SELECT o.id, o.customer_id, o.date, o.amount, o.status, " +
-            "d.id AS drug_id, d.label, d.dosage, d.volume, d.volume_type, d.by_prescription, dro.quantity, dro.price FROM orders o " +
+            "d.id AS drug_id, d.label, dos.name AS dosage, d.volume, d.volume_type, d.by_prescription, dro.quantity, dro.price FROM orders o " +
             "LEFT JOIN drugs_ordered dro ON o.id = dro.order_id " +
             "LEFT JOIN drugs d ON dro.drug_id = d.id " +
+            "LEFT JOIN dosages dos ON d.dosage_id = dos.id " +
             "WHERE o.id = ? " +
             "ORDER BY d.label";
     private static final String SELECT_ALL_ORDERS_BY_STATUS = "SELECT o.id, o.customer_id, u.first_name, u.last_name, u.login, u.address, " +
             "o.date, o.amount, o.status FROM orders o " +
             "JOIN  users u ON o.customer_id = u.id " +
-            "WHERE o.status IN(?,?,?,?) " +
+            "WHERE o.status IN(?, ?, ?, ?) " +
             "ORDER BY o.date DESC " +
-            "LIMIT ?,?";
+            "LIMIT ?, ?";
     private static final String COUNT_ORDERS = "SELECT COUNT(o.id) AS count " +
             "FROM orders o " +
-            "WHERE o.status IN(?,?,?,?)";
+            "WHERE o.status IN(?, ?, ?, ?)";
     private static final String UPDATE_ORDER_STATUS = "UPDATE orders SET status = ? WHERE id = ?";
 
     @Override
@@ -68,6 +71,7 @@ public class OrderDaoSQLImpl implements OrderDao {
             for (Map.Entry<Item, Integer> drug : drugs.entrySet()) {
                 preparedStatement.setLong(1, drug.getKey().getId());
                 preparedStatement.setInt(2, drug.getValue());
+                preparedStatement.setBigDecimal(3, drug.getKey().getPrice());
                 preparedStatement.addBatch();
             }
             int operations3 = preparedStatement.executeBatch().length;
@@ -109,7 +113,7 @@ public class OrderDaoSQLImpl implements OrderDao {
             }
             return orderList;
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException(e);
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
             closeResources(cn, preparedStatement, resultSet);
         }
@@ -151,7 +155,7 @@ public class OrderDaoSQLImpl implements OrderDao {
             } while (resultSet.next());
             return order;
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException(e);
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
             closeResources(cn, preparedStatement, resultSet);
         }
@@ -174,8 +178,15 @@ public class OrderDaoSQLImpl implements OrderDao {
             }
             while (resultSet.next()) {
                 Order order = new Order();
-                order.setUserId(resultSet.getLong(Parameter.CUSTOMER_ID));
+                User user = new User();
+                user.setId(resultSet.getLong(Parameter.CUSTOMER_ID));
+                user.setFirstName(resultSet.getString(Parameter.FIRST_NAME));
+                user.setLastName(resultSet.getString(Parameter.LAST_NAME));
+                user.setLogin(resultSet.getString(Parameter.LOGIN));
+                user.setAddress(resultSet.getString(Parameter.ADDRESS));
                 order.setId(resultSet.getLong(Parameter.ID));
+                order.setUser(user);
+                order.setUserId(resultSet.getLong(Parameter.CUSTOMER_ID));
                 order.setDate(resultSet.getTimestamp(Parameter.DATE));
                 order.setAmount(resultSet.getBigDecimal(Parameter.AMOUNT));
                 order.setStatus(resultSet.getString(Parameter.STATUS));
@@ -183,7 +194,7 @@ public class OrderDaoSQLImpl implements OrderDao {
             }
             return orderList;
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException(e);
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
             closeResources(cn, preparedStatement, resultSet);
         }
@@ -207,7 +218,7 @@ public class OrderDaoSQLImpl implements OrderDao {
             resultSet.next();
             return resultSet.getInt(1);
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException(e);
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
             closeResources(cn, preparedStatement, resultSet);
         }
@@ -225,7 +236,7 @@ public class OrderDaoSQLImpl implements OrderDao {
             int result = preparedStatement.executeUpdate();
             return result > 0;
         } catch (ConnectionPoolException | SQLException e) {
-            throw new DaoException(e);
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
             closeResources(cn, preparedStatement);
         }
@@ -235,7 +246,7 @@ public class OrderDaoSQLImpl implements OrderDao {
         try {
             connection.rollback();
         } catch (SQLException e) {
-            throw new DaoException("Failed to roll back transaction", e);
+            throw LOGGER.throwing(Level.ERROR, new DaoException("Failed to roll back transaction", e));
         }
     }
 
