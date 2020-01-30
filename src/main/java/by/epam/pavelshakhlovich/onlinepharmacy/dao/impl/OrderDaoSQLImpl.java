@@ -10,10 +10,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.entity.Order;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
 import org.apache.logging.log4j.Level;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,9 +22,9 @@ import java.util.Map;
 public class OrderDaoSQLImpl implements OrderDao {
     private static final String INSERT_ORDER = "INSERT INTO orders (customer_id, amount) VALUES (?, ?)";
     private static final String INSERT_DRUGS = "INSERT INTO drugs_ordered (order_id, drug_id, quantity, price) " +
-            "VALUES ((SELECT MAX(id) FROM orders), ?, ?, ?)";
+            "VALUES (?, ?, ?, ?)";
     private static final String INSERT_EVENT = "INSERT INTO orders_events (order_id, order_status) " +
-            "SELECT MAX(id), status FROM orders ";
+            "SELECT id, status FROM orders WHERE ID = ?";
     private static final String SELECT_USER_ORDERS = "SELECT id, date, amount, status" +
             " FROM orders" +
             " WHERE customer_id = ?" +
@@ -58,25 +55,40 @@ public class OrderDaoSQLImpl implements OrderDao {
             cn = ConnectionPool.getInstance().getConnection();
             cn.setAutoCommit(false);
 
-            preparedStatement = cn.prepareStatement(INSERT_ORDER);
+            preparedStatement = cn.prepareStatement(INSERT_ORDER, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setLong(1, order.getUserId());
             preparedStatement.setBigDecimal(2, order.getAmount());
             int operation1 = preparedStatement.executeUpdate();
-
+            long orderId;
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    orderId = (generatedKeys.getLong(1));
+                } else {
+                    throw LOGGER.throwing(Level.ERROR, new DaoException("Transaction wasn't finished"));
+                }
+            }
             preparedStatement = cn.prepareStatement(INSERT_EVENT);
+            preparedStatement.setLong(1, orderId);
             int operation2 = preparedStatement.executeUpdate();
 
             preparedStatement = cn.prepareStatement(INSERT_DRUGS);
             Map<Item, Integer> drugs = order.getItems();
             for (Map.Entry<Item, Integer> drug : drugs.entrySet()) {
-                preparedStatement.setLong(1, drug.getKey().getId());
-                preparedStatement.setInt(2, drug.getValue());
-                preparedStatement.setBigDecimal(3, drug.getKey().getPrice());
+                preparedStatement.setLong(1, orderId);
+                preparedStatement.setLong(2, drug.getKey().getId());
+                preparedStatement.setInt(3, drug.getValue());
+                preparedStatement.setBigDecimal(4, drug.getKey().getPrice());
                 preparedStatement.addBatch();
             }
             int operations3 = preparedStatement.executeBatch().length;
-            cn.commit();
-            return operation1 == 1 && operation2 == 1 && operations3 == drugs.size();
+            boolean shouldCommit = operation1 == 1 && operation2 == 1 && operations3 == drugs.size();
+            if (shouldCommit) {
+                cn.commit();
+            } else {
+                rollback(cn);
+                LOGGER.error("Transaction wasn't finished because of unexpected results.");
+            }
+            return shouldCommit;
         } catch (ConnectionPoolException | SQLException e) {
             try {
                 if (cn != null) {

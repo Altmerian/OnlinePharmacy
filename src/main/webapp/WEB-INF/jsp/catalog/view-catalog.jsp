@@ -28,7 +28,7 @@
     <ctg:header/>
 </header>
 <!-- Messages -->
-<div class="container-fluid">
+<div class="container fluid mr-2">
     <c:if test="${sessionScope.error_message}">
         <div class="alert alert-danger text-center" role="alert">
             <fmt:message key="message.item.add.error"/>
@@ -171,14 +171,14 @@
                         <input type="hidden" name="item_id" value="${item.id}"/>
                         <input type="hidden" name="page_number" value="${param.page_number}"/>
                         <input type="hidden" name="limit" value="${param.limit}"/>
-                        <div class="form-group row">
+                        <div class="form-group">
                             <input type="number" min="1" max="200" name="quantity" value="1"/>
                             <input type="submit" class="btn btn-warning btn-sm"
                                    value="<fmt:message key="button.item.buy"/>"/>
                        </div>
                     </form>
                     <c:if test="${sessionScope.user.role eq 'ADMIN' or sessionScope.user.role eq 'MANAGER'}">
-                        <form class="form-inline ml-0" action="controller" method="get">
+                        <form class="form-inline" action="controller" method="get">
                             <input type="hidden" name="command" value="view-edit-item"/>
                             <input type="hidden" name="id" value="${item.id}"/>
                             <input type="submit" class="btn btn-success btn-sm"
