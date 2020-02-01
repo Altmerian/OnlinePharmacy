@@ -16,7 +16,10 @@ public enum CommandName {
     ADD_COMPANY(false, UserRole.ADMIN, UserRole.MANAGER),
     ADD_COUNTRY(false, UserRole.ADMIN, UserRole.MANAGER),
     ADD_DOSAGE(false, UserRole.ADMIN, UserRole.MANAGER),
-    CANCEL_ORDER(false,UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
+    CANCEL_ORDER(false, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
+    CONFIRM_DELIVERY(false, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
+    CONFIRM_PAYMENT(false, UserRole.ADMIN, UserRole.MANAGER),
+    PAY_ORDER(false, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     CHANGE_LOCALE(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER,UserRole.DOCTOR),
     CLEAR_SHOPPING_CART(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER),
     LOGIN(false, UserRole.GUEST),
@@ -31,6 +34,7 @@ public enum CommandName {
     VIEW_CATALOG(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     VIEW_ORDER(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     VIEW_ORDERS(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
+    VIEW_ALL_ORDERS(true, UserRole.ADMIN, UserRole.MANAGER),
     VIEW_SHOPPING_CART(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR);
 
     private boolean isGetAllowed;

@@ -41,10 +41,11 @@
     </c:if>
     <c:if test="${sessionScope.success_message}">
         <div class="alert alert-success" role="alert">
-            <fmt:message key="message.order.submitted"/>
+            <fmt:message key="message.order.deleted"/>
             <c:set var="success_message" scope="session" value="false"/>
         </div>
     </c:if>
+    <!-- Orders -->
     <table class="table table-striped table-bordered">
         <thead>
             <th>
@@ -91,7 +92,7 @@
                 </td>
                 <td>
                     <a href="${pageContext.request.contextPath}/controller?command=view-order&id=${order.id}"
-                       class="btn btn-sm btn-info" role="button"><fmt:message key="button.order.view"/> </a>
+                       class="btn btn-sm btn-secondary" role="button"><fmt:message key="button.order.view"/> </a>
                 </td>
             </tr>
         </c:forEach>

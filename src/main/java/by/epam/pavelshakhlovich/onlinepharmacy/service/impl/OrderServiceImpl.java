@@ -12,7 +12,9 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A implementation of the {@link OrderService} interface
@@ -43,6 +45,14 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
+    public Map<Timestamp, String> getOrderEvents(long orderId) throws ServiceException {
+        try {
+            return orderDao.getOrderEvents(orderId);
+        } catch (DaoException e) {
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
+        }
+    }
 
     @Override
     public Order selectOrderById(long orderId, User user) throws ServiceException {
@@ -88,23 +98,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public boolean updateOrderStatus(User user, String orderStatus, long orderId) throws ServiceException {
-        if (user.getRole() == UserRole.ADMIN || user.getRole() == UserRole.MANAGER) {
-            try {
-                Order order = orderDao.selectById(orderId);
-                if (order.getStatus().equalsIgnoreCase(orderStatus)) {
-                    return false;
-                }
-                return orderDao.updateOrderStatus(orderStatus, orderId);
-            } catch (DaoException e) {
-                throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
+    public boolean updateOrderStatus(String orderStatus, long orderId) throws ServiceException {
+        try {
+            Order order = orderDao.selectById(orderId);
+            if (order.getStatus().equalsIgnoreCase(orderStatus)) {
+                return false;
             }
+            return orderDao.updateOrderStatus(orderStatus, orderId);
+        } catch (DaoException e) {
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }
-        return false;
     }
 
     @Override
-    public boolean cancelOrder(User user, long orderId) throws ServiceException {
+    public boolean cancelOrder(long orderId) throws ServiceException {
         try {
             return orderDao.delete(orderId);
         } catch (DaoException e) {

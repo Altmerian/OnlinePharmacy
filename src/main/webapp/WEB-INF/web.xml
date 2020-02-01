@@ -53,6 +53,14 @@
         <url-pattern>/view-orders</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>view-all-orders</servlet-name>
+        <jsp-file>/WEB-INF/jsp/orders/view-all-orders.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>view-all-orders</servlet-name>
+        <url-pattern>/view-all-orders</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>add-item</servlet-name>
         <jsp-file>/WEB-INF/jsp/catalog/add-item.jsp</jsp-file>
     </servlet>

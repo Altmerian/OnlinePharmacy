@@ -11,9 +11,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
 import org.apache.logging.log4j.Level;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This implementation of {@see OrderDao} interface based on JDBC and MySQL.
@@ -50,6 +48,10 @@ public class OrderDaoSQLImpl implements OrderDao {
             "FROM orders o " +
             "WHERE o.status IN(?, ?, ?, ?)";
     private static final String UPDATE_ORDER_STATUS = "UPDATE orders SET status = ? WHERE id = ?";
+    private static final String DELETE = "DELETE FROM orders WHERE id = ? ";
+    private static final String SELECT_ORDER_EVENTS = "SELECT  date_time, order_status FROM orders_events " +
+            "WHERE order_id = ? " +
+            "ORDER BY date_time DESC";
 
     @Override
     public boolean create(Order order) throws DaoException {
@@ -205,8 +207,11 @@ public class OrderDaoSQLImpl implements OrderDao {
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_ALL_ORDERS_BY_STATUS);
-            preparedStatement.setInt(1, offset);
-            preparedStatement.setInt(2, limit);
+            for (int i = 0; i < statusList.size(); i++) {
+                preparedStatement.setString(i + 1, statusList.get(i));
+            }
+            preparedStatement.setInt(5, offset);
+            preparedStatement.setInt(6, limit);
             resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
@@ -240,8 +245,8 @@ public class OrderDaoSQLImpl implements OrderDao {
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(COUNT_ORDERS);
-            for (int i = 2; i < statusList.size() + 2; i++) {
-                preparedStatement.setString(i, statusList.get(i - 2));
+            for (int i = 0; i < statusList.size(); i++) {
+                preparedStatement.setString(i + 1, statusList.get(i));
             }
             resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
@@ -262,15 +267,77 @@ public class OrderDaoSQLImpl implements OrderDao {
         PreparedStatement preparedStatement = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
+            cn.setAutoCommit(false);
             preparedStatement = cn.prepareStatement(UPDATE_ORDER_STATUS);
             preparedStatement.setString(1, orderStatus);
             preparedStatement.setLong(2, orderId);
+            int operation1 = preparedStatement.executeUpdate();
+
+            preparedStatement = cn.prepareStatement(INSERT_EVENT);
+            preparedStatement.setLong(1, orderId);
+            int operation2 = preparedStatement.executeUpdate();
+
+            boolean shouldCommit = operation1 + operation2 == 2;
+            if (shouldCommit) {
+                cn.commit();
+            } else {
+                rollback(cn);
+                LOGGER.error("Transaction wasn't finished because of unexpected results.");
+            }
+            return shouldCommit;
+        } catch (ConnectionPoolException | SQLException e) {
+            try {
+                if (cn != null) {
+                    rollback(cn);
+                }
+                throw LOGGER.throwing(Level.ERROR, new DaoException("Transaction wasn't finished", e));
+            } finally {
+                closeResources(cn, preparedStatement);
+            }
+        }
+    }
+
+    @Override
+    public boolean delete(long orderId) throws DaoException {
+        Connection cn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            cn = ConnectionPool.getInstance().getConnection();
+            preparedStatement = cn.prepareStatement(DELETE);
+            preparedStatement.setLong(1, orderId);
             int result = preparedStatement.executeUpdate();
             return result > 0;
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
             closeResources(cn, preparedStatement);
+        }
+    }
+
+    @Override
+    public Map<Timestamp, String> getOrderEvents(long orderId) throws DaoException {
+        Map<Timestamp, String> orderEventList = new TreeMap<>();
+        Connection cn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            cn = ConnectionPool.getInstance().getConnection();
+            preparedStatement = cn.prepareStatement(SELECT_ORDER_EVENTS);
+            preparedStatement.setLong(1, orderId);
+            resultSet = preparedStatement.executeQuery();
+            if (!resultSet.isBeforeFirst()) {
+                return null;
+            }
+            while (resultSet.next()) {
+                Timestamp date = resultSet.getTimestamp(1);
+                String status = resultSet.getString(2);
+                orderEventList.put(date, status);
+            }
+            return orderEventList;
+        } catch (ConnectionPoolException | SQLException e) {
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
+        } finally {
+            closeResources(cn, preparedStatement, resultSet);
         }
     }
 
@@ -296,12 +363,6 @@ public class OrderDaoSQLImpl implements OrderDao {
 
     @Override
     public boolean update(Order entity) throws DaoException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean delete(long id) throws DaoException {
-        //todo
         throw new UnsupportedOperationException();
     }
 }

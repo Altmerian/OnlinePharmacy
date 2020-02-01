@@ -6,7 +6,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.command.util.JspPage;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Path;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Order;
-import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
+import by.epam.pavelshakhlovich.onlinepharmacy.entity.OrderStatus;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.OrderService;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ServiceException;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.impl.OrderServiceImpl;
@@ -14,36 +14,36 @@ import org.apache.logging.log4j.Level;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Timestamp;
-import java.util.Map;
-
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Class {@code ViewOrderCommand} is a non-guest implementation of {@see Command}
- * for viewing given order
+ * Class {@code ViewAllOrdersCommand} is an implementation of {@see Command}
+ * for viewing different types of submitted orders for all users by admin or manager
  */
-
-public class ViewOrderCommand implements Command {
+public class ViewAllOrdersCommand implements Command {
 
     private static OrderService orderService = new OrderServiceImpl();
+    private static final String EMPTY = "";
 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        long orderId = Long.parseLong(request.getParameter(Parameter.ID));
-        User user = (User) request.getSession().getAttribute(Parameter.USER);
-        Map<Timestamp, String> orderEvents;
+        List<String> orderStatusList = new ArrayList<>();
+        int limit = Integer.parseInt(request.getParameter(Parameter.LIMIT));
+        int offset = (Integer.parseInt(request.getParameter(Parameter.PAGE_NUMBER)) - 1) * limit;
+        for (OrderStatus orderStatus : OrderStatus.values()) {
+            orderStatusList.add(orderStatus.getStatus());
+        }
         try {
-            orderEvents = orderService.getOrderEvents(orderId);
-            Order order = orderService.selectOrderById(orderId, user);
-            if (order == null) {
-                return new Path(false, request.getHeader(Parameter.REFERER));
-            } else {
-                request.setAttribute(Parameter.ORDER_EVENTS, orderEvents);
-                request.setAttribute(Parameter.ORDER, order);
-                return new Path(true, JspPage.VIEW_ORDER.getPath());
-            }
+            List<Order> orderList = orderService.selectAllOrdersByStatus(orderStatusList, limit, offset);
+            int numberOfOrders = orderService.countOrdersByStatus(orderStatusList);
+            request.setAttribute(Parameter.ORDERS, orderList);
+            request.setAttribute(Parameter.NUMBER_OF_ORDERS, numberOfOrders);
         } catch (ServiceException e) {
             throw LOGGER.throwing(Level.ERROR, new CommandException(e));
         }
+        return new Path(true, JspPage.VIEW_ALL_ORDERS.getPath());
+
+
     }
 }

@@ -40,8 +40,11 @@ public final class Parameter {
     public static final String MANUFACTURER_NAME = "manufacturer_name";
     public static final String NAME = "name";
     public static final String NUMBER_OF_ITEMS = "number_of_items";
+    public static final String NUMBER_OF_ORDERS = "number_of_orders";
     public static final String OLD_QUANTITY = "old_quantity";
     public static final String ORDER = "order";
+    public static final String ORDER_EVENTS = "order_events";
+    public static final String ORDER_STATUS = "order_status";
     public static final String ORDERS = "orders";
     public static final String ORDER_ID = "order_id";
     public static final String CHANGE_QUANTITY = "change_quantity";

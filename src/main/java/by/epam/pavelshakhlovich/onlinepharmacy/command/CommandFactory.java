@@ -7,10 +7,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.UnknownCommand;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.company.AddCountryCommand;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.company.ViewAddCompanyCommand;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.item.*;
-import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.order.CancelOrderCommand;
-import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.order.CreateOrderCommand;
-import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.order.ViewOrderCommand;
-import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.order.ViewOrdersCommand;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.order.*;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.shoppingcart.AddItemToCart;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.shoppingcart.ClearShoppingCart;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.shoppingcart.RemoveItemFromCart;
@@ -45,8 +42,11 @@ public class CommandFactory {
         commandMap.put(CommandName.CANCEL_ORDER, new CancelOrderCommand());
         commandMap.put(CommandName.CHANGE_LOCALE, new ChangeLocaleCommand());
         commandMap.put(CommandName.CLEAR_SHOPPING_CART, new ClearShoppingCart());
+        commandMap.put(CommandName.CONFIRM_DELIVERY, new ConfirmDeliveryCommand());
+        commandMap.put(CommandName.CONFIRM_PAYMENT, new ConfirmPaymentCommand());
         commandMap.put(CommandName.LOGIN, new LoginCommand());
         commandMap.put(CommandName.LOGOUT, new LogoutCommand());
+        commandMap.put(CommandName.PAY_ORDER, new PayOrderCommand());
         commandMap.put(CommandName.REGISTER, new RegisterCommand());
         commandMap.put(CommandName.SUBMIT_ORDER, new CreateOrderCommand());
         commandMap.put(CommandName.VIEW_ADD_ITEM, new ViewAddItemCommand());
@@ -55,6 +55,7 @@ public class CommandFactory {
         commandMap.put(CommandName.VIEW_CATALOG, new ViewCatalogCommand());
         commandMap.put(CommandName.VIEW_ORDER, new ViewOrderCommand());
         commandMap.put(CommandName.VIEW_ORDERS, new ViewOrdersCommand());
+        commandMap.put(CommandName.VIEW_ALL_ORDERS, new ViewAllOrdersCommand());
         commandMap.put(CommandName.VIEW_SHOPPING_CART, new ViewShoppingCart());
         commandMap.put(CommandName.UNKNOWN, new UnknownCommand());
     }

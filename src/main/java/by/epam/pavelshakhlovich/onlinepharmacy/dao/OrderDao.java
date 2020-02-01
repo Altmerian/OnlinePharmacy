@@ -2,7 +2,9 @@ package by.epam.pavelshakhlovich.onlinepharmacy.dao;
 
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Order;
 
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents an interface for retrieving order-related data.
@@ -56,5 +58,13 @@ public interface OrderDao extends BaseDao<Order> {
      * @throws DaoException if failed to retrieve data from the storage due to technical problems
      */
     boolean updateOrderStatus(String orderStatus, long orderId) throws DaoException;
+
+    /**
+     * Selects all order's status changes
+     * @param orderId id of the order to search
+     * @return {@code true} if operation was successful
+     * @throws DaoException  if exception occurred on an underlying level
+     */
+    Map<Timestamp, String> getOrderEvents(long orderId) throws DaoException;
 }
 

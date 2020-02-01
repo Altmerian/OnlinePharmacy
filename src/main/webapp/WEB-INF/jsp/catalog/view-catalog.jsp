@@ -28,7 +28,7 @@
     <ctg:header/>
 </header>
 <!-- Messages -->
-<div class="container fluid">
+<div class="container-fluid">
     <c:if test="${sessionScope.error_message}">
         <div class="alert alert-danger text-center" role="alert">
             <fmt:message key="message.item.add.error"/>

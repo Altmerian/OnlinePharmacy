@@ -3,7 +3,9 @@ package by.epam.pavelshakhlovich.onlinepharmacy.service;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Order;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
 
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents an interface of a service providing order-related actions
@@ -65,22 +67,20 @@ public interface OrderService {
     /**
      * Update status of given order
      *
-     * @param user        User that requested this update
      * @param orderStatus is orderStatus to update
      * @param orderId     is id of order
      * @return {@code true} if updated successfully, {@code false} if update failed
      * @throws ServiceException if exception occurred on an underlying level
      */
-    boolean updateOrderStatus(User user, String orderStatus, long orderId) throws ServiceException;
+    boolean updateOrderStatus(String orderStatus, long orderId) throws ServiceException;
 
     /**
      * Cancel a specified order and delete it from data source
      * @param orderId id of the order to cancel
-     * @param user user that requests the command
      * @return {@code true} if operation was successful
      * @throws ServiceException  if exception occurred on an underlying level
      */
-    boolean cancelOrder(User user, long orderId) throws ServiceException;
+    boolean cancelOrder(long orderId) throws ServiceException;
 
     /**
      * Returns last added {@link Order} by a specified user
@@ -90,4 +90,12 @@ public interface OrderService {
      * @throws ServiceException if exception occurred on an underlying level
      */
     Order getLastAddedOrder(long userId) throws ServiceException;
+
+    /**
+     * Retrieves all order's status changes
+     * @param orderId id of the order to search
+     * @return {@code true} if operation was successful
+     * @throws ServiceException  if exception occurred on an underlying level
+     */
+    Map<Timestamp, String> getOrderEvents(long orderId) throws ServiceException;
 }
