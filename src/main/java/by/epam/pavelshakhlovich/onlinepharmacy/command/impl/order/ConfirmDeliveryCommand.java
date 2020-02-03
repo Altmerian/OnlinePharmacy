@@ -25,7 +25,7 @@ public class ConfirmDeliveryCommand implements Command {
     public Path execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         long orderId = Long.parseLong(request.getParameter(Parameter.ORDER_ID));
         try {
-            if(orderService.updateOrderStatus(OrderStatus.COMPLETED.getStatus(), orderId)){
+            if(orderService.updateOrderStatus(OrderStatus.COMPLETED.getName(), orderId)){
                 request.getSession().setAttribute(Parameter.SUCCESS_MESSAGE, Boolean.TRUE);
             } else {
                 request.getSession().setAttribute(Parameter.ERROR_MESSAGE, Boolean.TRUE);

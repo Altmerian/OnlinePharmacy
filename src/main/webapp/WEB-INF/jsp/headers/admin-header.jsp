@@ -32,7 +32,7 @@
                     <a class="dropdown-item" href="${pageContext.request.contextPath}/controller?command=view-orders">
                         <fmt:message key="link.orders.view.own"/></a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/controller?command=view-all-orders&limit=20&page_number=1">
+                    <a class="dropdown-item" href="${pageContext.request.contextPath}/controller?command=view-all-orders&limit=20&page_number=1&in_process=true&payment_confirmation=true&paid=true&completed=true">
                             <fmt:message key="link.orders.view.all"/></a>
                 </div>
             </li>

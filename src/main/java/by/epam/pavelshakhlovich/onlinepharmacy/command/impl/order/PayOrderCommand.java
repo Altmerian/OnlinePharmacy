@@ -25,7 +25,7 @@ public class PayOrderCommand implements Command {
     public Path execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         long orderId = Long.parseLong(request.getParameter(Parameter.ORDER_ID));
         try {
-            if(orderService.updateOrderStatus(OrderStatus.PAYMENT_CONFIRMATION.getStatus(), orderId)){
+            if(orderService.updateOrderStatus(OrderStatus.PAYMENT_CONFIRMATION.getName(), orderId)){
                 request.getSession().setAttribute(Parameter.SUCCESS_MESSAGE, Boolean.TRUE);
             } else {
                 request.getSession().setAttribute(Parameter.ERROR_MESSAGE, Boolean.TRUE);

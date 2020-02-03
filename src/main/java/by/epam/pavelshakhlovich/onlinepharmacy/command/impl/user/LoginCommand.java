@@ -55,7 +55,7 @@ public class LoginCommand implements Command {
             session.setAttribute(Parameter.SUCCESS_MESSAGE, Boolean.TRUE);
             List<String> statusList = new ArrayList<>();
             for (OrderStatus orderStatus : OrderStatus.values()) {
-                statusList.add(orderStatus.getStatus());
+                statusList.add(orderStatus.getName());
             }
             session.setAttribute(Parameter.STATUS_LIST, statusList);
             if (request.getSession().getAttribute(Parameter.SHOPPING_CARD_DESERIALIZATION_DONE) == null) {

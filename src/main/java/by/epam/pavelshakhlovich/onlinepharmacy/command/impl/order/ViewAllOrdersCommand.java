@@ -32,7 +32,11 @@ public class ViewAllOrdersCommand implements Command {
         int limit = Integer.parseInt(request.getParameter(Parameter.LIMIT));
         int offset = (Integer.parseInt(request.getParameter(Parameter.PAGE_NUMBER)) - 1) * limit;
         for (OrderStatus orderStatus : OrderStatus.values()) {
-            orderStatusList.add(orderStatus.getStatus());
+            if (Boolean.parseBoolean(request.getParameter(orderStatus.getName()))) {
+                orderStatusList.add(orderStatus.getName());
+            } else {
+                orderStatusList.add(EMPTY);
+            }
         }
         try {
             List<Order> orderList = orderService.selectAllOrdersByStatus(orderStatusList, limit, offset);
@@ -43,7 +47,5 @@ public class ViewAllOrdersCommand implements Command {
             throw LOGGER.throwing(Level.ERROR, new CommandException(e));
         }
         return new Path(true, JspPage.VIEW_ALL_ORDERS.getPath());
-
-
     }
 }

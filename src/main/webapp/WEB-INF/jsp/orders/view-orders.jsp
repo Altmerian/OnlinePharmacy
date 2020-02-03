@@ -77,10 +77,10 @@
                 <td>
                     <c:choose>
                         <c:when test="${order.status eq 'in_process'}">
-                            <span class="badge badge-info"><fmt:message key="text.order.processing"/></span>
+                            <span class="badge badge-info"><fmt:message key="text.order.in_process"/></span>
                         </c:when>
                         <c:when test="${order.status eq 'payment_confirmation'}">
-                            <span class="badge badge-primary"><fmt:message key="text.order.payment"/></span>
+                            <span class="badge badge-primary"><fmt:message key="text.order.payment_confirmation"/></span>
                         </c:when>
                         <c:when test="${order.status eq 'paid'}">
                             <span class="badge badge-success"><fmt:message key="text.order.paid"/></span>

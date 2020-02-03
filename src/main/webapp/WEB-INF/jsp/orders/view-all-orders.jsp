@@ -33,31 +33,40 @@
             <fmt:message key="message.orders.null"/>
         </div>
     </c:if>
-    <div style="padding-bottom: 10px">
+    <!-- Filter -->
+    <div class="container">
         <form class="inline" role="form" action="controller" method="get">
             <input type="hidden" name="command" value="view-all-orders">
             <span><fmt:message key="text.filter.statuses"/>:</span>
-            <label for="in_process" class="btn btn-info"><fmt:message key="text.order.in_process"/><input
-                    name="in_process" value="true" type="checkbox" id="in_process" class="badgebox"
-                    <c:if test="${param.in_process}">checked</c:if>><span class="badge">&check;</span></label>
-            <label for="payment_confirmation" class="btn btn-primary"><fmt:message key="text.order.payment_confirmation"/><input
-                    name="payment_confirmation" value="true" type="checkbox" id="payment_confirmation" class="badgebox"
-                    <c:if test="${param.payment_confirmation}">checked</c:if>><span class="badge">&check;</span></label>
-            <label for="paid" class="btn btn-primary"><fmt:message key="text.order.paid"/><input
-                    name="paid" value="true" type="checkbox" id="paid" class="badgebox"
-                    <c:if test="${param.paid}">checked</c:if>><span class="badge">&check;</span></label>
-            <label for="completed" class="btn btn-success"><fmt:message key="local.text.order.completed"/><input
-                    name="completed" value="true" type="checkbox" id="completed" class="badgebox"
-                    <c:if test="${param.completed}">checked</c:if>><span class="badge">&check;</span></label>
-            <input type="hidden" name="page_number" value="1"/>
-            <input type="hidden" name="limit" value="${param.limit}"/>
-            <input type="submit" class="btn btn-warning" style="padding: 7px 35px 7px 35px"
-                   value="<fmt:message key="local.button.filter"/> "/>
+            <div class="form-check-inline">
+                <label for="in_process" class="form-check-label">
+                    <input name="in_process" value="true" type="checkbox" id="in_process" class="badgebox" 
+                    <c:if test="${param.in_process}">checked</c:if>><b> <fmt:message key="text.order.in_process"/></b></label>
+            </div>
+            <div class="form-check-inline">
+                <label for="payment_confirmation" class="form-check-label">
+                    <input name="payment_confirmation" value="true" type="checkbox" id="payment_confirmation" class="badgebox" <c:if test="${param.payment_confirmation}">checked</c:if>><b> <fmt:message key="text.order.payment_confirmation"/></b></label>
+            </div>
+            <div class="form-check-inline">
+                <label for="paid" class="form-check-label">
+                    <input name="paid" value="true" type="checkbox" id="paid" class="badgebox" <c:if test="${param.paid}">checked</c:if>>
+                    <b> <fmt:message key="text.order.paid"/></b></label>
+            </div>
+            <div class="form-check-inline">  
+                <label for="completed" class="form-check-label">
+                    <input name="completed" value="true" type="checkbox" id="completed" class="badgebox" <c:if test="${param.completed}">checked</c:if>><b> <fmt:message key="text.order.completed"/></b></label>
+            </div>
+                <input type="hidden" name="page_number" value="1"/>
+                <input type="hidden" name="limit" value="${param.limit}"/>
+            <div class="form-check-inline">
+                <button type="submit" class="btn btn-warning"><fmt:message key="button.filter"/></button>
+           </div>
         </form>
     </div>
     <c:set var="number_of_pages" value="${requestScope.number_of_orders div param.limit + 1}"/>
+    <!-- Pagination -->
     <div style="padding: 10px;">
-        <span><fmt:message key="local.text.number.of.orders.on.page"/>:</span>
+        <span><fmt:message key="text.number.of.orders.on.page"/>:</span>
         <form style="display: inline-block" role="form" action="controller" method="get">
             <input type="hidden" name="command" value="view-all-orders">
             <input type="hidden" name="in_process" value="${param.in_process}"/>
@@ -67,7 +76,7 @@
             <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number"
          value="${((param.page_number-1)* param.limit) / 5 + 1}"/>"/>
             <input type="hidden" name="limit" value="5"/>
-            <input class="btn btn-default" type="submit" value="5"/>
+            <input class="btn btn-secondary btn-sm" type="submit" value="5"/>
         </form>
         <form style="display: inline-block" role="form" action="controller" method="get">
             <input type="hidden" name="command" value="view-all-orders">
@@ -77,7 +86,7 @@
             <input type="hidden" name="completed" value="${param.completed}"/>
             <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number" value="${((param.page_number-1)* param.limit) / 10 + 1}"/>"/>
             <input type="hidden" name="limit" value="10"/>
-            <input class="btn btn-default" type="submit" value="10"/>
+            <input class="btn btn-secondary btn-sm" type="submit" value="10"/>
         </form>
         <form style="display: inline-block" role="form" action="controller" method="get">
             <input type="hidden" name="command" value="view-all-orders">
@@ -87,9 +96,9 @@
             <input type="hidden" name="completed" value="${param.completed}"/>
             <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number" value="${((param.page_number-1)* param.limit) / 20 + 1}"/>"/>
             <input type="hidden" name="limit" value="20"/>
-            <input class="btn btn-default" type="submit" value="20"/>
+            <input class="btn btn-secondary btn-sm" type="submit" value="20"/>
         </form>
-        <span><fmt:message key="local.text.go.to.page"/>:</span>
+        <span><fmt:message key="text.goTo.page"/>:</span>
         <form style="display: inline-block" role="form" action="controller" method="get">
             <input type="hidden" name="command" value="view-all-orders">
             <input type="hidden" name="in_process" value="${param.in_process}"/>
@@ -100,7 +109,7 @@
                    placeholder="${param.page_number}/<fmt:parseNumber integerOnly="true" type="number"
                 value="${number_of_pages}"/>" required/>
             <input type="hidden" name="limit" value="${param.limit}"/>
-            <input class="btn btn-default" type="submit" value="<fmt:message key="text.go"/>"/>
+            <input class="btn btn-secondary btn-sm" type="submit" value="<fmt:message key="text.go"/>"/>
         </form>
         <c:choose>
             <c:when test="${param.page_number != 1}">
@@ -112,11 +121,11 @@
                     <input type="hidden" name="completed" value="${param.completed}"/>
                     <input type="hidden" name="page_number" value="${param.page_number - 1}"/>
                     <input type="hidden" name="limit" value="${param.limit}"/>
-                    <input class="btn btn-default" type="submit" value="<fmt:message key="text.previous"/>"/>
+                    <input class="btn btn-secondary btn-sm" type="submit" value="<fmt:message key="text.previous"/>"/>
                 </form>
             </c:when>
             <c:otherwise>
-                <input class="btn btn-default" type="submit" value="<fmt:message key="text.previous"/>" disabled/>
+                <input class="btn btn-secondary btn-sm" type="submit" value="<fmt:message key="text.previous"/>" disabled/>
             </c:otherwise>
         </c:choose>
         <c:choose>
@@ -129,85 +138,82 @@
                     <input type="hidden" name="completed" value="${param.completed}"/>
                     <input type="hidden" name="page_number" value="${param.page_number + 1}"/>
                     <input type="hidden" name="limit" value="${param.limit}"/>
-                    <input class="btn btn-default" type="submit" value="<fmt:message key="text.next"/>"/>
+                    <input class="btn btn-secondary btn-sm" type="submit" value="<fmt:message key="text.next"/>"/>
                 </form>
             </c:when>
             <c:otherwise>
-                <input class="btn btn-default" type="submit" value="<fmt:message key="text.next"/>" disabled/>
+                <input class="btn btn-secondary btn-sm" type="submit" value="<fmt:message key="text.next"/>" disabled/>
             </c:otherwise>
         </c:choose>
     </div>
-    <table class="table table-striped table-condensed">
+    <!-- Table -->
+    <table class="table table-striped">
         <thead>
-        <th class="col-sm-1">
-            #
-        </th>
-        <th class="col-sm-2">
-            <fmt:message key="local.text.customer"/>
-        </th>
-        <th class="col-sm-2">
-            <fmt:message key="local.text.address"/>
-        </th>
-        <th class="col-sm-1">
-            <fmt:message key="local.text.date"/>
-        </th>
-        <th class="col-sm-1">
-            <fmt:message key="local.text.amount"/>
-        </th>
-        <th class="col-sm-2">
-            <fmt:message key="local.text.status"/>
-        </th>
-        <th class="col-sm-2"></th>
+            <th>
+                #
+            </th>
+            <th>
+                <fmt:message key="text.customer"/>
+            </th>
+            <th>
+                <fmt:message key="text.address"/>
+            </th>
+            <th>
+                <fmt:message key="text.date"/>
+            </th>
+            <th>
+                <fmt:message key="text.amount"/>
+            </th>
+            <th>
+                <fmt:message key="text.status"/>
+            </th>
+            <th></th>
         </thead>
         <tbody>
         <c:forEach var="order" items="${requestScope.orders}">
             <tr>
-                <td class="col-sm-1">
+                <td>
                     <c:out value="${order.id}"/>
                 </td>
-                <td class="col-sm-2">
-                    <a href="${pageContext.request.contextPath}/controller?command=view-user&user_id=${order.owner.id}"
+                <td>
+                    <a href="${pageContext.request.contextPath}/controller?command=view-user&user_id=${order.user.id}"
                        style="display: block">
                         <div style="width: 100%; height: 100%">
-                            <c:out value="#${order.owner.id},${order.owner.firstName} ${order.owner.lastName} (${order.owner.login})"/>
+                            <c:out value="#${order.user.id},${order.user.firstName} ${order.user.lastName} (${order.user.login})"/>
                         </div>
                     </a>
                 </td>
-                <td class="col-sm-1">
-                    <c:out value="${order.owner.address}"/>
+                <td>
+                    <c:out value="${order.user.address}"/>
                 </td>
-                <td class="col-sm-1">
+                <td>
                     <fmt:formatDate type="both" value="${order.date}"/>
                 </td>
-                <td class="col-sm-1">
+                <td>
                     <c:out value="${order.amount}"/>
                 </td>
-                <td class="col-sm-2">
-                    <c:if test="${order.canceled}">
-                        <span class="label label-danger"><fmt:message key="local.text.order.canceled"/></span>
-                    </c:if>
+                <td>
                     <c:choose>
-                        <c:when test="${order.status eq 'в работе'}">
-                            <span class="label label-info"><fmt:message key="local.text.order.payment_confirmation"/></span>
+                        <c:when test="${order.status eq 'in_process'}">
+                            <span class="badge badge-info"><fmt:message key="text.order.in_process"/></span>
                         </c:when>
-                        <c:when test="${order.status eq 'к доставке'}">
-                            <span class="label label-primary"><fmt:message key="local.text.order.paid"/></span>
+                        <c:when test="${order.status eq 'payment_confirmation'}">
+                            <span class="badge badge-primary"><fmt:message key="text.order.payment_confirmation"/></span>
                         </c:when>
-                        <c:when test="${order.status eq 'выполнен'}">
-                            <span class="label label-success"><fmt:message key="local.text.order.completed"/></span>
+                        <c:when test="${order.status eq 'paid'}">
+                            <span class="badge badge-success"><fmt:message key="text.order.paid"/></span>
                         </c:when>
-                        <c:when test="${order.status eq 'открыт'}">
-                            <span class="label label-default"><fmt:message key="local.link.shopping.in_process"/></span>
+                        <c:when test="${order.status eq 'completed'}">
+                            <span class="badge badge-default"><fmt:message key="text.order.completed"/></span>
                         </c:when>
                     </c:choose>
                 </td>
-                <td class="col-sm-2">
+                <td>
                     <a href="${pageContext.request.contextPath}/controller?command=view-order&id=${order.id}"
-                       class="btn btn-info" role="button"><fmt:message key="local.button.order.view"/> </a>
+                       class="btn btn-info" role="button"><fmt:message key="button.order.view"/> </a>
                 </td>
             </tr>
         </c:forEach>
-
         </tbody>
     </table>
 </div>

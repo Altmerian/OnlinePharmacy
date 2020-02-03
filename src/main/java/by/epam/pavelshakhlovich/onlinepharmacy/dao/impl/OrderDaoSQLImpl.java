@@ -199,7 +199,7 @@ public class OrderDaoSQLImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> selectAllOrdersByStatus(List<String> statusList, int offset, int limit) throws DaoException {
+    public List<Order> selectAllOrdersByStatus(List<String> statusList,  int limit, int offset) throws DaoException {
         List<Order> orderList = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;

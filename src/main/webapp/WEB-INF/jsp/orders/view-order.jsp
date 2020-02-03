@@ -55,10 +55,10 @@
             <div class="col">
                 <c:choose>
                     <c:when test="${entry.value eq 'in_process'}">
-                        <span class="badge badge-info"><fmt:message key="text.order.processing"/></span><i class="fas fa-long-arrow-alt-right"></i>
+                        <span class="badge badge-info"><fmt:message key="text.order.in_process"/></span><i class="fas fa-long-arrow-alt-right"></i>
                     </c:when>
                     <c:when test="${entry.value eq 'payment_confirmation'}">
-                        <span class="badge badge-primary"><fmt:message key="text.order.payment"/></span><i class="fas fa-long-arrow-alt-right"></i>
+                        <span class="badge badge-primary"><fmt:message key="text.order.payment_confirmation"/></span><i class="fas fa-long-arrow-alt-right"></i>
                     </c:when>
                     <c:when test="${entry.value eq 'paid'}">
                         <span class="badge badge-success"><fmt:message key="text.order.paid"/></span><i class="fas fa-long-arrow-alt-right"></i>
