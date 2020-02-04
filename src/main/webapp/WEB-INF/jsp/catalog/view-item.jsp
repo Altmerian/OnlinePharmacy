@@ -5,7 +5,7 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="local"/>
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <!-- Required meta tags -->
@@ -28,6 +28,9 @@
 </header>
 <!-- Item -->
 <div class="container-fluid mt-5">
+<div>
+    <a href="${header.Referer}"><i class="fas fa-arrow-left"></i><fmt:message key="link.back"/></a>
+</div>
     <table class="table table-striped">
         <thead>
         <tr>

@@ -23,6 +23,7 @@ public final class Parameter {
     public static final String DRUG_ID= "drug_id";
     public static final String EMAIL = "email";
     public static final String ERROR_MESSAGE = "error_message";
+    public static final String ERROR_MESSAGE_DELETE = "error_message_delete";
     public static final String ERROR_COUNTRY_MESSAGE = "error_country_message";
     public static final String ERROR_DOSAGE_MESSAGE = "error_dosage_message";
     public static final String FIRST_NAME = "first_name";
@@ -60,7 +61,8 @@ public final class Parameter {
     public static final String SHOPPING_CARD_DESERIALIZATION_DONE = "shopping_card_deserialization_done";
     public static final String STATUS = "status";
     public static final String STATUS_LIST = "status_list";
-    public static final String SUCCESS_MESSAGE = "success_message";
+    public static final String SUCCESS_MESSAGE = "success_message_delete";
+    public static final String SUCCESS_MESSAGE_DELETE= "success_delete_message";
     public static final String SUCCESS_COUNTRY_MESSAGE = "success_country_message";
     public static final String SUCCESS_DOSAGE_MESSAGE = "success_dosage_message";
     public static final String TOTAL_AMOUNT = "total_amount";

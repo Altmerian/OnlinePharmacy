@@ -6,6 +6,7 @@ package by.epam.pavelshakhlovich.onlinepharmacy.command.util;
 public enum JspPage {
     ADD_COMPANY("/add-company"),
     ADD_ITEM("/add-item"),
+    EDIT_ITEM("/edit-item"),
     ADMIN_HEADER("/WEB-INF/jsp/headers/admin-header.jsp"),
     DOCTOR_HEADER("/WEB-INF/jsp/headers/doctor-header.jsp"),
     ERROR("/error"),

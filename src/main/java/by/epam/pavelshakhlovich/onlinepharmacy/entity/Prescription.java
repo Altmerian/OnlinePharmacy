@@ -1,9 +1,7 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Class {@code Prescription} represents an prescription that some drugs are required in
@@ -11,10 +9,8 @@ import java.util.Date;
 public class Prescription implements Serializable {
     private static final long serialVersionUID = 8927772728101362089L;
     private long id;
-    private Timestamp timestamp;
-    private LocalDate validFrom;
-    private LocalDate validUntil;
-    private PrescriptionStatus status;
+    private LocalDateTime validUntil;
+    private boolean approved;
     private long drugId;
     private long userId;
     private long doctorId;
@@ -31,36 +27,20 @@ public class Prescription implements Serializable {
         this.id = id;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public LocalDate getValidFrom() {
-        return validFrom;
-    }
-
-    public void setValidFrom(LocalDate validFrom) {
-        this.validFrom = validFrom;
-    }
-
-    public LocalDate getValidUntil() {
+    public LocalDateTime getValidUntil() {
         return validUntil;
     }
 
-    public void setValidUntil(LocalDate validUntil) {
+    public void setValidUntil(LocalDateTime validUntil) {
         this.validUntil = validUntil;
     }
 
-    public PrescriptionStatus getStatus() {
-        return status;
+    public boolean isApproved() {
+        return approved;
     }
 
-    public void setStatus(PrescriptionStatus status) {
-        this.status = status;
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 
     public long getDrugId() {
@@ -107,13 +87,7 @@ public class Prescription implements Serializable {
             return false;
         }
 
-        if (!timestamp.equals(that.timestamp)) {
-            return false;
-        }
-        if (validFrom != null ? !validFrom.equals(that.validFrom) : that.validFrom != null) {
-            return false;
-        }
-        if (validUntil != null ? !validUntil.equals(that.validUntil) : that.validUntil != null) {
+        if (!validUntil.equals(that.validUntil)) {
             return false;
         }
         if (userId != that.userId) {
@@ -125,10 +99,8 @@ public class Prescription implements Serializable {
     @Override
     public int hashCode() {
         int result = Long.hashCode(id);
-        result = 31 * result + timestamp.hashCode();
-        result = 31 * result + (validFrom != null ? validFrom.hashCode() : 0);
-        result = 31 * result + (validUntil != null ? validUntil.hashCode() : 0);
-        result = 31 * result + status.hashCode();
+        result = 31 * result + validUntil.hashCode();
+        result = 31 * result + Boolean.hashCode(approved);
         result = 31 * result + Long.hashCode(drugId);
         result = 31 * result + Long.hashCode(userId);
         result = 31 * result + Long.hashCode(doctorId);

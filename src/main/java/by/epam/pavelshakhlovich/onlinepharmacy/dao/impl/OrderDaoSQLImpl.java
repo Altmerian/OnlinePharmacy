@@ -11,7 +11,10 @@ import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
 import org.apache.logging.log4j.Level;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * This implementation of {@see OrderDao} interface based on JDBC and MySQL.
@@ -23,14 +26,17 @@ public class OrderDaoSQLImpl implements OrderDao {
             "VALUES (?, ?, ?, ?)";
     private static final String INSERT_EVENT = "INSERT INTO orders_events (order_id, order_status) " +
             "SELECT id, status FROM orders WHERE ID = ?";
-    private static final String SELECT_USER_ORDERS = "SELECT id, date, amount, status" +
-            " FROM orders" +
-            " WHERE customer_id = ?" +
-            " ORDER BY id DESC ";
+    private static final String SELECT_USER_ORDERS = "SELECT id, date, amount, status " +
+            "FROM orders " +
+            "WHERE customer_id = ? " +
+            "ORDER BY id DESC ";
+    private static final String SELECT_ORDERED_DRUGS_BY_ID = "SELECT DISTINCT d.id AS drug_id, d.label, dro.order_id FROM drugs_ordered dro " +
+            "LEFT JOIN drugs d ON d.id = dro.drug_id " +
+            "WHERE drug_id = ?" +
+            "ORDER BY d.id";
     private static final String SELECT_LAST_ADDED = "SELECT MAX(id) AS id, date, amount, status" +
             " FROM orders" +
             " WHERE customer_id = ?";
-
     private static final String SELECT_ORDER_BY_ID = "SELECT o.id, o.customer_id, o.date, o.amount, o.status, " +
             "d.id AS drug_id, d.label, dos.name AS dosage, d.volume, d.volume_type, d.by_prescription, dro.quantity, dro.price FROM orders o " +
             "LEFT JOIN drugs_ordered dro ON o.id = dro.order_id " +
@@ -133,6 +139,35 @@ public class OrderDaoSQLImpl implements OrderDao {
     }
 
     @Override
+    public List<Item> selectOrderedDrugsById(long itemId) throws DaoException {
+        List<Item> itemList = new ArrayList<>();
+        Connection cn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            cn = ConnectionPool.getInstance().getConnection();
+            preparedStatement = cn.prepareStatement(SELECT_ORDERED_DRUGS_BY_ID);
+            preparedStatement.setLong(1, itemId);
+            resultSet = preparedStatement.executeQuery();
+            if (!resultSet.isBeforeFirst()) {
+                return null;
+            }
+            while (resultSet.next()) {
+                Item item = new Item();
+                item.setId(resultSet.getLong(Parameter.DRUG_ID));
+                item.setLabel(resultSet.getString(Parameter.LABEL));
+                itemList.add(item);
+            }
+            return itemList;
+        } catch (ConnectionPoolException | SQLException e) {
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
+        } finally {
+            closeResources(cn, preparedStatement, resultSet);
+        }
+    }
+
+
+    @Override
     public List<Order> selectOrdersByUserId(long userId) throws DaoException {
         List<Order> orderList = new ArrayList<>();
         Connection cn = null;
@@ -199,7 +234,7 @@ public class OrderDaoSQLImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> selectAllOrdersByStatus(List<String> statusList,  int limit, int offset) throws DaoException {
+    public List<Order> selectAllOrdersByStatus(List<String> statusList, int limit, int offset) throws DaoException {
         List<Order> orderList = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;

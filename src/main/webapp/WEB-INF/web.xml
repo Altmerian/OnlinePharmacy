@@ -65,6 +65,14 @@
         <jsp-file>/WEB-INF/jsp/catalog/add-item.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
+        <servlet-name>edit-item</servlet-name>
+        <url-pattern>/edit-item</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>edit-item</servlet-name>
+        <jsp-file>/WEB-INF/jsp/catalog/edit-item.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
         <servlet-name>add-item</servlet-name>
         <url-pattern>/add-item</url-pattern>
     </servlet-mapping>

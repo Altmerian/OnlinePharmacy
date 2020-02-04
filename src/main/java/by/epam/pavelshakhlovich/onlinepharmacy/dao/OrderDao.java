@@ -1,5 +1,6 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.dao;
 
+import by.epam.pavelshakhlovich.onlinepharmacy.entity.Item;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Order;
 
 import java.sql.Timestamp;
@@ -28,6 +29,15 @@ public interface OrderDao extends BaseDao<Order> {
      * @throws DaoException if failed to retrieve data from the storage due to technical problems
      */
     List<Order> selectOrdersByUserId(long userId) throws DaoException;
+
+    /**
+     * Retrieves a list of all orders contained given item
+     *
+     * @param itemId     id of the item
+     * @return list of orders contained this item or {@code null}
+     * @throws DaoException if failed to retrieve data from the storage due to technical problems
+     */
+    List<Item> selectOrderedDrugsById(long itemId) throws DaoException;
 
     /**
      * Selects a list of all orders with given status by all users

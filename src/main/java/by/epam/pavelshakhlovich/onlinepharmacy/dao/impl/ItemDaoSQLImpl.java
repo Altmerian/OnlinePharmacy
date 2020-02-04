@@ -25,8 +25,8 @@ public class ItemDaoSQLImpl implements ItemDao {
             "d.volume, d.volume_type, d.manufacturer_id, m.name AS manufacturer_name, d.price, " +
             "d.by_prescription, d.description FROM drugs d " +
             "JOIN dosages dos ON d.dosage_id = dos.id " +
-            "JOIN manufacturers m ON d.manufacturer_id = m.id" +
-            " WHERE d.id = ?";
+            "JOIN manufacturers m ON d.manufacturer_id = m.id " +
+            "WHERE d.id = ?";
     private static final String SELECT_ITEM_BY_LABEL_DOSAGE_VOLUME = "SELECT d.id, d.label, d.dosage_id, " +
             "dos.name as dosage, d.volume, d.volume_type, d.manufacturer_id, m.name AS manufacturer_name, d.price, " +
             "d.by_prescription, d.description  FROM drugs d " +
@@ -37,8 +37,8 @@ public class ItemDaoSQLImpl implements ItemDao {
             "volume_type, manufacturer_id, price, by_prescription, description) " +
             "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_ITEM = "UPDATE drugs " +
-            "SET label = ?, dosage_id = ?,dosage = ?,volume = ?,volume_type = ?,manufacturer_id = ?,price = ? , " +
-            "by_prescription = ?,description = ? " +
+            "SET label = ?, dosage_id = ?, volume = ?,volume_type = ?,manufacturer_id = ?, price = ? , " +
+            "by_prescription = ?, description = ? " +
             "WHERE id = ?";
     private static final String DELETE_ITEM = "DELETE FROM drugs WHERE id = ?";
     private static final String SELECT_ALL_ITEMS = "SELECT d.id,d.label,d.dosage_id, dos.name AS dosage, " +
@@ -58,9 +58,9 @@ public class ItemDaoSQLImpl implements ItemDao {
             "ORDER BY dos.name " +
             "LIMIT ?,?";
     private static final String COUNT_ALL_ITEMS = "SELECT COUNT(*) AS number_of_items FROM drugs";
-    private static final String COUNT_ITEMS_BY_LABEL = "SELECT COUNT(*) FROM drugs" +
-            "  GROUP BY label" +
-            "  HAVING label = ?";
+    private static final String COUNT_ITEMS_BY_LABEL = "SELECT COUNT(*) FROM drugs " +
+            "GROUP BY label " +
+            "HAVING label = ?";
     private static final String SELECT_DOSAGES = "SELECT id, name FROM dosages";
     private static final String SELECT_DOSAGE_BY_NAME = "SELECT dos.id, dos.name FROM dosages dos WHERE dos.name = ?";
     private static final String INSERT_DOSAGE = "INSERT INTO dosages (name) VALUES(?)";

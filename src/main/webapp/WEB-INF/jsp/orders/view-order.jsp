@@ -45,7 +45,7 @@
     </c:if>
     <!-- Order -->
     <div>
-        <a href="${pageContext.request.contextPath}/controller?command=view-orders"><i class="fas fa-arrow-left"></i><fmt:message key="link.orders"/></a>
+        <a href="${header.Referer}"><i class="fas fa-arrow-left"></i><fmt:message key="link.back"/></a>
     </div>
     <div class="container col-sm-6 text-center mt-1">
         <h4><fmt:message key="title.order"/> #${requestScope.order.id}</h4>

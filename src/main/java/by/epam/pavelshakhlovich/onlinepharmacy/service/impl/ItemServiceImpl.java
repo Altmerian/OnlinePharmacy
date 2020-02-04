@@ -2,7 +2,9 @@ package by.epam.pavelshakhlovich.onlinepharmacy.service.impl;
 
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.DaoException;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.ItemDao;
+import by.epam.pavelshakhlovich.onlinepharmacy.dao.OrderDao;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.impl.ItemDaoSQLImpl;
+import by.epam.pavelshakhlovich.onlinepharmacy.dao.impl.OrderDaoSQLImpl;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Dosage;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Item;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ItemService;
@@ -19,6 +21,7 @@ import java.util.List;
 public class ItemServiceImpl implements ItemService {
     private static final Logger LOGGER = LogManager.getLogger();
     private static ItemDao itemDao = new ItemDaoSQLImpl();
+    private static OrderDao orderDao = new OrderDaoSQLImpl();
 
     @Override
     public boolean addItem(Item item) throws ServiceException {
@@ -46,7 +49,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public boolean deleteItem(long id) throws ServiceException {
         try{
-            if (itemDao.selectById(id) != null) {
+            if (itemDao.selectById(id) != null && orderDao.selectOrderedDrugsById(id) == null) {
                 return itemDao.delete(id);
             } else {
                 return false;
