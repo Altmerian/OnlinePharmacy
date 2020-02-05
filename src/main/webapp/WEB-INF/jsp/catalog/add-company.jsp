@@ -27,6 +27,9 @@
     <ctg:header/>
 </header>
 <div class="container col-sm-8 mx-auto mt-2">
+    <div>
+        <a href="${header.Referer}"><i class="fas fa-arrow-left"></i><fmt:message key="link.back"/></a>
+    </div>
     <!-- Messages -->
     <c:if test="${sessionScope.success_message}">
         <div class="alert alert-success" role="alert">

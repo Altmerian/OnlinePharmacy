@@ -59,7 +59,7 @@
             </div>
         </c:if>
         <!-- Item -->
-        <form role="form" action="controller" method="post" enctype="multipart/form-data">
+        <form role="form" id="edit" action="controller" method="post">
             <input type="hidden" name="command" value="edit-item"/>
             <input type="hidden" name="id" value="${requestScope.item.id}"/>
             <div class="form-group">
@@ -76,19 +76,21 @@
                     </c:forEach>
                 </select>
             </div>
-            <div class=" form-group">
-                <label for="volume"><fmt:message key="text.volume"/></label>
-                <input type="number" class="form-control" id="volume" step="0.01" name="volume"
-                       value="${requestScope.item.volume}" required/>
-            </div>
-            <div class="form-group">
-                <label for="sel2"><fmt:message key="text.unit"/></label>
-                <select name="volume_type" class="form-control" id="sel2" required>
-                    <c:forEach var="volume_type" items="${requestScope.volume_types}">
-                        <option value="${volume_type}" ${requestScope.item.volumeType eq volume_type ? 'selected' : ''}>
-                        ${volume_type}</option>
-                    </c:forEach>
-                </select>
+            <div class="form-row">
+                <div class="col">
+                    <label for="volume"><fmt:message key="text.volume"/></label>
+                    <input type="number" class="form-control" id="volume" step="0.01" name="volume"
+                           value="${requestScope.item.volume}" required/>
+                </div>
+                <div class="col">
+                    <label for="sel2"><fmt:message key="text.unit"/></label>
+                    <select name="volume_type" class="form-control" id="sel2" required>
+                        <c:forEach var="volume_type" items="${requestScope.volume_types}">
+                            <option value="${volume_type}" ${requestScope.item.volumeType eq volume_type ? 'selected' : ''}>
+                            ${volume_type}</option>
+                        </c:forEach>
+                    </select>
+                </div>
             </div>
             <div class="form-group">
                 <label for="sel3"><fmt:message key="text.manufacturer"/></label>
@@ -111,14 +113,14 @@
             </div>
             <div class="form-group">
                 <label for="description"><fmt:message key="text.description"/></label>
-            <textarea class="form-control" rows="5" id="description"
+                <textarea class="form-control" rows="5" id="description"
                       name="description">${requestScope.item.description}</textarea>
             </div>
-            <div style="padding: 10px 10px 0 0">
-                <input type="submit" class="btn btn-primary" value="<fmt:message key="button.change"/>"/>
+            <div class="form-group">
+                <input type="submit" form="edit" class="btn btn-primary" value="<fmt:message key="button.change"/>"/>
             </div>
         </form>
-        <form action="controller" method="post">
+        <form role="form" action="controller" method="post">
             <input type="hidden" name="command" value="delete-item"/>
             <input type="hidden" name="id" value="${requestScope.item.id}"/>
             <input type="submit" class="btn btn-danger" value="<fmt:message key="button.delete"/>"/>

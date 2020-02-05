@@ -30,7 +30,8 @@
     <!-- Messages -->
     <c:if test="${sessionScope.success_message}">
         <div class="alert alert-success" role="alert">
-            <fmt:message key="message.item.add.success"/> : ${sessionScope.item.label}</a>
+            <fmt:message key="message.item.add.success"/> : 
+            <a href="${pageContext.request.contextPath}/controller?command=view_item&id=${sessionScope.item.id}"> ${sessionScope.item.label}</a>
         </div>
         <c:set var="success_message" value="false" scope="session"/>
     </c:if>
@@ -91,23 +92,25 @@
             </select>
         </div>
         
-        <div class="form-group">
-            <label for="volume">
-                <fmt:message key="text.volume"/>:
-            </label>
-            <input type="number" class="form-control" id="volume" step="1" name="volume"
-                   placeholder="<fmt:message key="text.volume"/>"
-            required/>
-        </div>
-        <div class="form-group">
-            <label for="sel2">
-                <fmt:message key="text.unit"/>:
-            </label>
-            <select name="volume_type" class="form-control" id="sel2" required>
-                <c:forEach var="volume_type" items="${volume_types}">
-                    <option value="${volume_type}">${volume_type}</option>
-                </c:forEach>
-            </select>
+        <div class="form-row">
+            <div class="col">
+                <label for="volume">
+                    <fmt:message key="text.volume"/>:
+                </label>
+                <input type="number" class="form-control" id="volume" step="1" name="volume"
+                       placeholder="<fmt:message key="text.volume"/>"
+                required/>
+            </div>
+            <div class="col">
+                <label for="sel2">
+                    <fmt:message key="text.unit"/>:
+                </label>
+                <select name="volume_type" class="form-control" id="sel2" required>
+                    <c:forEach var="volume_type" items="${volume_types}">
+                        <option value="${volume_type}">${volume_type}</option>
+                    </c:forEach>
+                </select>
+            </div>
         </div>
         <!--Manufacturer-->
         <div class="row">
@@ -131,8 +134,7 @@
             <label for="price">
                 <fmt:message key="text.price"/>:
             </label>
-            <input type="number" class="
-                   placeholder="<fmt:message key="text.price"/>"
+            <input type="number" class="form-control" id="price" step="0.01" name="price" placeholder="<fmt:message key="text.price"/>"
             required/>
         </div>
         <div class="checkbox">

@@ -33,6 +33,6 @@ public class DeleteItemCommand implements Command {
         } catch (ServiceException e) {
             throw LOGGER.throwing(Level.ERROR, new CommandException(e));
         }
-            return new Path(true, request.getHeader(Parameter.REFERER));
+            return new Path(false, request.getHeader(Parameter.REFERER));
     }
 }

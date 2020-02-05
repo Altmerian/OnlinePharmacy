@@ -28,7 +28,7 @@ public class EditItemCommand implements Command {
         Item item = new Item();
         item.setId(Long.parseLong(request.getParameter(Parameter.ID)));
         item.setLabel(request.getParameter(Parameter.LABEL));
-        item.setDosage(request.getParameter(Parameter.DOSAGE_ID));
+        item.setDosageId(Long.parseLong(request.getParameter(Parameter.DOSAGE_ID)));
         item.setVolume(Integer.parseInt(request.getParameter(Parameter.VOLUME)));
         item.setVolumeType(request.getParameter(Parameter.VOLUME_TYPE));
         item.setManufacturerId(Long.parseLong(request.getParameter(Parameter.MANUFACTURER_ID)));

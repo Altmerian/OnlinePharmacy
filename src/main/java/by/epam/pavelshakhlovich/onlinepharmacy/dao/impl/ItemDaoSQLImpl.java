@@ -37,7 +37,7 @@ public class ItemDaoSQLImpl implements ItemDao {
             "volume_type, manufacturer_id, price, by_prescription, description) " +
             "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_ITEM = "UPDATE drugs " +
-            "SET label = ?, dosage_id = ?, volume = ?,volume_type = ?,manufacturer_id = ?, price = ? , " +
+            "SET label = ?, dosage_id = ?, volume = ?, volume_type = ?, manufacturer_id = ?, price = ? , " +
             "by_prescription = ?, description = ? " +
             "WHERE id = ?";
     private static final String DELETE_ITEM = "DELETE FROM drugs WHERE id = ?";

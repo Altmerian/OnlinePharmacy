@@ -39,16 +39,16 @@
             <input type="hidden" name="command" value="view-all-orders">
             <span><fmt:message key="text.filter.statuses"/>:</span>
             <div class="form-check-inline">
-                <label for="in_process" class="form-check-label">
+                <label for="in_process" class="form-check-label" style="color:#17a2b8">
                     <input name="in_process" value="true" type="checkbox" id="in_process" class="badgebox" 
                     <c:if test="${param.in_process}">checked</c:if>><b> <fmt:message key="text.order.in_process"/></b></label>
             </div>
             <div class="form-check-inline">
-                <label for="payment_confirmation" class="form-check-label">
+                <label for="payment_confirmation" class="form-check-label" style="color:#007bff">
                     <input name="payment_confirmation" value="true" type="checkbox" id="payment_confirmation" class="badgebox" <c:if test="${param.payment_confirmation}">checked</c:if>><b> <fmt:message key="text.order.payment_confirmation"/></b></label>
             </div>
             <div class="form-check-inline">
-                <label for="paid" class="form-check-label">
+                <label for="paid" class="form-check-label" style="color:#28a745">
                     <input name="paid" value="true" type="checkbox" id="paid" class="badgebox" <c:if test="${param.paid}">checked</c:if>>
                     <b> <fmt:message key="text.order.paid"/></b></label>
             </div>

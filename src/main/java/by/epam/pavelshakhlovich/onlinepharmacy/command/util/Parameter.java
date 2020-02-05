@@ -61,7 +61,7 @@ public final class Parameter {
     public static final String SHOPPING_CARD_DESERIALIZATION_DONE = "shopping_card_deserialization_done";
     public static final String STATUS = "status";
     public static final String STATUS_LIST = "status_list";
-    public static final String SUCCESS_MESSAGE = "success_message_delete";
+    public static final String SUCCESS_MESSAGE = "success_message";
     public static final String SUCCESS_MESSAGE_DELETE= "success_delete_message";
     public static final String SUCCESS_COUNTRY_MESSAGE = "success_country_message";
     public static final String SUCCESS_DOSAGE_MESSAGE = "success_dosage_message";

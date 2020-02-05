@@ -112,14 +112,13 @@
 <div class="container col-sm-6 text-center">
      <c:if test="${sessionScope.error_message}">
         <div class="alert alert-danger" role="alert">
-            <fmt:message key="message.item.add.error"/>
+            <fmt:message key="message.item.addToCart.error"/>
         </div>
         <c:set var="error_message" scope="session" value="false"/>
     </c:if>
     <c:if test="${sessionScope.success_message}">
         <div class="alert alert-success" role="alert">
-            <fmt:message key="message.item.add.success"/>
-            <a href="${pageContext.request.contextPath}/controller?command=view_item&id=${sessionScope.item.id}"> ${sessionScope.item.label}</a>
+            <fmt:message key="message.item.addToCart.success"/>
         </div>
         <c:set var="success_message" scope="session" value="false"/>
     </c:if>
