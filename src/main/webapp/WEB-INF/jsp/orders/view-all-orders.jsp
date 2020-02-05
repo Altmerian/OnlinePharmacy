@@ -34,10 +34,10 @@
         </div>
     </c:if>
     <!-- Filter -->
-    <div class="container">
+    <div class="container mt-2">
         <form class="inline" role="form" action="controller" method="get">
             <input type="hidden" name="command" value="view-all-orders">
-            <span><fmt:message key="text.filter.statuses"/>:</span>
+            <span><fmt:message key="text.filter.statuses"/>: </span>
             <div class="form-check-inline">
                 <label for="in_process" class="form-check-label" style="color:#17a2b8">
                     <input name="in_process" value="true" type="checkbox" id="in_process" class="badgebox" 
@@ -179,7 +179,7 @@
                     <a href="${pageContext.request.contextPath}/controller?command=view-user&user_id=${order.user.id}"
                        style="display: block">
                         <div style="width: 100%; height: 100%">
-                            <c:out value="#${order.user.id},${order.user.firstName} ${order.user.lastName} (${order.user.login})"/>
+                            <c:out value="#${order.user.id} ${order.user.firstName} ${order.user.lastName} (${order.user.login})"/>
                         </div>
                     </a>
                 </td>
@@ -210,7 +210,7 @@
                 </td>
                 <td>
                     <a href="${pageContext.request.contextPath}/controller?command=view-order&id=${order.id}"
-                       class="btn btn-info" role="button"><fmt:message key="button.order.view"/> </a>
+                       class="btn btn-secondary btn-sm" role="button"><fmt:message key="button.order.view"/> </a>
                 </td>
             </tr>
         </c:forEach>

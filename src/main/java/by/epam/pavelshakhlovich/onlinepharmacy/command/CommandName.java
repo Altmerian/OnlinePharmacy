@@ -38,7 +38,8 @@ public enum CommandName {
     VIEW_ITEM(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     VIEW_ORDER(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     VIEW_ORDERS(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
-    VIEW_SHOPPING_CART(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR);
+    VIEW_SHOPPING_CART(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
+    VIEW_USER(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR);
 
     private boolean isGetAllowed;
     private List<UserRole> rolesAllowed = new ArrayList<>();

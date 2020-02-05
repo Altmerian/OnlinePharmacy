@@ -46,6 +46,7 @@ public final class Parameter {
     public static final String ORDER = "order";
     public static final String ORDER_EVENTS = "order_events";
     public static final String ORDER_STATUS = "order_status";
+    public static final String ORDER_OWNER = "order_owner";
     public static final String ORDERS = "orders";
     public static final String ORDER_ID = "order_id";
     public static final String CHANGE_QUANTITY = "change_quantity";
@@ -69,6 +70,7 @@ public final class Parameter {
     public static final String USER = "user";
     public static final String USER_ID = "user_id";
     public static final String USER_NAME = "user_name";
+    public static final String USER_ROLE = "user_role";
     public static final String VOLUME = "volume";
     public static final String VOLUME_TYPE = "volume_type";
     public static final String VOLUME_TYPES = "volume_types";

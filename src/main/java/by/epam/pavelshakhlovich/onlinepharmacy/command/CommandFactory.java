@@ -15,6 +15,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.shoppingcart.ViewSho
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.user.LoginCommand;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.user.LogoutCommand;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.user.RegisterCommand;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.user.ViewUserCommand;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -60,6 +61,7 @@ public class CommandFactory {
         commandMap.put(CommandName.VIEW_ORDERS, new ViewOrdersCommand());
         commandMap.put(CommandName.VIEW_ALL_ORDERS, new ViewAllOrdersCommand());
         commandMap.put(CommandName.VIEW_SHOPPING_CART, new ViewShoppingCart());
+        commandMap.put(CommandName.VIEW_USER, new ViewUserCommand());
         commandMap.put(CommandName.UNKNOWN, new UnknownCommand());
     }
 

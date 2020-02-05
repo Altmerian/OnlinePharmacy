@@ -30,8 +30,7 @@
     <!-- Messages -->
     <c:if test="${sessionScope.success_message}">
         <div class="alert alert-success" role="alert">
-            <fmt:message key="message.item.add.success"/> : 
-            <a href="${pageContext.request.contextPath}/controller?command=view_item&id=${sessionScope.item.id}"> ${sessionScope.item.label}</a>
+            <fmt:message key="message.item.add.success"/> : ${sessionScope.item.label}
         </div>
         <c:set var="success_message" value="false" scope="session"/>
     </c:if>
@@ -43,7 +42,7 @@
     </c:if>
     <c:if test="${sessionScope.success_dosage_message}">
         <div class="alert alert-success" role="alert">
-            <fmt:message key="message.dosage.add.success"/> : ${dosage}</a>
+            <fmt:message key="message.dosage.add.success"/> : ${dosage}
         </div>
         <c:set var="success_dosage_message" value="false" scope="session"/>
     </c:if>

@@ -61,7 +61,7 @@ public class ItemDaoSQLImpl implements ItemDao {
     private static final String COUNT_ITEMS_BY_LABEL = "SELECT COUNT(*) FROM drugs " +
             "GROUP BY label " +
             "HAVING label = ?";
-    private static final String SELECT_DOSAGES = "SELECT id, name FROM dosages";
+    private static final String SELECT_DOSAGES = "SELECT id, name FROM dosages ORDER by name";
     private static final String SELECT_DOSAGE_BY_NAME = "SELECT dos.id, dos.name FROM dosages dos WHERE dos.name = ?";
     private static final String INSERT_DOSAGE = "INSERT INTO dosages (name) VALUES(?)";
 

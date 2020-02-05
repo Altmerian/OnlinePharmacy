@@ -37,8 +37,7 @@
     </c:if>
     <c:if test="${sessionScope.success_message}">
         <div class="alert alert-success text-center" role="alert">
-            <fmt:message key="message.item.addToCart.success"/> :
-            <a href="${pageContext.request.contextPath}/controller?command=view_item&id=${sessionScope.item.id}"> ${sessionScope.item.label}</a>
+            <fmt:message key="message.item.addToCart.success"/>
         </div>
         <c:set var="success_message" scope="session" value="false"/>
     </c:if>
@@ -115,10 +114,10 @@
     <table class="table table-striped">
         <thead class="thead-light">
         <tr>
-            <th>
+            <th width="160px">
                 <fmt:message key="text.label"/>
             </th>
-            <th>
+            <th width="160px">
                 <fmt:message key="text.dosage"/>
             </th>
             <th>
@@ -166,7 +165,7 @@
                         ${item.description}
                 </td>
                 <td>
-                    <form class="form-inline mr-2" action="controller" method="post">
+                    <form class="form-inline mr-5" action="controller" method="post">
                         <input type="hidden" name="command" value="add_item_to_shopping_cart"/>
                         <input type="hidden" name="item_id" value="${item.id}"/>
                         <input type="hidden" name="page_number" value="${param.page_number}"/>

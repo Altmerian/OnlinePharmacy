@@ -49,6 +49,7 @@
     </div>
     <div class="container col-sm-6 text-center mt-1">
         <h4><fmt:message key="title.order"/> #${requestScope.order.id}</h4>
+        <h5><fmt:message key="title.customer"/>: #${order_owner.id} ${order_owner.firstName} ${order_owner.lastName} (${order_owner.login})</h5>
     </div>
     <div class="row">
         <c:forEach var="entry" items="${order_events}">
@@ -142,7 +143,7 @@
             </form>
         </div>
         </c:if>
-        <c:if test="${requestScope.order.status eq 'in_process'}">
+        <c:if test="${requestScope.order.status eq 'in_process' and user.login eq order_owner.login}">
         <div class="col">
             <form class="col-sm-6" action="controller" method="post">
                 <input type="hidden" name="command" value="pay-order"/>
@@ -152,7 +153,7 @@
             </form>
         </div>
         </c:if>
-        <c:if test="${(sessionScope.user.role eq 'ADMIN' or sessionScope.user.role eq 'MANAGER') or requestScope.order.status eq 'in_process'}">
+        <c:if test="${order.status != 'completed' and ((sessionScope.user.role eq 'ADMIN' or sessionScope.user.role eq 'MANAGER') or requestScope.order.status eq 'in_process')}">
         <div class="col">
             <form class="col-sm-6" action="controller" method="post">
                 <input type="hidden" name="command" value="cancel_order"/>

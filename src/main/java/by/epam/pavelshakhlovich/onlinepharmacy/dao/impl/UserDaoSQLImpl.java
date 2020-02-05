@@ -33,7 +33,7 @@ public class UserDaoSQLImpl implements UserDao {
     private final static String SELECT_USER_BY_ID = "SELECT id, login, password_md5, role, email, salt, " +
             "first_name, last_name, address FROM users WHERE id = ?";
     private final static String INSERT_USER = "INSERT INTO users (login, password_md5, role, salt, email, " +
-            "first_name, last_name, address) VALUES (?, ?, 'user', ?, ?, ?, ?, ?)";
+            "first_name, last_name, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private final static String UPDATE_USER = "UPDATE users SET password_md5 = ?,email = ?, " +
             "first_name = ?, last_name = ?,address = ? WHERE id = ?";
 
@@ -111,11 +111,12 @@ public class UserDaoSQLImpl implements UserDao {
             preparedStatement = cn.prepareStatement(INSERT_USER);
             preparedStatement.setString(1, user.getLogin());
             preparedStatement.setString(2, user.getHashedPassword());
-            preparedStatement.setString(3, user.getSalt());
-            preparedStatement.setString(4, user.getEmail());
-            preparedStatement.setString(5, user.getFirstName());
-            preparedStatement.setString(6, user.getLastName());
-            preparedStatement.setString(7, user.getAddress());
+            preparedStatement.setString(3, user.getRole().name().toLowerCase());
+            preparedStatement.setString(4, user.getSalt());
+            preparedStatement.setString(5, user.getEmail());
+            preparedStatement.setString(6, user.getFirstName());
+            preparedStatement.setString(7, user.getLastName());
+            preparedStatement.setString(8, user.getAddress());
             int result = preparedStatement.executeUpdate();
             return (result > 0);
         } catch (ConnectionPoolException e) {

@@ -33,7 +33,7 @@
     <!-- Messages -->
     <c:if test="${sessionScope.success_message}">
         <div class="alert alert-success" role="alert">
-            <fmt:message key="message.company.add.success"/> : ${sessionScope.item.label}</a>
+            <fmt:message key="message.company.add.success"/> : ${sessionScope.company}
         </div>
         <c:set var="success_message" value="false" scope="session"/>
     </c:if>

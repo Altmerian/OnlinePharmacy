@@ -22,7 +22,8 @@ public enum JspPage {
     VIEW_ORDER("/view-order"),
     VIEW_ORDERS("/view-orders"),
     VIEW_ALL_ORDERS("/view-all-orders"),
-    VIEW_ITEM ("/view-item");
+    VIEW_ITEM ("/view-item"),
+    VIEW_USER ("/view-user");
 
     private String path;
 

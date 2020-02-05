@@ -66,7 +66,6 @@ public class UserServiceImpl implements UserService {
                 user.setSalt(SaltGenerator.getInstance().getSalt());
                 String hashedPassword = Hasher.md5Hash(user.getSalt() + user.getPassword());
                 user.setHashedPassword(hashedPassword);
-                user.setRole(UserRole.USER);
                 result = userDao.create(user);
             } catch (DaoException | NoSuchAlgorithmException | UnsupportedEncodingException e) {
                 throw LOGGER.throwing(Level.ERROR, new ServiceException(e));

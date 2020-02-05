@@ -21,6 +21,14 @@
         <url-pattern>/register</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>view-user</servlet-name>
+        <jsp-file>/WEB-INF/jsp/user/view-profile.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>view-user</servlet-name>
+        <url-pattern>/view-user</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>main</servlet-name>
         <jsp-file>/WEB-INF/jsp/main.jsp</jsp-file>
     </servlet>

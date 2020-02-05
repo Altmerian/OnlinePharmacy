@@ -6,6 +6,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.command.util.JspPage;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Path;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
+import by.epam.pavelshakhlovich.onlinepharmacy.entity.UserRole;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ServiceException;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.UserService;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.impl.UserServiceImpl;
@@ -33,6 +34,11 @@ public class RegisterCommand implements Command {
         user.setLogin(request.getParameter(Parameter.LOGIN));
         user.setPassword(request.getParameter(Parameter.PASSWORD));
         user.setEmail(request.getParameter(Parameter.EMAIL));
+        if (request.getParameter(Parameter.USER_ROLE) == null) {
+            user.setRole(UserRole.USER);
+        } else {
+            user.setRole(UserRole.valueOf(request.getParameter(Parameter.USER_ROLE)));
+        }
         user.setFirstName(request.getParameter(Parameter.FIRST_NAME));
         user.setLastName(request.getParameter(Parameter.LAST_NAME));
         user.setAddress(request.getParameter(Parameter.ADDRESS));
@@ -46,10 +52,10 @@ public class RegisterCommand implements Command {
             try {
                 User registeredUser = userService.loginUser(user.getLogin(), user.getPassword());
                 User currentUser = (User) session.getAttribute(Parameter.USER);
+                session.setAttribute(Parameter.SUCCESS_MESSAGE, Boolean.TRUE);
+                session.setAttribute(Parameter.USER_NAME, registeredUser.getLogin());
                 if (currentUser == null) {
                     session.setAttribute(Parameter.USER, registeredUser);
-                    session.setAttribute(Parameter.SUCCESS_MESSAGE, Boolean.TRUE);
-                    session.setAttribute(Parameter.USER_NAME, registeredUser.getLogin());
                 }
             } catch (ServiceException e) {
                 LOGGER.throwing(Level.ERROR, new CommandException(e));
