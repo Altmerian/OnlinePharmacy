@@ -88,20 +88,20 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> selectItemsByLabel(String label, int offset, int limit) throws ServiceException {
-        try {
-            return itemDao.selectItemsByLabel(label, offset, limit);
-        } catch (DaoException e) {
-            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
-        }
-    }
-
-    @Override
     public int countAllItems() throws ServiceException {
         try {
             return itemDao.countAllItems();
         } catch (DaoException e) {
             throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Item> selectItemsByLabel(String label, int offset, int limit) throws ServiceException {
+        try {
+            return itemDao.selectItemsByLabel(label, offset, limit);
+        } catch (DaoException e) {
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }
     }
 

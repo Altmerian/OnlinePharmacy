@@ -50,39 +50,36 @@
             <label for="login">
                 <fmt:message key="text.username"/>:
             </label>
-            <input type="text" class="form-control" id="login" name="login" pattern="[a-zA-Z0-9]{4,20}" required> <br/>
+            <input type="text" class="form-control" id="login" name="login" aria-describedby="usernameHelp" pattern="[a-zA-Z0-9]{4,20}" required><small id="usernameHelp" class="form-text text-muted"><fmt:message key="text.username.help"/></small>
         </div>
         <div class="form-group">
             <label for="password">
                 <fmt:message key="text.password"/>:
             </label>
-            <input type="password" class="form-control" id="password" name="password" pattern=".{4,}" required> <br/>
+            <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" pattern=".{4,}" required>
+            <small id="passwordHelp" class="form-text text-muted"><fmt:message key="text.password.help"/></small>
         </div>
         <div class="form-group">
             <label for="email">
                 <fmt:message key="text.email"/>:
             </label>
-            <input type="email" class="form-control" id="email" name="email" pattern="\w{2,40}@\w{2,20}.\w{2,4}" required> <br/>
+            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" pattern="\w{2,40}@\w{2,20}.\w{2,4}" required>
+            <small id="emailHelp" class="form-text text-muted"><fmt:message key="text.email.help"/></small>
+            <br/>
         </div>
         <div class="form-row">
             <div class="col">
-                <label for="first_name">
-                    <fmt:message key="text.firstName"/>:
-                </label>
-                <input type="text" class="form-control" id="first_name" name="first_name"> <br/>
+                <label for="first_name"><fmt:message key="text.firstName"/>:</label>
+                <input type="text" class="form-control" id="first_name" name="first_name">
             </div>
             <div class="col">
-                <label for="last_name">
-                    <fmt:message key="text.lastName"/>:
-                </label>
-                <input type="text" class="form-control" id="last_name" name="last_name"> <br/>
+                <label for="last_name"><fmt:message key="text.lastName"/>:</label>
+                <input type="text" class="form-control" id="last_name" name="last_name">
             </div>
         </div>
         <div class="form-group">
-            <label for="address">
-                <fmt:message key="text.address"/>:
-            </label>
-            <input type="text" class="form-control" id="address" name="address" value="${requestScope.address}"> <br/>
+            <label for="address"><fmt:message key="text.address"/>:</label>
+            <input type="text" class="form-control" id="address" name="address" value="${requestScope.address}">
         </div>
         <c:if test="${sessionScope.user.role eq 'ADMIN'}">
             <div class="form-group">

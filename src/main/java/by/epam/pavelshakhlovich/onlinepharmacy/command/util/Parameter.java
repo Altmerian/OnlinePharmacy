@@ -42,6 +42,7 @@ public final class Parameter {
     public static final String NAME = "name";
     public static final String NUMBER_OF_ITEMS = "number_of_items";
     public static final String NUMBER_OF_ORDERS = "number_of_orders";
+    public static final String NUMBER_OF_USERS = "number_of_users";
     public static final String OLD_QUANTITY = "old_quantity";
     public static final String ORDER = "order";
     public static final String ORDER_EVENTS = "order_events";
@@ -58,6 +59,7 @@ public final class Parameter {
     public static final String REFERER = "referer";
     public static final String ROLE = "role";
     public static final String SALT = "salt";
+    public static final String SEARCH = "search";
     public static final String SHOPPING_CART = "shopping_cart";
     public static final String SHOPPING_CARD_DESERIALIZATION_DONE = "shopping_card_deserialization_done";
     public static final String STATUS = "status";
@@ -68,6 +70,7 @@ public final class Parameter {
     public static final String SUCCESS_DOSAGE_MESSAGE = "success_dosage_message";
     public static final String TOTAL_AMOUNT = "total_amount";
     public static final String USER = "user";
+    public static final String USERS = "users";
     public static final String USER_ID = "user_id";
     public static final String USER_NAME = "user_name";
     public static final String USER_ROLE = "user_role";

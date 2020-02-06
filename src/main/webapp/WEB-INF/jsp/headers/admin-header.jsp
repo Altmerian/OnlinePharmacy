@@ -93,7 +93,7 @@
                 <input type="hidden" name="page_number" value="1"/>
                 <input type="hidden" name="limit" value="10"/>
                 <div class="input-group">
-                    <input class="form-control" type="search" aria-label="Search" 
+                    <input class="form-control" type="search" name="search" aria-label="Search" 
                         placeholder="<fmt:message key="text.enter.drug.name"/>"/>
                     <div class="input-group-append">
                         <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>

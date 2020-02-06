@@ -12,10 +12,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.shoppingcart.AddItem
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.shoppingcart.ClearShoppingCart;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.shoppingcart.RemoveItemFromCart;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.shoppingcart.ViewShoppingCart;
-import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.user.LoginCommand;
-import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.user.LogoutCommand;
-import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.user.RegisterCommand;
-import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.user.ViewUserCommand;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.user.*;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -46,21 +43,25 @@ public class CommandFactory {
         commandMap.put(CommandName.CONFIRM_PAYMENT, new ConfirmPaymentCommand());
         commandMap.put(CommandName.DELETE_ITEM, new DeleteItemCommand());
         commandMap.put(CommandName.EDIT_ITEM, new EditItemCommand());
+        commandMap.put(CommandName.EDIT_USER, new EditUserCommand());
         commandMap.put(CommandName.LOGIN, new LoginCommand());
         commandMap.put(CommandName.LOGOUT, new LogoutCommand());
         commandMap.put(CommandName.PAY_ORDER, new PayOrderCommand());
         commandMap.put(CommandName.REGISTER, new RegisterCommand());
         commandMap.put(CommandName.REMOVE_ITEM_FROM_SHOPPING_CART, new RemoveItemFromCart());
+        commandMap.put(CommandName.SEARCH_ITEM, new SearchItemCommand());
         commandMap.put(CommandName.SUBMIT_ORDER, new CreateOrderCommand());
         commandMap.put(CommandName.VIEW_ADD_ITEM, new ViewAddItemCommand());
         commandMap.put(CommandName.VIEW_ADD_COMPANY, new ViewAddCompanyCommand());
         commandMap.put(CommandName.VIEW_EDIT_ITEM, new ViewEditItemCommand());
+        commandMap.put(CommandName.VIEW_EDIT_USER, new ViewEditUserCommand());
         commandMap.put(CommandName.VIEW_ITEM, new ViewItemCommand());
         commandMap.put(CommandName.VIEW_CATALOG, new ViewCatalogCommand());
         commandMap.put(CommandName.VIEW_ORDER, new ViewOrderCommand());
         commandMap.put(CommandName.VIEW_ORDERS, new ViewOrdersCommand());
         commandMap.put(CommandName.VIEW_ALL_ORDERS, new ViewAllOrdersCommand());
         commandMap.put(CommandName.VIEW_SHOPPING_CART, new ViewShoppingCart());
+        commandMap.put(CommandName.VIEW_ALL_USERS, new ViewAllUsersCommand());
         commandMap.put(CommandName.VIEW_USER, new ViewUserCommand());
         commandMap.put(CommandName.UNKNOWN, new UnknownCommand());
     }

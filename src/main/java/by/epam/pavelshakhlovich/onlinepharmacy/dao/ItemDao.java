@@ -25,6 +25,14 @@ public interface ItemDao extends BaseDao<Item> {
                                        String volumeType, long manufacturerId) throws DaoException;
 
     /**
+     * Counts all items in the storage.
+     *
+     * @return number of items .
+     * @throws DaoException
+     */
+    int countAllItems() throws DaoException;
+
+    /**
      * Retrieves a list of items with given label from {@param offset}. List's max limit is {@param limit}.
      *
      * @param label  item's title
@@ -34,14 +42,6 @@ public interface ItemDao extends BaseDao<Item> {
      * @throws DaoException
      */
     List<Item> selectItemsByLabel(String label, int offset, int limit) throws DaoException;
-
-    /**
-     * Counts all items in the storage.
-     *
-     * @return number of items .
-     * @throws DaoException
-     */
-    int countAllItems() throws DaoException;
 
     /**
      * Counts only currently searched items in the storage.

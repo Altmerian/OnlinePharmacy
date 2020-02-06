@@ -29,6 +29,22 @@
         <url-pattern>/view-user</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>edit-user</servlet-name>
+        <jsp-file>/WEB-INF/jsp/user/edit-profile.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>edit-user</servlet-name>
+        <url-pattern>/edit-user</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>view-all-users</servlet-name>
+        <jsp-file>/WEB-INF/jsp/user/view-all-users.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>view-all-users</servlet-name>
+        <url-pattern>/view-all-users</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>main</servlet-name>
         <jsp-file>/WEB-INF/jsp/main.jsp</jsp-file>
     </servlet>
@@ -73,6 +89,10 @@
         <jsp-file>/WEB-INF/jsp/catalog/add-item.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
+        <servlet-name>add-item</servlet-name>
+        <url-pattern>/add-item</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>edit-item</servlet-name>
         <url-pattern>/edit-item</url-pattern>
     </servlet-mapping>
@@ -80,10 +100,6 @@
         <servlet-name>edit-item</servlet-name>
         <jsp-file>/WEB-INF/jsp/catalog/edit-item.jsp</jsp-file>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>add-item</servlet-name>
-        <url-pattern>/add-item</url-pattern>
-    </servlet-mapping>
     <servlet>
         <servlet-name>add-company</servlet-name>
         <jsp-file>/WEB-INF/jsp/catalog/add-company.jsp</jsp-file>
@@ -99,6 +115,14 @@
     <servlet-mapping>
         <servlet-name>view-item</servlet-name>
         <url-pattern>/view-item</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>search-item</servlet-name>
+        <jsp-file>/WEB-INF/jsp/catalog/search-item.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>search-item</servlet-name>
+        <url-pattern>/search-item</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>view-catalog</servlet-name>

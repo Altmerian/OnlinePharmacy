@@ -45,7 +45,13 @@
             <c:set var="success_message" scope="session" value="false"/>
         </div>
     </c:if>
+    <div>
+        <a href="${header.Referer}"><i class="fas fa-arrow-left"></i><fmt:message key="link.back"/></a>
+    </div>
     <!-- Orders -->
+    <div class="container col-sm-6 text-center mt-1">
+        <h5><fmt:message key="title.customer"/>: #${order_owner.id} ${order_owner.firstName} ${order_owner.lastName} (${order_owner.login})</h5>
+    </div>
     <table class="table table-striped table-bordered">
         <thead>
             <th>

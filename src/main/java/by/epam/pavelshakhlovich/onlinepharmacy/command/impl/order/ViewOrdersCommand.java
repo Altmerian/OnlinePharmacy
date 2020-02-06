@@ -9,7 +9,9 @@ import by.epam.pavelshakhlovich.onlinepharmacy.entity.Order;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.OrderService;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ServiceException;
+import by.epam.pavelshakhlovich.onlinepharmacy.service.UserService;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.impl.OrderServiceImpl;
+import by.epam.pavelshakhlovich.onlinepharmacy.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.Level;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,7 @@ import java.util.List;
 public class ViewOrdersCommand implements Command {
 
     private static OrderService orderService = new OrderServiceImpl();
+    private static UserService userService = new UserServiceImpl();
 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
@@ -39,6 +42,8 @@ public class ViewOrdersCommand implements Command {
         try {
             orderList = orderService.selectOrdersByUserId(user, userId);
             request.setAttribute(Parameter.ORDERS, orderList);
+            User orderOwner = userService.selectUserById(user, userId);
+            request.setAttribute(Parameter.ORDER_OWNER, orderOwner);
         } catch (ServiceException e) {
             throw LOGGER.throwing(Level.ERROR, new CommandException(e));
         }

@@ -26,7 +26,7 @@
 <header>
     <ctg:header/>
 </header>
-<div class="container">
+<div class="container mt-2">
     <c:if test="${sessionScope.success_message}">
         <div class="alert alert-info" role="alert">
             <span>
@@ -41,29 +41,42 @@
             <c:set var="error_message" value="false" scope="session"/>
         </div>
     </c:if>
-    <h3><c:out value="${requestScope.user.login}"/></h3>
-        <form role="form" class="form-inline" action="controller" method="get">
-            <input type="hidden" name="command" value="view-orders"/>
-            <input type="hidden" name="user_id" value="${requestScope.user.id}"/>
-            <input type="submit" class="btn btn-default" value="<fmt:message key="button.orders.view.all"/> "/>
-        </form>
-    <hr>
-    <h4>
-        <span><b><fmt:message key="text.firstName"/></b>: <c:out value="${requestScope.user.firstName}"/></span>
-        <br>
-        <span><b><fmt:message key="text.lastName"/></b>: <c:out value="${requestScope.user.lastName}"/></span>
-        <br>
-        <span><b><fmt:message key="text.email"/></b>: <c:out value="${requestScope.user.email}"/> </span>
-        <br>
-        <span><b><fmt:message key="text.address"/></b>: <c:out value="${requestScope.user.address}"/></span>
-    </h4>
     <div>
-        <form role="form" class="form-inline" action="controller" method="get">
-            <input type="hidden" name="command" value="view-edit-user"/>
-            <input type="hidden" name="user_id" value="${requestScope.user.id}"/>
-            <input type="submit" class="btn btn-default" value="<fmt:message key="button.change"/> "/>
-        </form>
+        <a href="${header.Referer}"><i class="fas fa-arrow-left"></i><fmt:message key="link.back"/></a>
+    </div>
+    <div class="text-center">
+        <h3><fmt:message key="title.user.profile"/></h3>
+    </div>
+    <div class="card">
+        <div class="card-header"><h4><fmt:message key="text.username"/>: <c:out value="${requestScope.user.login}"/></h4></div>
+        <div class="card-body">
+            <form role="form" class="form-inline" action="controller" method="get">
+                <input type="hidden" name="command" value="view-orders"/>
+                <input type="hidden" name="user_id" value="${requestScope.user.id}"/>
+                <input type="submit" class="btn btn-secondary" value="<fmt:message key="button.orders.view.all"/> "/>
+            </form>
+            <hr>
+            <h4>
+                <span><b><fmt:message key="text.firstName"/></b>: <c:out value="${requestScope.user.firstName}"/></span>
+                <br>
+                <span><b><fmt:message key="text.lastName"/></b>: <c:out value="${requestScope.user.lastName}"/></span>
+                <br>
+                <span><b><fmt:message key="text.email"/></b>: <c:out value="${requestScope.user.email}"/> </span>
+                <br>
+                <span><b><fmt:message key="text.address"/></b>: <c:out value="${requestScope.user.address}"/></span>
+            </h4>
+        </div> 
+        <div class="card-footer">
+            <form role="form" class="form-inline" action="controller" method="get">
+                <input type="hidden" name="command" value="view-edit-user"/>
+                <input type="hidden" name="user_id" value="${requestScope.user.id}"/>
+                <input type="submit" class="btn btn-warning" value="<fmt:message key="button.change"/> "/>
+            </form>
+        </div>
     </div>
 </div>
+<footer class="footer">
+    <jsp:include page="/WEB-INF/jsp/footer.jsp" />
+</footer>
 </body>
 </html>

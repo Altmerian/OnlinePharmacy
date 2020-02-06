@@ -11,3 +11,7 @@ body {
 .page-btns .btn-sm {
 	margin-bottom: 4px; !important
 }
+.table.catalog td {
+	padding-bottom:6px;
+	padding-top:6px;
+}

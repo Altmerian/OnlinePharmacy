@@ -48,19 +48,18 @@ public class ItemDaoSQLImpl implements ItemDao {
             "LEFT JOIN manufacturers m ON d.manufacturer_id = m.id " +
             "ORDER BY d.label " +
             "LIMIT ?,?";
-    private static final String SELECT_ITEMS_BY_LABEL = "SELECT d.id, d.label, d.dosage_id, ddf.name as dosage_form_name, " +
-            "d.dosage, d.volume, d.volume_type, d.manufacturer_id, m.name" +
-            " AS manufacturer_name, d.price, d.by_prescription, d.description " +
+    private static final String COUNT_ALL_ITEMS = "SELECT COUNT(*) AS number_of_items FROM drugs";
+    private static final String SELECT_ITEMS_BY_LABEL = "SELECT d.id, d.label, d.dosage_id, dos.name AS dosage, " +
+            "d.volume, d.volume_type, d.manufacturer_id, m.name AS manufacturer_name, d.price, d.by_prescription, d.description " +
             "From drugs d " +
             "LEFT JOIN dosages dos ON d.dosage_id = dos.id " +
             "LEFT JOIN manufacturers m ON d.manufacturer_id = m.id " +
-            "WHERE d.label = ? " +
-            "ORDER BY dos.name " +
+            "WHERE d.label LIKE ?" +
+            "ORDER BY dosage " +
             "LIMIT ?,?";
-    private static final String COUNT_ALL_ITEMS = "SELECT COUNT(*) AS number_of_items FROM drugs";
     private static final String COUNT_ITEMS_BY_LABEL = "SELECT COUNT(*) FROM drugs " +
             "GROUP BY label " +
-            "HAVING label = ?";
+            "HAVING label LIKE ?";
     private static final String SELECT_DOSAGES = "SELECT id, name FROM dosages ORDER by name";
     private static final String SELECT_DOSAGE_BY_NAME = "SELECT dos.id, dos.name FROM dosages dos WHERE dos.name = ?";
     private static final String INSERT_DOSAGE = "INSERT INTO dosages (name) VALUES(?)";
@@ -148,36 +147,6 @@ public class ItemDaoSQLImpl implements ItemDao {
     }
 
     @Override
-    public List<Item> selectItemsByLabel(String label, int offset, int limit) throws DaoException {
-        List<Item> itemList = new ArrayList<>();
-        Connection cn = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            cn = ConnectionPool.getInstance().getConnection();
-            preparedStatement = cn.prepareStatement(SELECT_ITEMS_BY_LABEL);
-            preparedStatement.setString(1, label);
-            preparedStatement.setInt(2, offset);
-            preparedStatement.setInt(3, limit);
-            resultSet = preparedStatement.executeQuery();
-            if (!resultSet.isBeforeFirst()) {
-                return null;
-            }
-            while (resultSet.next()) {
-                Item item = new Item();
-                setItemParameters(item, resultSet);
-                itemList.add(item);
-            }
-            return itemList;
-
-        } catch (ConnectionPoolException | SQLException e) {
-            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
-        } finally {
-            closeResources(cn, preparedStatement, resultSet);
-        }
-    }
-
-    @Override
     public int countAllItems() throws DaoException {
         Connection cn = null;
         PreparedStatement preparedStatement = null;
@@ -199,6 +168,36 @@ public class ItemDaoSQLImpl implements ItemDao {
     }
 
     @Override
+    public List<Item> selectItemsByLabel(String label, int offset, int limit) throws DaoException {
+        List<Item> itemList = new ArrayList<>();
+        Connection cn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            cn = ConnectionPool.getInstance().getConnection();
+            preparedStatement = cn.prepareStatement(SELECT_ITEMS_BY_LABEL);
+            preparedStatement.setString(1, label + "%");
+            preparedStatement.setInt(2, offset);
+            preparedStatement.setInt(3, limit);
+            resultSet = preparedStatement.executeQuery();
+            if (!resultSet.isBeforeFirst()) {
+                return null;
+            }
+            while (resultSet.next()) {
+                Item item = new Item();
+                setItemParameters(item, resultSet);
+                itemList.add(item);
+            }
+            return itemList;
+
+        } catch (ConnectionPoolException | SQLException e) {
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
+        } finally {
+            closeResources(cn, preparedStatement, resultSet);
+        }
+    }
+
+    @Override
     public int countItemsByLabel(String label) throws DaoException {
         Connection cn = null;
         PreparedStatement preparedStatement = null;
@@ -206,7 +205,7 @@ public class ItemDaoSQLImpl implements ItemDao {
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(COUNT_ITEMS_BY_LABEL);
-            preparedStatement.setString(1, label);
+            preparedStatement.setString(1, label + "%");
             resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return 0;

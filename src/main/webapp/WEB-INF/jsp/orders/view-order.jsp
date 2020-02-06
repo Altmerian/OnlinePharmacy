@@ -133,7 +133,7 @@
             </form>
         </div>
         </c:if>
-        <c:if test="${requestScope.order.status eq 'paid'}">
+        <c:if test="${requestScope.order.status eq 'paid' and user.login eq order_owner.login}">
         <div class="col">
             <form class="col-sm-6" action="controller" method="post">
                 <input type="hidden" name="command" value="confirm-delivery"/>

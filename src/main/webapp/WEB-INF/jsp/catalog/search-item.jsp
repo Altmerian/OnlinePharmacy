@@ -19,7 +19,7 @@
     <!-- Awesome icons -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <!-- Custom css -->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/custom.css"/>
     <title><fmt:message key="title.catalog"/></title>
 </head>
@@ -29,18 +29,20 @@
 </header>
 <!-- Messages -->
 <div class="container-fluid">
-    <c:if test="${sessionScope.error_message}">
+    <div class="container">
+    <c:if test="${requestScope.error_message}">
         <div class="alert alert-danger text-center" role="alert">
-            <fmt:message key="message.item.addToCart.error"/>
+            <fmt:message key="text.item.not.found"/>
         </div>
         <c:set var="error_message" scope="session" value="false"/>
     </c:if>
-    <c:if test="${sessionScope.success_message}">
+    <c:if test="${requestScope.success_message}">
         <div class="alert alert-success text-center" role="alert">
-            <fmt:message key="message.item.addToCart.success"/>
+            <fmt:message key="text.items.found"/>
         </div>
         <c:set var="success_message" scope="session" value="false"/>
     </c:if>
+    </div>
     <!-- Page navigation -->
      <c:choose>
         <c:when test="${requestScope.number_of_items == 10}">
@@ -53,42 +55,47 @@
     <div class="page-btns" style="padding: 10px;">
         <span><fmt:message key="text.numberOfItems.onPage"/>:</span>
         <form style="display: inline-block" role="form" action="controller" method="get">
-            <input type="hidden" name="command" value="view-catalog">
+            <input type="hidden" name="command" value="search-item">
             <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number" 
                 value="${((param.page_number-1)* param.limit) / 5 + 1}"/>"/>
             <input type="hidden" name="limit" value="5"/>
+            <input type="hidden" name="search" value="${param.search}"/>
             <input class="btn btn-secondary btn-sm" type="submit" value="5"/>
         </form>
         <form style="display: inline-block" role="form" action="controller" method="get">
-            <input type="hidden" name="command" value="view-catalog">
+            <input type="hidden" name="command" value="search-item">
             <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number"
                 value="${((param.page_number-1)* param.limit) / 10 + 1}"/>"/>
             <input type="hidden" name="limit" value="10"/>
+            <input type="hidden" name="search" value="${param.search}"/>
             <input class="btn btn-secondary btn-sm" type="submit" value="10"/>
         </form>
         <form style="display: inline-block" role="form" action="controller" method="get">
-            <input type="hidden" name="command" value="view-catalog">
+            <input type="hidden" name="command" value="search-item">
             <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number"
                 value="${((param.page_number-1)* param.limit) / 20 + 1}"/>"/>
             <input type="hidden" name="limit" value="20"/>
+            <input type="hidden" name="search" value="${param.search}"/>
             <input class="btn btn-secondary btn-sm" type="submit" value="20"/>
         </form>
 
         <span><fmt:message key="text.goTo.page"/>:</span>
         <form style="display: inline-block" role="form" action="controller" method="get">
-            <input type="hidden" name="command" value="view-catalog">
+            <input type="hidden" name="command" value="search-item">
             <input type="number" max="${number_of_pages}" min="1" name="page_number"
                    placeholder="${param.page_number}/<fmt:parseNumber integerOnly="true" type="number"
                 value="${number_of_pages}"/>" required/>
             <input type="hidden" name="limit" value="${param.limit}"/>
+            <input type="hidden" name="search" value="${param.search}"/>
             <input class="btn btn-secondary btn-sm" type="submit" value="<fmt:message key="text.go"/>"/>
         </form>
         <c:choose>
             <c:when test="${param.page_number != 1}">
                 <form style="display: inline-block" role="form" action="controller" method="get">
-                    <input type="hidden" name="command" value="view-catalog">
+                    <input type="hidden" name="command" value="search-item">
                     <input type="hidden" name="page_number" value="${param.page_number - 1}"/>
                     <input type="hidden" name="limit" value="${param.limit}"/>
+                    <input type="hidden" name="search" value="${param.search}"/>
                     <input class="btn btn-secondary btn-sm" type="submit" value="<fmt:message key="text.previous"/>"/>
                 </form>
             </c:when>
@@ -99,9 +106,10 @@
         <c:choose>
             <c:when test="${param.page_number < (number_of_pages - 1)}">
                 <form style="display: inline-block" role="form" action="controller" method="get">
-                    <input type="hidden" name="command" value="view-catalog">
+                    <input type="hidden" name="command" value="search-item">
                     <input type="hidden" name="page_number" value="${param.page_number + 1}"/>
                     <input type="hidden" name="limit" value="${param.limit}"/>
+                    <input type="hidden" name="search" value="${param.search}"/>
                     <input class="btn btn-secondary btn-sm" type="submit" value="<fmt:message key="text.next"/>"/>
                 </form>
             </c:when>
@@ -111,7 +119,7 @@
         </c:choose>
     </div>
     <!-- Table -->
-    <table class="table table-striped catalog">
+    <table class="table table-striped">
         <thead class="thead-light">
         <tr>
             <th width="160px">

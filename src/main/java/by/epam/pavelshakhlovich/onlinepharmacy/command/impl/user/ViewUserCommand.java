@@ -32,7 +32,7 @@ public class ViewUserCommand implements Command {
         User currentUser = (User) session.getAttribute(Parameter.USER);
         User requestedUser = null;
         try {
-            if (stringUserId != null) {
+            if (stringUserId != null && !stringUserId.isEmpty()) {
                 long userId = Long.parseLong(stringUserId);
                 requestedUser = userService.selectUserById(currentUser, userId);
             } else if (email != null) {
