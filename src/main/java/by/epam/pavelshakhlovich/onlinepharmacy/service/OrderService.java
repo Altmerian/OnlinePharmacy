@@ -27,8 +27,7 @@ public interface OrderService {
      *
      * @param orderId id of the order
      * @param user    User that request this order
-     * @return order or {@code null} if no such order
-     * or special Order object with status variable 'ACCESS DENIED' if user don't have permission for viewing this order
+     * @return order or {@code null} if there is no such order
      * @throws ServiceException if failed to retrieve data from dao layer
      */
     Order selectOrderById(long orderId, User user) throws ServiceException;
@@ -45,10 +44,10 @@ public interface OrderService {
     List<Order> selectAllOrdersByStatus(List<String> statusList, int limit, int offset) throws ServiceException;
 
     /**
-     * Selects a list of all orders with given status by all users
+     * Counts all orders with given status by all users
      *
      * @param statusList is a String list of statuses which orders could be
-     * @return a list of orders
+     * @return a quantity of orders
      * @throws ServiceException if exception occurred on an underlying level
      */
     int countOrdersByStatus(List<String> statusList) throws ServiceException;

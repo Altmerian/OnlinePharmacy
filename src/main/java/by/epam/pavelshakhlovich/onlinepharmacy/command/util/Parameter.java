@@ -16,6 +16,7 @@ public final class Parameter {
     public static final String COMPANIES = "companies";
     public static final String COMPANY = "company";
     public static final String DATE = "date";
+    public static final String DOCTOR_ID = "doctor_id";
     public static final String DOSAGE= "dosage";
     public static final String DOSAGES= "dosages";
     public static final String DOSAGE_ID= "dosage_id";
@@ -27,7 +28,6 @@ public final class Parameter {
     public static final String ERROR_COUNTRY_MESSAGE = "error_country_message";
     public static final String ERROR_DOSAGE_MESSAGE = "error_dosage_message";
     public static final String FIRST_NAME = "first_name";
-    public static final String FROM = "from";
     public static final String ID = "id";
     public static final String ITEM = "item";
     public static final String ITEM_ID = "item_id";
@@ -46,7 +46,6 @@ public final class Parameter {
     public static final String OLD_QUANTITY = "old_quantity";
     public static final String ORDER = "order";
     public static final String ORDER_EVENTS = "order_events";
-    public static final String ORDER_STATUS = "order_status";
     public static final String ORDER_OWNER = "order_owner";
     public static final String ORDERS = "orders";
     public static final String ORDER_ID = "order_id";
@@ -74,6 +73,7 @@ public final class Parameter {
     public static final String USER_ID = "user_id";
     public static final String USER_NAME = "user_name";
     public static final String USER_ROLE = "user_role";
+    public static final String VALID_UNTIL = "user_role";
     public static final String VOLUME = "volume";
     public static final String VOLUME_TYPE = "volume_type";
     public static final String VOLUME_TYPES = "volume_types";

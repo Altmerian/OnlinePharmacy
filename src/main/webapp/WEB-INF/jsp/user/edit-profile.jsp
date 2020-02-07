@@ -27,6 +27,9 @@
     <ctg:header/>
 </header>
 <div class="container">
+    <div>
+        <a href="${header.Referer}"><i class="fas fa-arrow-left"></i><fmt:message key="link.back"/></a>
+    </div>
     <c:if test="${sessionScope.success_message}">
         <div class="alert alert-info" role="alert">
             <span>
@@ -52,8 +55,8 @@
             <!--NEW Password-->
         <div class="form-group">
             <label for="new_password"><fmt:message key="text.password.new"/></label>
-                <input type="password" id="new_password" name="password" class="form-control" aria-describedby="passwordHelp" 
-                    pattern=".{4,}">
+                <input type="password" id="new_password" name="password" class="form-control" value="${requestScope.user.password}" 
+                aria-describedby="passwordHelp" pattern=".{4,}" required>
                 <small id="passwordHelp" class="form-text text-muted"><fmt:message key="text.password.help"/></small>
         </div>
             <!-- E-mail -->

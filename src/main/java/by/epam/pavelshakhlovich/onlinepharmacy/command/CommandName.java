@@ -12,7 +12,7 @@ import java.util.List;
  */
 public enum CommandName {
     ADD_ITEM(false, UserRole.MANAGER, UserRole.ADMIN),
-    ADD_ITEM_TO_SHOPPING_CART(false, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER),
+    ADD_ITEM_TO_SHOPPING_CART(false, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     ADD_COMPANY(false, UserRole.ADMIN, UserRole.MANAGER),
     ADD_COUNTRY(false, UserRole.ADMIN, UserRole.MANAGER),
     ADD_DOSAGE(false, UserRole.ADMIN, UserRole.MANAGER),

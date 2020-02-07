@@ -10,13 +10,12 @@ public class Prescription implements Serializable {
     private static final long serialVersionUID = 8927772728101362089L;
     private long id;
     private LocalDateTime validUntil;
-    private boolean approved;
+    private String status;
     private long drugId;
     private long userId;
     private long doctorId;
 
     public Prescription() {
-
     }
 
     public long getId() {
@@ -35,12 +34,12 @@ public class Prescription implements Serializable {
         this.validUntil = validUntil;
     }
 
-    public boolean isApproved() {
-        return approved;
+    public String getStatus() {
+        return status;
     }
 
-    public void setApproved(boolean approved) {
-        this.approved = approved;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public long getDrugId() {
@@ -87,6 +86,10 @@ public class Prescription implements Serializable {
             return false;
         }
 
+        if (!status.equals(that.status)) {
+            return false;
+        }
+
         if (!validUntil.equals(that.validUntil)) {
             return false;
         }
@@ -100,7 +103,7 @@ public class Prescription implements Serializable {
     public int hashCode() {
         int result = Long.hashCode(id);
         result = 31 * result + validUntil.hashCode();
-        result = 31 * result + Boolean.hashCode(approved);
+        result = 31 * result + status.hashCode();
         result = 31 * result + Long.hashCode(drugId);
         result = 31 * result + Long.hashCode(userId);
         result = 31 * result + Long.hashCode(doctorId);

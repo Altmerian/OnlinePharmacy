@@ -5,18 +5,17 @@ package by.epam.pavelshakhlovich.onlinepharmacy.entity;
  */
 public enum PrescriptionStatus {
     REQUESTED("requested"),
-    ACTUAL("actual"),
-    REJECTED("rejected by doctor"),
+    APPROVED("approved"),
     OVERDUE("overdue"),
-    USED("already used");
+    REJECTED("rejected");
 
-    private String status;
+    private String title;
 
-    PrescriptionStatus(String status) {
-        this.status = status;
+    PrescriptionStatus(String title) {
+        this.title = title;
     }
 
-    public String getStatus() {
-        return status;
+    public String getTitle() {
+        return title;
     }
 }
