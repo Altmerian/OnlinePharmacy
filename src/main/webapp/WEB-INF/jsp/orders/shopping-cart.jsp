@@ -52,6 +52,9 @@
             <th>
                 <fmt:message key="text.byPrescription"/>
             </th>
+            <th>
+                <fmt:message key="text.prescription.status"/>
+            </th>
             <th></th>
 
         </tr>
@@ -88,8 +91,41 @@
                     ${entry.key.price}
                 </td>
                 <td>
+                                    <c:if test="${entry.key.byPrescription}">
+                                        <i class="fas fa-check"></i>
+                                    </c:if>
+                                </td>
+                <td>
                     <c:if test="${entry.key.byPrescription}">
-                        <i class="fas fa-check"></i>
+                        <c:choose>
+                            <c:when test="${prescriptions[entry.key.id].status eq 'requested'}">
+                                <span class="badge badge-primary"><fmt:message key="text.prescription.status.requested"/></span>
+                            </c:when>
+                            <c:when test="${prescriptions[entry.key.id].status eq 'approved'}">
+                                <span class="badge badge-success"><fmt:message key="text.prescription.status.approved"/></span>
+                                <div>
+                                    ${prescriptions[entry.key.id].validUntil}
+                                </div>
+                            </c:when>
+                            <c:when test="${prescriptions[entry.key.id].status eq 'overdue'}">
+                                <span class="badge badge-warning"><fmt:message key="text.prescription.status.overdue"/></span>
+                                <div>
+                                    ${prescriptions[entry.key.id].validUntil}
+                                </div>
+                            </c:when>
+                            <c:when test="${prescriptions[entry.key.id].status eq 'rejected'}">
+                                <span class="badge badge-danger"><fmt:message key="text.prescription.status.rejected"/></span>
+                            </c:when>
+                        </c:choose>
+                            <c:if test="${prescriptions[entry.key.id] eq null or prescriptions['entry.key.id'].status != 'approved' or prescriptions['entry.key.id'].status != 'requested'}">
+                                <form class="form-inline" action="controller" method="POST">
+                                    <input type="hidden" name="command" value="request-prescription"/>
+                                    <input type="hidden" name="user_id" value="${user.id}"/>
+                                    <input type="hidden" name="drug_id" value="${entry.key.id}"/>
+                                    <input type="submit" class="btn btn-success btn-sm"
+                                           value="<fmt:message key="button.prescription.request"/>"/>
+                                </form>
+                            </c:if>
                     </c:if>
                 </td>
                 <td>
@@ -113,6 +149,7 @@
             <th>
                 ${total_amount}
             </th>
+            <th></th>
             <th></th>
             <th>
                 <div class="container col-sm-6 ml-0 pl-0">

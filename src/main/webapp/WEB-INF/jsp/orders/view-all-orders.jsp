@@ -37,7 +37,7 @@
     <div class="container mt-2">
         <form class="inline" role="form" action="controller" method="get">
             <input type="hidden" name="command" value="view-all-orders">
-            <span><fmt:message key="text.filter.statuses"/>: </span>
+            <span class="mr-2"><fmt:message key="text.filter.statuses"/>: </span>
             <div class="form-check-inline">
                 <label for="in_process" class="form-check-label" style="color:#17a2b8">
                     <input name="in_process" value="true" type="checkbox" id="in_process" class="badgebox" 

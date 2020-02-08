@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
+/**
+ * Updates cookie if operation with a shopping cart was made
+ */
 @WebFilter(filterName = "AutoRestoreShoppingCartFilter", urlPatterns = "/*")
 public class AutoRestoreShoppingCartFilter implements Filter {
 

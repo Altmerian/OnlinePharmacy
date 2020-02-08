@@ -53,6 +53,7 @@ public final class Parameter {
     public static final String PAGE_NUMBER = "page_number";
     public static final String PASSWORD = "password";
     public static final String PASSWORD_MD5 = "password_md5";
+    public static final String PRESCRIPTIONS = "prescriptions";
     public static final String PRICE = "price";
     public static final String QUANTITY = "quantity";
     public static final String REFERER = "referer";
@@ -73,7 +74,7 @@ public final class Parameter {
     public static final String USER_ID = "user_id";
     public static final String USER_NAME = "user_name";
     public static final String USER_ROLE = "user_role";
-    public static final String VALID_UNTIL = "user_role";
+    public static final String VALID_UNTIL = "valid_until";
     public static final String VOLUME = "volume";
     public static final String VOLUME_TYPE = "volume_type";
     public static final String VOLUME_TYPES = "volume_types";

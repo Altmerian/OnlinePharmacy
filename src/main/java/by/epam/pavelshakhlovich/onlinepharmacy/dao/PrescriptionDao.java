@@ -19,6 +19,16 @@ public interface PrescriptionDao extends BaseDao<Prescription> {
     List<Prescription> selectPrescriptionsByUserId(long userId) throws DaoException;
 
     /**
+     * Selects prescription by user and drug ID
+     *
+     * @param userId  id of the user
+     * @param drugId  id of the drug
+     * @return user's prescription for given drug or {@code null} if user has none
+     * @throws DaoException if failed to retrieve data from the storage due to technical problems
+     */
+    Prescription selectPrescriptionsByDrugIdUserId(long drugId, long userId) throws DaoException;
+
+    /**
      * Retrieves a list of all prescriptions approved by given doctor
      *
      * @param doctorId  id of the doctor

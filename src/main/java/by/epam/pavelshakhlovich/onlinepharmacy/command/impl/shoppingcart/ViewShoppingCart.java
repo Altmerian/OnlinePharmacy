@@ -7,10 +7,14 @@ import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Path;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.SessionUtil;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Item;
+import by.epam.pavelshakhlovich.onlinepharmacy.entity.Prescription;
+import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
 import by.epam.pavelshakhlovich.onlinepharmacy.model.ShoppingCart;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ItemService;
+import by.epam.pavelshakhlovich.onlinepharmacy.service.PrescriptionService;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ServiceException;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.impl.ItemServiceImpl;
+import by.epam.pavelshakhlovich.onlinepharmacy.service.impl.PrescriptionServiceImpl;
 import org.apache.logging.log4j.Level;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,17 +30,26 @@ import java.util.Map;
 public class ViewShoppingCart implements Command {
 
     private static final ItemService itemService = new ItemServiceImpl();
+    private static final PrescriptionService prescriptionService = new PrescriptionServiceImpl();
 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         HttpSession session = request.getSession();
+        User user = (User) session.getAttribute(Parameter.USER);
         ShoppingCart shoppingCart = SessionUtil.getCurrentShoppingCart(request);
         Map<Item, Integer> cartItems = new HashMap<>();
+        Map<Long, Prescription> cartPrescriptions = new HashMap<>();
         try {
             for (Map.Entry<Long, Integer> item : shoppingCart.getItems().entrySet() ) {
-                cartItems.put(itemService.selectItemById(item.getKey()), item.getValue());
+                Item drug = itemService.selectItemById(item.getKey());
+                cartItems.put(drug, item.getValue());
+                if (drug.isByPrescription()) {
+                    Prescription prescription = prescriptionService.selectPrescriptionByDrugId(drug.getId(), user);
+                    cartPrescriptions.put(drug.getId(), prescription);
+                }
             }
             session.setAttribute(Parameter.CART_ITEMS, cartItems);
+            session.setAttribute(Parameter.PRESCRIPTIONS, cartPrescriptions);
         } catch ( ServiceException e) {
             throw LOGGER.throwing(Level.ERROR, new CommandException(e));
         }

@@ -28,6 +28,7 @@ public enum CommandName {
     LOGOUT(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     PAY_ORDER(false, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     REGISTER(false, UserRole.GUEST, UserRole.ADMIN),
+    REQUEST_PRESCRIPTION(false, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER),
     REMOVE_ITEM_FROM_SHOPPING_CART(false, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER),
     SEARCH_ITEM(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     SUBMIT_ORDER(false, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),

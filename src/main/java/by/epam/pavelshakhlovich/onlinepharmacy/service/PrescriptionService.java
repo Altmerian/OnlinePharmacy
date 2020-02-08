@@ -31,6 +31,16 @@ public interface PrescriptionService {
     Prescription selectPrescriptionById(long prescriptionId, User user) throws ServiceException;
 
     /**
+     * Retrieves an prescription with given id
+     *
+     * @param drugId id of the drug which requires a prescription
+     * @param user           User that request this prescription
+     * @return prescription or {@code null} if there is no such prescription
+     * @throws ServiceException if failed to retrieve data from dao layer
+     */
+    Prescription selectPrescriptionByDrugId(long drugId, User user) throws ServiceException;
+
+    /**
      * Selects a list of all Prescriptions with given status by all users
      *
      * @param statusList is a String list of statuses which prescriptions could be

@@ -8,6 +8,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.company.AddCountryCo
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.company.ViewAddCompanyCommand;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.item.*;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.order.*;
+import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.prescription.RequestPrescription;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.shoppingcart.AddItemToCart;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.shoppingcart.ClearShoppingCart;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.impl.shoppingcart.RemoveItemFromCart;
@@ -48,6 +49,7 @@ public class CommandFactory {
         commandMap.put(CommandName.LOGOUT, new LogoutCommand());
         commandMap.put(CommandName.PAY_ORDER, new PayOrderCommand());
         commandMap.put(CommandName.REGISTER, new RegisterCommand());
+        commandMap.put(CommandName.REQUEST_PRESCRIPTION, new RequestPrescription());
         commandMap.put(CommandName.REMOVE_ITEM_FROM_SHOPPING_CART, new RemoveItemFromCart());
         commandMap.put(CommandName.SEARCH_ITEM, new SearchItemCommand());
         commandMap.put(CommandName.SUBMIT_ORDER, new CreateOrderCommand());

@@ -62,7 +62,7 @@
 
  <tr valign = "top">
      <td><b>Message:</b></td>
-     <td>${pageContext.exception.message}</td>
+     <td>${pageContext.exception.detailMessage}</td>
  </tr>
 
  <tr valign = "top">
