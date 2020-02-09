@@ -1,7 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" trimDirectiveWhitespaces="true"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="ctg" uri="customtags" %>
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="local"/>
@@ -21,61 +20,59 @@
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <!-- Custom css -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/custom.css"/>
-    <title><fmt:message key="title.catalog"/></title>
+    <title><fmt:message key="title.prescriptions"/></title>
 </head>
 <body>
 <header>
     <ctg:header/>
 </header>
-<!-- Messages -->
 <div class="container-fluid">
-    <c:if test="${sessionScope.error_message}">
-        <div class="alert alert-danger text-center" role="alert">
-            <fmt:message key="message.item.addToCart.error"/>
+    <!-- Messages -->
+    <c:if test="${requestScope.prescriptions == null}">
+        <div class="alert alert-info" role="alert">
+            <fmt:message key="message.prescriptions.null"/>
         </div>
-        <c:set var="error_message" scope="session" value="false"/>
+    </c:if>
+    <c:if test="${sessionScope.error_message}">
+        <div class="alert alert-info" role="alert">
+            <fmt:message key="message.prescription.status.change.error"/>
+            <c:set var="error_message" scope="session" value="false"/>
+        </div>
     </c:if>
     <c:if test="${sessionScope.success_message}">
-        <div class="alert alert-success text-center" role="alert">
-            <fmt:message key="message.item.addToCart.success"/>
+        <div class="alert alert-success" role="alert">
+            <fmt:message key="message.prescription.approved"/>
+            <c:set var="success_message" scope="session" value="false"/>
         </div>
-        <c:set var="success_message" scope="session" value="false"/>
     </c:if>
-    <!-- Page navigation -->
-     <c:choose>
-        <c:when test="${requestScope.number_of_items == 10}">
-            <c:set var="number_of_pages" value="1"/>
-        </c:when>
-        <c:otherwise>
-            <c:set var="number_of_pages" value="${requestScope.number_of_items div param.limit + 1}"/>
-        </c:otherwise>
-    </c:choose>
-    <div class="page-btns" style="padding: 10px;">
-        <span><fmt:message key="text.numberOfItems.onPage"/>:</span>
+    <!-- Pagination -->
+    <c:set var="number_of_pages" value="${requestScope.number_of_prescriptions div param.limit + 1}"/>
+    <div style="padding: 10px;">
+        <span><fmt:message key="text.number.of.prescriptions.on.page"/>:</span>
         <form style="display: inline-block" role="form" action="controller" method="get">
-            <input type="hidden" name="command" value="view-catalog">
-            <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number" 
+            <input type="hidden" name="command" value="view-requested-prescriptions">
+            <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number"
                 value="${((param.page_number-1)* param.limit) / 5 + 1}"/>"/>
             <input type="hidden" name="limit" value="5"/>
             <input class="btn btn-secondary btn-sm" type="submit" value="5"/>
         </form>
         <form style="display: inline-block" role="form" action="controller" method="get">
-            <input type="hidden" name="command" value="view-catalog">
-            <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number"
+            <input type="hidden" name="command" value="view-requested-prescriptions">
+            <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number" 
                 value="${((param.page_number-1)* param.limit) / 10 + 1}"/>"/>
             <input type="hidden" name="limit" value="10"/>
             <input class="btn btn-secondary btn-sm" type="submit" value="10"/>
         </form>
         <form style="display: inline-block" role="form" action="controller" method="get">
-            <input type="hidden" name="command" value="view-catalog">
-            <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number"
+            <input type="hidden" name="command" value="view-requested-prescriptions">
+            <input type="hidden" name="page_number" value="<fmt:parseNumber integerOnly="true" type="number" 
                 value="${((param.page_number-1)* param.limit) / 20 + 1}"/>"/>
             <input type="hidden" name="limit" value="20"/>
             <input class="btn btn-secondary btn-sm" type="submit" value="20"/>
         </form>
         <span><fmt:message key="text.goTo.page"/>:</span>
         <form style="display: inline-block" role="form" action="controller" method="get">
-            <input type="hidden" name="command" value="view-catalog">
+            <input type="hidden" name="command" value="view-requested-prescriptions">
             <input type="number" max="${number_of_pages}" min="1" name="page_number"
                    placeholder="${param.page_number}/<fmt:parseNumber integerOnly="true" type="number"
                 value="${number_of_pages}"/>" required/>
@@ -85,7 +82,7 @@
         <c:choose>
             <c:when test="${param.page_number != 1}">
                 <form style="display: inline-block" role="form" action="controller" method="get">
-                    <input type="hidden" name="command" value="view-catalog">
+                    <input type="hidden" name="command" value="view-requested-prescriptions">
                     <input type="hidden" name="page_number" value="${param.page_number - 1}"/>
                     <input type="hidden" name="limit" value="${param.limit}"/>
                     <input class="btn btn-secondary btn-sm" type="submit" value="<fmt:message key="text.previous"/>"/>
@@ -98,7 +95,7 @@
         <c:choose>
             <c:when test="${param.page_number < (number_of_pages - 1)}">
                 <form style="display: inline-block" role="form" action="controller" method="get">
-                    <input type="hidden" name="command" value="view-catalog">
+                    <input type="hidden" name="command" value="view-requested-prescriptions">
                     <input type="hidden" name="page_number" value="${param.page_number + 1}"/>
                     <input type="hidden" name="limit" value="${param.limit}"/>
                     <input class="btn btn-secondary btn-sm" type="submit" value="<fmt:message key="text.next"/>"/>
@@ -110,87 +107,79 @@
         </c:choose>
     </div>
     <!-- Table -->
-    <table class="table table-striped catalog">
-        <thead class="thead-light">
-        <tr>
-            <th width="160px">
-                <fmt:message key="text.label"/>
-            </th>
-            <th width="160px">
-                <fmt:message key="text.dosage"/>
-            </th>
-            <th width="100px">
-                <fmt:message key="text.volume"/>
+    <table class="table table-striped">
+        <thead>
+            <th>
+                #
             </th>
             <th>
-                <fmt:message key="text.manufacturer"/>
+                <fmt:message key="text.customer"/>
             </th>
             <th>
-                <fmt:message key="text.price"/>
+                <fmt:message key="text.address"/>
             </th>
             <th>
-                <fmt:message key="text.byPrescription"/>
+                <fmt:message key="text.drug"/>
             </th>
             <th>
-                <fmt:message key="text.description"/>
+                <fmt:message key="text.prescription.status"/>
             </th>
-            <th></th>
-        </tr>
+            <th>
+                <fmt:message key="text.prescription.action"/>
+            </th>
         </thead>
         <tbody>
-        <c:forEach var="item" items="${requestScope.items}">
+        <c:forEach var="prescription" items="${requestScope.prescriptions}">
             <tr>
                 <td>
-                    <a href="${pageContext.request.contextPath}/controller?command=view-item&id=${item.id}"><b>${item.label}</b></a>
-                </td>
-                <td style="padding-left:0; padding-right:0">
-                        ${item.dosage}
+                    <c:out value="${prescription.id}"/>
                 </td>
                 <td>
-                        ${item.volume} ${item.volumeType}
+                    <a href="${pageContext.request.contextPath}/controller?command=view-user&user_id=${prescription.userId}"
+                       style="display: block">
+                        <div style="width: 100%; height: 100%">
+                            <c:out value="${users[prescription.userId].firstName} ${users[prescription.userId].lastName}"/>
+                        </div>
+                    </a>
                 </td>
                 <td>
-                        ${item.manufacturerName}
+                    <c:out value="${users[prescription.userId].address}"/>
                 </td>
                 <td>
-                        ${item.price}
+                    <a href="${pageContext.request.contextPath}/controller?command=view-item&id=${prescription.drugId}"
+                       style="display: block">
+                        <div style="width: 100%; height: 100%">
+                            <c:out value="${items[prescription.drugId].label} ${items[prescription.drugId].dosage}"/>
+                        </div>
+                    </a>
                 </td>
                 <td>
-                    <c:if test="${item.byPrescription}">
-                        <i class="fas fa-check"></i>
-                    </c:if>
+                    <c:choose>
+                        <c:when test="${prescription.status eq 'requested'}">
+                            <span class="badge badge-info"><fmt:message key="text.prescription.status.requested"/></span>
+                        </c:when>
+                        <c:when test="${prescription.status eq 'approved'}">
+                            <span class="badge badge-primary"><fmt:message key="text.prescription.status.approved"/></span>
+                        </c:when>
+                        <c:when test="${prescription.status eq 'overdue'}">
+                            <span class="badge badge-success"><fmt:message key="text.prescription.status.overdue"/></span>
+                        </c:when>
+                        <c:when test="${prescription.status eq 'rejected'}">
+                            <span class="badge badge-default"><fmt:message key="text.prescription.status.rejected"/></span>
+                        </c:when>
+                    </c:choose>
                 </td>
                 <td>
-                        ${item.description}
-                </td>
-                <td style="padding-bottom:6px; padding-top:6px">
-                    <form class="form-inline mr-5" action="controller" method="post">
-                        <input type="hidden" name="command" value="add_item_to_shopping_cart"/>
-                        <input type="hidden" name="item_id" value="${item.id}"/>
-                        <input type="hidden" name="page_number" value="${param.page_number}"/>
-                        <input type="hidden" name="limit" value="${param.limit}"/>
-                        <div class="form-group">
-                            <input type="number" min="1" max="200" name="quantity" value="1"/>
-                            <input type="submit" class="btn btn-warning btn-sm"
-                                   value="<fmt:message key="button.item.buy"/>"/>
-                       </div>
+                    <form action="controller" method="post">
+                        <input type="hidden" name="command" value="approve-prescription"/>
+                        <input type="hidden" name="id" value="${prescription.id}"/>
+                        <input type="submit" class="btn btn-success btn-sm" value="<fmt:message key="button.prescription.approve"/> "/>
                     </form>
-                    <c:if test="${sessionScope.user.role eq 'ADMIN' or sessionScope.user.role eq 'MANAGER'}">
-                        <form class="form-inline" action="controller" method="get">
-                            <input type="hidden" name="command" value="view-edit-item"/>
-                            <input type="hidden" name="id" value="${item.id}"/>
-                            <input type="submit" class="btn btn-success btn-sm"
-                                   value="<fmt:message key="button.change"/>"/>
-                        </form>
-                    </c:if>
                 </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
 </div>
-<footer class="footer">
-    <jsp:include page="/WEB-INF/jsp/footer.jsp" />
-</footer>
 </body>
 </html>

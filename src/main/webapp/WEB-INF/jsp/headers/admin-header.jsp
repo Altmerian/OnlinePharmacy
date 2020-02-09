@@ -42,8 +42,8 @@
                     <fmt:message key="link.prescriptions"/></a></li>
             <!-- User managment -->
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                    href="#"><fmt:message key="link.users"/></a>
+                <a class="nav-link dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" 
+                    aria-expanded="false" href="#"><fmt:message key="link.users"/></a>
                 <div class="dropdown-menu" aria-labelledby="dropdown2">
                     <a class="dropdown-item" href="${pageContext.request.contextPath}/register"><fmt:message key="link.register.new.user"/></a>
                     <div class="dropdown-divider"></div>

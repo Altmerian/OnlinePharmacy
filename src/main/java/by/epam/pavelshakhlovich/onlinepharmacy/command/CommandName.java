@@ -16,6 +16,7 @@ public enum CommandName {
     ADD_COMPANY(false, UserRole.ADMIN, UserRole.MANAGER),
     ADD_COUNTRY(false, UserRole.ADMIN, UserRole.MANAGER),
     ADD_DOSAGE(false, UserRole.ADMIN, UserRole.MANAGER),
+    APPROVE_PRESCRIPTION(false, UserRole.DOCTOR, UserRole.ADMIN),
     CANCEL_ORDER(false, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     CONFIRM_DELIVERY(false, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     CONFIRM_PAYMENT(false, UserRole.ADMIN, UserRole.MANAGER),
@@ -43,6 +44,9 @@ public enum CommandName {
     VIEW_ITEM(true, UserRole.GUEST, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     VIEW_ORDER(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     VIEW_ORDERS(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
+    VIEW_PRESCRIPTIONS(true, UserRole.ADMIN, UserRole.MANAGER, UserRole.USER),
+    VIEW_ALL_PRESCRIPTIONS(true, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
+    VIEW_REQUESTED_PRESCRIPTIONS(true, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     VIEW_SHOPPING_CART(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     VIEW_USER(true, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR);
 

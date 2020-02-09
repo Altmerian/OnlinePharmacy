@@ -132,6 +132,30 @@
         <servlet-name>view-catalog</servlet-name>
         <url-pattern>/view-catalog</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>requested-prescriptions</servlet-name>
+        <jsp-file>/WEB-INF/jsp/prescriptions/requested-prescriptions.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>requested-prescriptions</servlet-name>
+        <url-pattern>/requested-prescriptions</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>view-prescriptions</servlet-name>
+        <jsp-file>/WEB-INF/jsp/prescriptions/view-prescriptions.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>view-prescriptions</servlet-name>
+        <url-pattern>/view-prescriptions</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>view-all-prescriptions</servlet-name>
+        <jsp-file>/WEB-INF/jsp/prescriptions/view-all-prescriptions.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>view-all-prescriptions</servlet-name>
+        <url-pattern>/view-all-prescriptions</url-pattern>
+    </servlet-mapping>
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>

@@ -50,13 +50,26 @@
     <div class="card">
         <div class="card-header"><h4><fmt:message key="text.username"/>: <c:out value="${requestScope.user.login}"/></h4></div>
         <div class="card-body">
-            <form role="form" class="form-inline" action="controller" method="get">
-                <input type="hidden" name="command" value="view-orders"/>
-                <input type="hidden" name="user_id" value="${requestScope.user.id}"/>
-                <input type="submit" class="btn btn-secondary" value="<fmt:message key="button.orders.view.all"/> "/>
-            </form>
+            <div class="row">
+                <c:if test="${sessionScope.user.id == requestScope.user.id or sessionScope.user.role eq 'ADMIN' or sessionScope.user.role eq 'MANAGER'}">
+                    <form role="form" class="form-inline col" action="controller" method="get">
+                        <input type="hidden" name="command" value="view-orders"/>
+                        <input type="hidden" name="user_id" value="${requestScope.user.id}"/>
+                        <input type="submit" class="btn btn-secondary" value="<fmt:message key="button.orders.view.all"/> "/>
+                    </form>
+                </c:if>
+                <c:if test="${sessionScope.user.id == requestScope.user.id and user.role != 'DOCTOR'}">
+                    <form role="form" class="form-inline col" action="controller" method="get">
+                        <input type="hidden" name="command" value="view-prescriptions"/>
+                        <input type="hidden" name="user_id" value="${requestScope.user.id}"/>
+                        <input type="submit" class="btn btn-secondary" value="<fmt:message key="button.prescriptions.view"/> "/>
+                    </form>
+                </c:if>
+            </div>
             <hr>
             <h4>
+                <span><b><fmt:message key="text.role"/></b>: <c:out value="${requestScope.user.role.name}"/></span>
+                <br>
                 <span><b><fmt:message key="text.firstName"/></b>: <c:out value="${requestScope.user.firstName}"/></span>
                 <br>
                 <span><b><fmt:message key="text.lastName"/></b>: <c:out value="${requestScope.user.lastName}"/></span>
@@ -67,11 +80,13 @@
             </h4>
         </div> 
         <div class="card-footer">
-            <form role="form" class="form-inline" action="controller" method="get">
-                <input type="hidden" name="command" value="view-edit-user"/>
-                <input type="hidden" name="user_id" value="${requestScope.user.id}"/>
-                <input type="submit" class="btn btn-warning" value="<fmt:message key="button.change"/> "/>
-            </form>
+            <c:if test="${sessionScope.user.id == requestScope.user.id or sessionScope.user.role eq 'ADMIN' or sessionScope.user.role eq 'MANAGER'}">
+                <form role="form" class="form-inline" action="controller" method="get">
+                    <input type="hidden" name="command" value="view-edit-user"/>
+                    <input type="hidden" name="user_id" value="${requestScope.user.id}"/>
+                    <input type="submit" class="btn btn-warning" value="<fmt:message key="button.change"/> "/>
+                </form>
+            </c:if>
         </div>
     </div>
 </div>

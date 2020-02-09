@@ -17,6 +17,7 @@ public enum JspPage {
     MANAGER_HEADER("/WEB-INF/jsp/headers/admin-header.jsp"),
     MAIN("/main"),
     REGISTER("/register"),
+    REQUESTED_PRESCRIPTIONS("/requested-prescriptions"),
     SEARCH_ITEM("/search-item"),
     SHOPPING_CART("/shopping-cart"),
     USER_HEADER("/WEB-INF/jsp/headers/user-header.jsp"),
@@ -25,6 +26,8 @@ public enum JspPage {
     VIEW_ORDERS("/view-orders"),
     VIEW_ALL_ORDERS("/view-all-orders"),
     VIEW_ITEM ("/view-item"),
+    VIEW_PRESCRIPTIONS ("/view-prescriptions"),
+    VIEW_ALL_PRESCRIPTIONS ("/view-all-prescriptions"),
     VIEW_USER ("/view-user"),
     VIEW_ALL_USERS ("/view-all-users");
 

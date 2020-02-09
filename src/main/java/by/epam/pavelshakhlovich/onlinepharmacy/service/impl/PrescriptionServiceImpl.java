@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -82,20 +83,29 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         return null;
     }
 
+    @Override
+    public int countDoctorPrescriptions(long doctorId) throws ServiceException {
+        try {
+            return prescriptionDao.countDoctorPrescriptions(doctorId);
+        } catch (DaoException e) {
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
+        }
+    }
+
 
     @Override
-    public List<Prescription> selectAllPrescriptionsByStatus(List<String> statusList, int limit, int offset) throws ServiceException {
+    public List<Prescription> selectAllRequestedPrescriptions(int limit, int offset) throws ServiceException {
         try {
-            return prescriptionDao.selectAllPrescriptionsByStatus(statusList, limit, offset);
+            return prescriptionDao.selectAllRequestedPrescriptions(limit, offset);
         } catch (DaoException e) {
             throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }
     }
 
     @Override
-    public int countPrescriptionsByStatus(List<String> statusList) throws ServiceException {
+    public int countRequestedPrescriptions() throws ServiceException {
         try {
-            return prescriptionDao.countPrescriptionsByStatus(statusList);
+            return prescriptionDao.countRequestedPrescriptions();
         } catch (DaoException e) {
             throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }
@@ -111,13 +121,13 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     }
 
     @Override
-    public boolean updatePrescriptionStatus(String prescriptionStatus, long prescriptionId) throws ServiceException {
+    public boolean updatePrescriptionStatus(String prescriptionStatus, long prescriptionId, long doctorId, LocalDateTime validUntil) throws ServiceException {
         try {
             Prescription prescription = prescriptionDao.selectById(prescriptionId);
             if (prescription.getStatus().equalsIgnoreCase(prescriptionStatus)) {
                 return false;
             }
-            return prescriptionDao.updatePrescriptionStatus(prescriptionStatus, prescriptionId);
+            return prescriptionDao.updatePrescriptionStatus(prescriptionStatus, prescriptionId, doctorId, validUntil);
         } catch (DaoException e) {
             throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
         }

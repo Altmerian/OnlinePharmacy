@@ -29,7 +29,6 @@ public class ViewEditUserCommand implements Command {
         try {
             User editedUser = userService.selectUserById(user, userId);
             if (editedUser != null) {
-
                 request.setAttribute(Parameter.USER, editedUser);
                 return new Path(true, JspPage.EDIT_USER.getPath());
             }

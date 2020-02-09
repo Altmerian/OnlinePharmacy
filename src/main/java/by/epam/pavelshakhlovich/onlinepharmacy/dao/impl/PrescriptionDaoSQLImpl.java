@@ -8,10 +8,8 @@ import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPoolException;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Prescription;
 import org.apache.logging.log4j.Level;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +28,9 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
             "WHERE doctor_id = ? " +
             "ORDER BY id DESC " +
             "LIMIT ?, ?";
+    private static final String COUNT_DOCTORS_PRESCRIPTIONS = "SELECT COUNT(id) AS count " +
+            "FROM prescriptions " +
+            "WHERE doctor_id = ?";
     private static final String SELECT_PRESCRIPTION_BY_ID = "SELECT id, valid_until, drug_id, customer_id, doctor_id, status " +
             "FROM prescriptions " +
             "WHERE id = ?";
@@ -41,10 +42,11 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
             "WHERE p.status = 'requested' " +
             "ORDER BY p.valid_until " +
             "LIMIT ?, ?";
-    private static final String COUNT_PRESCRIPTIONS = "SELECT COUNT(p.id) AS count " +
-            "FROM prescriptions p " +
-            "WHERE p.status IN(?, ?, ?, ?)";
-    private static final String UPDATE_PRESCRIPTION_STATUS = "UPDATE prescriptions SET status = ?, valid_until = ? doctor_id = ? WHERE id = ?";
+    private static final String COUNT_PRESCRIPTIONS = "SELECT COUNT(id) AS count " +
+            "FROM prescriptions " +
+            "WHERE status = 'requested'";
+    private static final String UPDATE_PRESCRIPTION_STATUS = "UPDATE prescriptions SET status = ?, valid_until = ?, doctor_id = ? " +
+            "WHERE id = ?";
     private static final String DELETE = "DELETE FROM prescriptions WHERE id = ? ";
 
     @Override
@@ -170,7 +172,29 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
     }
 
     @Override
-    public List<Prescription> selectAllPrescriptionsByStatus(List<String> statusList, int limit, int offset) throws DaoException {
+    public int countDoctorPrescriptions(long doctorId) throws DaoException {
+        Connection cn = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            cn = ConnectionPool.getInstance().getConnection();
+            statement = cn.prepareStatement(COUNT_DOCTORS_PRESCRIPTIONS);
+            statement.setLong(1, doctorId);
+            resultSet = statement.executeQuery();
+            if (!resultSet.isBeforeFirst()) {
+                return 0;
+            }
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (ConnectionPoolException | SQLException e) {
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
+        } finally {
+            closeResources(cn, statement, resultSet);
+        }
+    }
+
+    @Override
+    public List<Prescription> selectAllRequestedPrescriptions(int limit, int offset) throws DaoException {
         List<Prescription> prescriptionList = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
@@ -178,11 +202,8 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_ALL_REQUESTED_PRESCRIPTIONS);
-            for (int i = 0; i < statusList.size(); i++) {
-                preparedStatement.setString(i + 1, statusList.get(i));
-            }
-            preparedStatement.setInt(5, offset);
-            preparedStatement.setInt(6, limit);
+            preparedStatement.setInt(1, offset);
+            preparedStatement.setInt(2, limit);
             resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
@@ -201,17 +222,14 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
     }
 
     @Override
-    public int countPrescriptionsByStatus(List<String> statusList) throws DaoException {
+    public int countRequestedPrescriptions() throws DaoException {
         Connection cn = null;
-        PreparedStatement preparedStatement = null;
+        PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
-            preparedStatement = cn.prepareStatement(COUNT_PRESCRIPTIONS);
-            for (int i = 0; i < statusList.size(); i++) {
-                preparedStatement.setString(i + 1, statusList.get(i));
-            }
-            resultSet = preparedStatement.executeQuery();
+            statement = cn.prepareStatement(COUNT_PRESCRIPTIONS);
+            resultSet = statement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return 0;
             }
@@ -220,20 +238,21 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, statement, resultSet);
         }
     }
 
     @Override
-    public boolean updatePrescriptionStatus(String prescriptionStatus, long prescriptionId) throws DaoException {
+    public boolean updatePrescriptionStatus(String prescriptionStatus, long prescriptionId, long doctorId, LocalDateTime validUntil) throws DaoException {
         Connection cn = null;
         PreparedStatement preparedStatement = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
-            cn.setAutoCommit(false);
             preparedStatement = cn.prepareStatement(UPDATE_PRESCRIPTION_STATUS);
             preparedStatement.setString(1, prescriptionStatus);
-            preparedStatement.setLong(2, prescriptionId);
+            preparedStatement.setTimestamp(2, Timestamp.valueOf(validUntil));
+            preparedStatement.setLong(3, doctorId);
+            preparedStatement.setLong(4, prescriptionId);
             int result = preparedStatement.executeUpdate();
             return result > 0;
         } catch (ConnectionPoolException | SQLException e) {

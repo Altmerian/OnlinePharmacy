@@ -3,6 +3,7 @@ package by.epam.pavelshakhlovich.onlinepharmacy.service;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Prescription;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -51,24 +52,30 @@ public interface PrescriptionService {
     List<Prescription> selectPrescriptionsByDoctorId(User user, long doctorId, int limit, int offset) throws ServiceException;
 
     /**
+     * Counts all prescriptions written by a specified doctor
+     * @param doctorId id of the doctor
+     * @return a quantity of prescriptions
+     * @throws ServiceException if exception occurred on an underlying level
+     */
+    int countDoctorPrescriptions(long doctorId) throws ServiceException;
+
+    /**
      * Selects a list of all Prescriptions with given status by all users
      *
-     * @param statusList is a String list of statuses which prescriptions could be
      * @param limit      parameters for pagination
      * @param offset     parameters for pagination
      * @return a list of prescriptions
      * @throws ServiceException if exception occurred on an underlying level
      */
-    List<Prescription> selectAllPrescriptionsByStatus(List<String> statusList, int limit, int offset) throws ServiceException;
+    List<Prescription> selectAllRequestedPrescriptions(int limit, int offset) throws ServiceException;
 
     /**
-     * Counts all prescriptions with given status by all users
+     * Counts all requested prescriptions by all users
      *
-     * @param statusList is a String list of statuses which prescriptions could be
      * @return a quantity of prescriptions
      * @throws ServiceException if exception occurred on an underlying level
      */
-    int countPrescriptionsByStatus(List<String> statusList) throws ServiceException;
+    int countRequestedPrescriptions() throws ServiceException;
 
     /**
      * Creates a Prescription with "requested" status and .
@@ -85,10 +92,12 @@ public interface PrescriptionService {
      *
      * @param prescriptionStatus is prescriptionStatus to update
      * @param prescriptionId     is id of prescription
+     * @param doctorId           is id of doctor
+     * @param validUntil         term of using
      * @return {@code true} if updated successfully, {@code false} if update failed
      * @throws ServiceException if exception occurred on an underlying level
      */
-    boolean updatePrescriptionStatus(String prescriptionStatus, long prescriptionId) throws ServiceException;
+    boolean updatePrescriptionStatus(String prescriptionStatus, long prescriptionId, long doctorId, LocalDateTime validUntil) throws ServiceException;
 
     /**
      * Cancel a specified prescription and delete it from data source

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 <%@ taglib prefix="ctg" uri="customtags" %>
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="local"/>
@@ -91,10 +92,10 @@
                     ${entry.key.price}
                 </td>
                 <td>
-                                    <c:if test="${entry.key.byPrescription}">
-                                        <i class="fas fa-check"></i>
-                                    </c:if>
-                                </td>
+                    <c:if test="${entry.key.byPrescription}">
+                        <i class="fas fa-check"></i>
+                    </c:if>
+                </td>
                 <td>
                     <c:if test="${entry.key.byPrescription}">
                         <c:choose>
@@ -104,13 +105,13 @@
                             <c:when test="${prescriptions[entry.key.id].status eq 'approved'}">
                                 <span class="badge badge-success"><fmt:message key="text.prescription.status.approved"/></span>
                                 <div>
-                                    ${prescriptions[entry.key.id].validUntil}
+                                    <javatime:format value="${prescriptions[entry.key.id].validUntil}" style="MS" />
                                 </div>
                             </c:when>
                             <c:when test="${prescriptions[entry.key.id].status eq 'overdue'}">
                                 <span class="badge badge-warning"><fmt:message key="text.prescription.status.overdue"/></span>
                                 <div>
-                                    ${prescriptions[entry.key.id].validUntil}
+                                    <javatime:format value="${prescriptions[entry.key.id].validUntil}" style="MS" />
                                 </div>
                             </c:when>
                             <c:when test="${prescriptions[entry.key.id].status eq 'rejected'}">
@@ -160,25 +161,27 @@
         </tfoot>
     </table>
     <!-- Button -->
-    <c:choose>
-            <c:when test="${order_available and count != 0}">
-            <form action="controller" method="post">
-                <input type="hidden" name="total_amount" value="${total_amount}"/>
-                <input type="hidden" name="command" value="submit_order"/>
-                <div class="col-sm-4 mx-auto">
-                    <input type="submit" style="padding: 10px" class="btn btn-success btn-lg btn-block active"
-                           value="<fmt:message key="button.order.submit"/> "/>
-                </div>
-            </form>
-            </c:when>
-            <c:otherwise>
-                <div class="col-sm-4 mx-auto text-center">
-                    <input type="submit" style="padding: 10px" class="btn btn-success btn-lg btn-block active"
-                               aria-describedby="order" value="<fmt:message key="button.order.submit"/> " disabled/>
-                    <small id="order" class="form-text text-muted"><fmt:message key="text.order.help"/></small>
-                </div>
-            </c:otherwise>
-    </c:choose>
+    <c:if test="${count != 0}">
+        <c:choose>
+                <c:when test="${order_available}">
+                <form action="controller" method="post">
+                    <input type="hidden" name="total_amount" value="${total_amount}"/>
+                    <input type="hidden" name="command" value="submit_order"/>
+                    <div class="col-sm-4 mx-auto">
+                        <input type="submit" style="padding: 10px" class="btn btn-success btn-lg btn-block active"
+                               value="<fmt:message key="button.order.submit"/> "/>
+                    </div>
+                </form>
+                </c:when>
+                <c:otherwise>
+                    <div class="col-sm-4 mx-auto text-center">
+                        <input type="submit" style="padding: 10px" class="btn btn-success btn-lg btn-block active"
+                                   aria-describedby="order" value="<fmt:message key="button.order.submit"/> " disabled/>
+                        <small id="order" class="form-text text-muted"><fmt:message key="text.order.help"/></small>
+                    </div>
+                </c:otherwise>
+        </c:choose>
+    </c:if>
 </div>
 <!-- Messages -->
 <div class="container col-sm-4 text-center">

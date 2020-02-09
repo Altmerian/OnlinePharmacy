@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
         if (user.getId() == userId) {
             return user;
         } else {
-            if (user.getRole() == UserRole.ADMIN || user.getRole() == UserRole.MANAGER) {
+            if (user.getRole() == UserRole.ADMIN || user.getRole() == UserRole.MANAGER || user.getRole() == UserRole.DOCTOR) {
                 try {
                     return userDao.selectById(userId);
                 } catch (DaoException e) {

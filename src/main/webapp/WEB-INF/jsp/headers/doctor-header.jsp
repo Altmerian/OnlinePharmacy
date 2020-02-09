@@ -31,14 +31,14 @@
             </li>
             <!-- Prescriptions -->
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="dropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" 
-                aria-expanded="false" href="#"><fmt:message key="link.prescriptions"/></a>
-                <div class="dropdown-menu" aria-labelledby="dropdown1">
-                <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=view-requested-prescriptions&page_number=1&limit=10">
+                <a class="nav-link dropdown-toggle" id="prescriptions" role="button" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">
                     <fmt:message key="link.prescriptions"/></a>
-                <div class="dropdown-divider"></div>
-                <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=view-all-prescriptions&page_number=1&limit=10">
-                    <fmt:message key="link.prescriptions"/></a>
+                <div class="dropdown-menu" aria-labelledby="prescriptions">
+                    <a class="dropdown-item" href="${pageContext.request.contextPath}/controller?command=view-requested-prescriptions&page_number=1&limit=10">
+                        <fmt:message key="link.prescriptions.requested"/></a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath}/controller?command=view-all-prescriptions&page_number=1&limit=10"><fmt:message key="link.prescriptions.byDoctor"/></a>
+                </div>
             </li>
             <!-- Catalog -->
             <li class="nav-item">

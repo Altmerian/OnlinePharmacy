@@ -21,7 +21,7 @@ public class ConnectionPool {
     private static final ConnectionPool INSTANCE = new ConnectionPool();
     private static AtomicBoolean isEmpty = new AtomicBoolean(true);
     private static ReentrantLock lock = new ReentrantLock();
-    private static final int POOL_SIZE = 5;
+    private static final int POOL_SIZE = 10;
     private static BlockingQueue<ProxyConnection> connections;
     private static final String DATABASE_PROPERTIES = "database.properties";
     private static ResourceBundle resource = ResourceBundle.getBundle("database");

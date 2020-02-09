@@ -29,7 +29,7 @@ public class RequestPrescription implements Command {
         if (!request.getParameter(Parameter.PRESCRIPTION_ID).isEmpty()) {
             long prescriptionId = Long.parseLong(request.getParameter(Parameter.PRESCRIPTION_ID));
             try {
-                prescriptionService.updatePrescriptionStatus(PrescriptionStatus.REQUESTED.getTitle(), prescriptionId);
+                prescriptionService.updatePrescriptionStatus(PrescriptionStatus.REQUESTED.getTitle(), prescriptionId, 0, null);
             } catch (ServiceException e) {
                 throw LOGGER.throwing(Level.ERROR, new CommandException(e));
             }

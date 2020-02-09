@@ -43,7 +43,7 @@ public class Controller extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
             Command command = CommandFactory.getInstance().getCommand(request);
-            LOGGER.debug("executing " + command);
+            LOGGER.debug("executing " + command.getClass().getSimpleName());
             Path path = command.execute(request, response);
             if (path.getUrl() != null) {
                 if (path.isForward()) {

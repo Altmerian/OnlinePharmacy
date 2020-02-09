@@ -43,6 +43,7 @@ public final class Parameter {
     public static final String NAME = "name";
     public static final String NUMBER_OF_ITEMS = "number_of_items";
     public static final String NUMBER_OF_ORDERS = "number_of_orders";
+    public static final String NUMBER_OF_PRESCRIPTIONS = "number_of_prescriptions";
     public static final String NUMBER_OF_USERS = "number_of_users";
     public static final String OLD_QUANTITY = "old_quantity";
     public static final String ORDER = "order";
@@ -57,6 +58,7 @@ public final class Parameter {
     public static final String PASSWORD_MD5 = "password_md5";
     public static final String PRESCRIPTIONS = "prescriptions";
     public static final String PRESCRIPTION_ID = "prescription_id";
+    public static final String PRESCRIPTION_OWNER = "prescription_owner";
     public static final String PRICE = "price";
     public static final String QUANTITY = "quantity";
     public static final String REFERER = "referer";

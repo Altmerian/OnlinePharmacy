@@ -63,8 +63,8 @@
            </div>
         </form>
     </div>
-    <c:set var="number_of_pages" value="${requestScope.number_of_orders div param.limit + 1}"/>
     <!-- Pagination -->
+    <c:set var="number_of_pages" value="${requestScope.number_of_orders div param.limit + 1}"/>
     <div style="padding: 10px;">
         <span><fmt:message key="text.number.of.orders.on.page"/>:</span>
         <form style="display: inline-block" role="form" action="controller" method="get">
