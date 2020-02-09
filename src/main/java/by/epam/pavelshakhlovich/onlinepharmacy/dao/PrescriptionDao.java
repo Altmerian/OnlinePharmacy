@@ -32,10 +32,12 @@ public interface PrescriptionDao extends BaseDao<Prescription> {
      * Retrieves a list of all prescriptions approved by given doctor
      *
      * @param doctorId  id of the doctor
+     * @param limit parameters for pagination
+     * @param offset parameters for pagination
      * @return list of doctor's prescriptions or {@code null} if doctor has not written any
      * @throws DaoException if failed to retrieve data from the storage due to technical problems
      */
-    List<Prescription> selectPrescriptionsByDoctorId(long doctorId) throws DaoException;
+    List<Prescription> selectPrescriptionsByDoctorId(long doctorId, int limit, int offset) throws DaoException;
 
     /**
      * Selects a list of all prescriptions with given status by all users

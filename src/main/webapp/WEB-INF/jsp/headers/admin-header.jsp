@@ -26,8 +26,8 @@
                     <span class="sr-only">(current)</span></a></li>
             <!-- Ordres -->
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="dropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                    href="#"><fmt:message key="link.orders"/></a>
+                <a class="nav-link dropdown-toggle" id="dropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" 
+                aria-expanded="false" href="#"><fmt:message key="link.orders"/></a>
                 <div class="dropdown-menu" aria-labelledby="dropdown1">
                     <a class="dropdown-item" href="${pageContext.request.contextPath}/controller?command=view-orders">
                         <fmt:message key="link.orders.view.own"/></a>
@@ -102,7 +102,8 @@
             </form>
             <!-- Profile --> 
             <li class="nav-item dropdown ml-1">
-                <a class="nav-link dropdown-toggle" id="dropdown4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> ${sessionScope.user.login} </a>
+                <a class="nav-link dropdown-toggle" id="dropdown4" role="button" data-toggle="dropdown" aria-haspopup="true" 
+                    aria-expanded="false" href="#"><i class="fas fa-user"></i> ${sessionScope.user.login} </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-cyan" aria-labelledby="dropdown4">
                     <a class="dropdown-item" href="${pageContext.request.contextPath}/controller?command=view-user&user_id=${sessionScope.user.id}">
                         <fmt:message key="link.profile"/> </a>

@@ -120,13 +120,19 @@
                 <input type="submit" form="edit" class="btn btn-primary" value="<fmt:message key="button.change"/>"/>
             </div>
         </form>
-        <form role="form" action="controller" method="post">
-            <input type="hidden" name="command" value="delete-item"/>
-            <input type="hidden" name="id" value="${requestScope.item.id}"/>
-            <input type="submit" class="btn btn-danger" value="<fmt:message key="button.delete"/>"/>
-        </form>
+        <div class="form-row">
+            <div class="col">
+                <a href="${header.Referer}" class="btn btn-warning" role="button"><fmt:message key="button.cancel"/></a>
+            </div>
+            <div class="col">
+                <form role="form" action="controller" method="post">
+                    <input type="hidden" name="command" value="delete-item"/>
+                    <input type="hidden" name="id" value="${requestScope.item.id}"/>
+                    <input type="submit" class="btn btn-danger" value="<fmt:message key="button.delete"/>"/>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
-
 </body>
 </html>

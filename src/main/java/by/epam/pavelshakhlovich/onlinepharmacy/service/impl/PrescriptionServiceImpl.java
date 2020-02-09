@@ -66,6 +66,22 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         return null;
     }
 
+    @Override
+    public List<Prescription> selectPrescriptionsByDoctorId(User user, long doctorId, int limit, int offset) throws ServiceException {
+        try {
+            List<Prescription> prescriptionList = prescriptionDao.selectPrescriptionsByDoctorId(doctorId, limit, offset);
+            if (prescriptionList == null) {
+                return null;
+            } else if (user.getId() == doctorId
+                    || user.getRole() == UserRole.ADMIN || user.getRole() != UserRole.MANAGER) {
+                return prescriptionList;
+            }
+        } catch (DaoException e) {
+            throw LOGGER.throwing(Level.ERROR, new ServiceException(e));
+        }
+        return null;
+    }
+
 
     @Override
     public List<Prescription> selectAllPrescriptionsByStatus(List<String> statusList, int limit, int offset) throws ServiceException {

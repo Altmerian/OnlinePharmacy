@@ -41,6 +41,16 @@ public interface PrescriptionService {
     Prescription selectPrescriptionByDrugId(long drugId, User user) throws ServiceException;
 
     /**
+     * Returns a list of {@link Prescription} prescriptions approved by a specified doctor
+     *
+     * @param user   is user that request a list
+     * @param doctorId id of the doctor, approved the requested prescriptions
+     * @return list of doctor's prescriptions
+     * @throws ServiceException if exception occurred on an underlying level
+     */
+    List<Prescription> selectPrescriptionsByDoctorId(User user, long doctorId, int limit, int offset) throws ServiceException;
+
+    /**
      * Selects a list of all Prescriptions with given status by all users
      *
      * @param statusList is a String list of statuses which prescriptions could be

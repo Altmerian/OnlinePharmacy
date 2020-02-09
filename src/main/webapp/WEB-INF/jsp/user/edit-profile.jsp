@@ -86,6 +86,9 @@
             <input type="submit" class="btn btn-primary" value="<fmt:message key="button.change" />"/>
         </div>
     </form>
+    <span>
+        <a href="${header.Referer}" class="btn btn-warning" role="button"><fmt:message key="button.cancel"/></a>
+    </span>
 </div>
 <footer class="footer">
     <jsp:include page="/WEB-INF/jsp/footer.jsp" />

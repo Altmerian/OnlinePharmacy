@@ -28,7 +28,8 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
     private static final String SELECT_DOCTORS_PRESCRIPTIONS = "SELECT id, valid_until, drug_id, customer_id, doctor_id, status " +
             "FROM prescriptions " +
             "WHERE doctor_id = ? " +
-            "ORDER BY id DESC ";
+            "ORDER BY id DESC " +
+            "LIMIT ?, ?";
     private static final String SELECT_PRESCRIPTION_BY_ID = "SELECT id, valid_until, drug_id, customer_id, doctor_id, status " +
             "FROM prescriptions " +
             "WHERE id = ?";
@@ -116,33 +117,6 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
     }
 
     @Override
-    public List<Prescription> selectPrescriptionsByDoctorId(long doctorId) throws DaoException {
-        List<Prescription> prescriptionList = new ArrayList<>();
-        Connection cn = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            cn = ConnectionPool.getInstance().getConnection();
-            preparedStatement = cn.prepareStatement(SELECT_DOCTORS_PRESCRIPTIONS);
-            preparedStatement.setLong(1, doctorId);
-            resultSet = preparedStatement.executeQuery();
-            if (!resultSet.isBeforeFirst()) {
-                return null;
-            }
-            while (resultSet.next()) {
-                Prescription prescription = new Prescription();
-                setPrescriptionParameters(resultSet, prescription);
-                prescriptionList.add(prescription);
-            }
-            return prescriptionList;
-        } catch (ConnectionPoolException | SQLException e) {
-            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
-        } finally {
-            closeResources(cn, preparedStatement, resultSet);
-        }
-    }
-
-    @Override
     public Prescription selectById(long prescriptionId) throws DaoException {
         Connection cn = null;
         PreparedStatement preparedStatement = null;
@@ -159,6 +133,35 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
             Prescription prescription = new Prescription();
             setPrescriptionParameters(resultSet, prescription);
             return prescription;
+        } catch (ConnectionPoolException | SQLException e) {
+            throw LOGGER.throwing(Level.ERROR, new DaoException(e));
+        } finally {
+            closeResources(cn, preparedStatement, resultSet);
+        }
+    }
+
+    @Override
+    public List<Prescription> selectPrescriptionsByDoctorId(long doctorId, int limit, int offset) throws DaoException {
+        List<Prescription> prescriptionList = new ArrayList<>();
+        Connection cn = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            cn = ConnectionPool.getInstance().getConnection();
+            preparedStatement = cn.prepareStatement(SELECT_DOCTORS_PRESCRIPTIONS);
+            preparedStatement.setLong(1, doctorId);
+            preparedStatement.setInt(2, offset);
+            preparedStatement.setInt(3, limit);
+            resultSet = preparedStatement.executeQuery();
+            if (!resultSet.isBeforeFirst()) {
+                return null;
+            }
+            while (resultSet.next()) {
+                Prescription prescription = new Prescription();
+                setPrescriptionParameters(resultSet, prescription);
+                prescriptionList.add(prescription);
+            }
+            return prescriptionList;
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
