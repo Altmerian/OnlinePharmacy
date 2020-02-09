@@ -27,6 +27,7 @@ public final class Parameter {
     public static final String ERROR_MESSAGE_DELETE = "error_message_delete";
     public static final String ERROR_COUNTRY_MESSAGE = "error_country_message";
     public static final String ERROR_DOSAGE_MESSAGE = "error_dosage_message";
+    public static final String ERROR_REQUEST_MESSAGE = "error_request_message";
     public static final String FIRST_NAME = "first_name";
     public static final String ID = "id";
     public static final String ITEM = "item";
@@ -45,6 +46,7 @@ public final class Parameter {
     public static final String NUMBER_OF_USERS = "number_of_users";
     public static final String OLD_QUANTITY = "old_quantity";
     public static final String ORDER = "order";
+    public static final String ORDER_AVAILABLE = "order_available";
     public static final String ORDER_EVENTS = "order_events";
     public static final String ORDER_OWNER = "order_owner";
     public static final String ORDERS = "orders";
@@ -54,6 +56,7 @@ public final class Parameter {
     public static final String PASSWORD = "password";
     public static final String PASSWORD_MD5 = "password_md5";
     public static final String PRESCRIPTIONS = "prescriptions";
+    public static final String PRESCRIPTION_ID = "prescription_id";
     public static final String PRICE = "price";
     public static final String QUANTITY = "quantity";
     public static final String REFERER = "referer";
@@ -66,6 +69,7 @@ public final class Parameter {
     public static final String STATUS_LIST = "status_list";
     public static final String SUCCESS_MESSAGE = "success_message";
     public static final String SUCCESS_MESSAGE_DELETE= "success_delete_message";
+    public static final String SUCCESS_REQUEST_MESSAGE= "success_request_message";
     public static final String SUCCESS_COUNTRY_MESSAGE = "success_country_message";
     public static final String SUCCESS_DOSAGE_MESSAGE = "success_dosage_message";
     public static final String TOTAL_AMOUNT = "total_amount";

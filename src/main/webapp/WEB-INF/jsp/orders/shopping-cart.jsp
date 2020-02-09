@@ -117,9 +117,10 @@
                                 <span class="badge badge-danger"><fmt:message key="text.prescription.status.rejected"/></span>
                             </c:when>
                         </c:choose>
-                            <c:if test="${prescriptions[entry.key.id] eq null or prescriptions['entry.key.id'].status != 'approved' or prescriptions['entry.key.id'].status != 'requested'}">
+                            <c:if test="${prescriptions[entry.key.id] eq null or prescriptions[entry.key.id].status eq 'rejected' or prescriptions[entry.key.id].status eq 'overdue'}">
                                 <form class="form-inline" action="controller" method="POST">
                                     <input type="hidden" name="command" value="request-prescription"/>
+                                    <input type="hidden" name="prescription_id" value="${prescriptions[entry.key.id].id}"/>
                                     <input type="hidden" name="user_id" value="${user.id}"/>
                                     <input type="hidden" name="drug_id" value="${entry.key.id}"/>
                                     <input type="submit" class="btn btn-success btn-sm"
@@ -158,16 +159,26 @@
             </th>
         </tfoot>
     </table>
-    <c:if test="${count != 0}">
-    <form action="controller" method="post">
-        <input type="hidden" name="total_amount" value="${total_amount}"/>
-        <input type="hidden" name="command" value="submit_order"/>
-        <div class="col-sm-4 mx-auto">
-            <input type="submit" style="padding: 10px" class="btn btn-success btn-lg btn-block active"
-                   value="<fmt:message key="button.order.submit"/> "/>
-        </div>
-    </form>
-    </c:if>
+    <!-- Button -->
+    <c:choose>
+            <c:when test="${order_available and count != 0}">
+            <form action="controller" method="post">
+                <input type="hidden" name="total_amount" value="${total_amount}"/>
+                <input type="hidden" name="command" value="submit_order"/>
+                <div class="col-sm-4 mx-auto">
+                    <input type="submit" style="padding: 10px" class="btn btn-success btn-lg btn-block active"
+                           value="<fmt:message key="button.order.submit"/> "/>
+                </div>
+            </form>
+            </c:when>
+            <c:otherwise>
+                <div class="col-sm-4 mx-auto text-center">
+                    <input type="submit" style="padding: 10px" class="btn btn-success btn-lg btn-block active"
+                               aria-describedby="order" value="<fmt:message key="button.order.submit"/> " disabled/>
+                    <small id="order" class="form-text text-muted"><fmt:message key="text.order.help"/></small>
+                </div>
+            </c:otherwise>
+    </c:choose>
 </div>
 <!-- Messages -->
 <div class="container col-sm-4 text-center">
@@ -182,6 +193,20 @@
             <fmt:message key="message.quantity.change.error"/>
         </div>
         <c:set var="error_message" value="false" scope="session"/>
+    </c:if>
+</div>
+<div class="container col-sm-4 text-center">
+    <c:if test="${success_request_message}">
+        <div class="alert alert-success" role="alert">
+            <fmt:message key="message.prescription.request.success"/>
+        </div>
+        <c:set var="success_request_message" value="false" scope="session"/>
+    </c:if>
+    <c:if test="${error_request_message}">
+        <div class="alert alert-danger" role="alert">
+            <fmt:message key="message.prescription.request.error"/>
+        </div>
+        <c:set var="error_request_message" value="false" scope="session"/>
     </c:if>
 </div>
 <footer class="footer">

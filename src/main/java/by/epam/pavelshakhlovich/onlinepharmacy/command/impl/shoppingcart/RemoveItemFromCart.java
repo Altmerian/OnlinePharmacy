@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  * Class {@code RemoveItemFromCart} is an implementation of {@see Command}
  * for removing from the current shopping cart an earlier added item
  */
-public class RemoveItemFromCart implements Command { //todo
+public class RemoveItemFromCart implements Command {
 
     private static OrderService orderService = new OrderServiceImpl();
 

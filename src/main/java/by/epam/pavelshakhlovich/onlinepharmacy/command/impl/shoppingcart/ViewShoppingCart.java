@@ -39,12 +39,16 @@ public class ViewShoppingCart implements Command {
         ShoppingCart shoppingCart = SessionUtil.getCurrentShoppingCart(request);
         Map<Item, Integer> cartItems = new HashMap<>();
         Map<Long, Prescription> cartPrescriptions = new HashMap<>();
+        session.setAttribute(Parameter.ORDER_AVAILABLE, Boolean.TRUE);
         try {
             for (Map.Entry<Long, Integer> item : shoppingCart.getItems().entrySet() ) {
                 Item drug = itemService.selectItemById(item.getKey());
                 cartItems.put(drug, item.getValue());
                 if (drug.isByPrescription()) {
                     Prescription prescription = prescriptionService.selectPrescriptionByDrugId(drug.getId(), user);
+                    if (prescription == null || !prescription.getStatus().equalsIgnoreCase("approved")) {
+                        session.setAttribute(Parameter.ORDER_AVAILABLE, Boolean.FALSE);
+                    }
                     cartPrescriptions.put(drug.getId(), prescription);
                 }
             }
@@ -55,4 +59,6 @@ public class ViewShoppingCart implements Command {
         }
         return new Path(true, JspPage.SHOPPING_CART.getPath());
     }
+
+
 }
