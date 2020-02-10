@@ -48,21 +48,25 @@
         <a href="${header.Referer}"><i class="fas fa-arrow-left"></i><fmt:message key="link.back"/></a>
     </div>
     <div class="container col-sm-6 text-center mt-1">
-        <h4><fmt:message key="title.order"/> #${requestScope.order.id}</h4>
-        <h5><fmt:message key="title.customer"/>: #${order_owner.id} ${order_owner.firstName} ${order_owner.lastName} (${order_owner.login})</h5>
+        <h4><fmt:message key="title.order"/> <c:out value="#${requestScope.order.id}"/></h4>
+        <h5><fmt:message key="title.customer"/>: 
+            #<c:out value="${order_owner.id} ${order_owner.firstName} ${order_owner.lastName} (${order_owner.login})"/></h5>
     </div>
     <div class="row">
         <c:forEach var="entry" items="${order_events}">
             <div class="col">
                 <c:choose>
                     <c:when test="${entry.value eq 'in_process'}">
-                        <span class="badge badge-info"><fmt:message key="text.order.in_process"/></span><i class="fas fa-long-arrow-alt-right"></i>
+                        <span class="badge badge-info"><fmt:message key="text.order.in_process"/></span>
+                        <i class="fas fa-long-arrow-alt-right"></i>
                     </c:when>
                     <c:when test="${entry.value eq 'payment_confirmation'}">
-                        <span class="badge badge-primary"><fmt:message key="text.order.payment_confirmation"/></span><i class="fas fa-long-arrow-alt-right"></i>
+                        <span class="badge badge-primary"><fmt:message key="text.order.payment_confirmation"/></span>
+                        <i class="fas fa-long-arrow-alt-right"></i>
                     </c:when>
                     <c:when test="${entry.value eq 'paid'}">
-                        <span class="badge badge-success"><fmt:message key="text.order.paid"/></span><i class="fas fa-long-arrow-alt-right"></i>
+                        <span class="badge badge-success"><fmt:message key="text.order.paid"/></span>
+                        <i class="fas fa-long-arrow-alt-right"></i>
                     </c:when>
                     <c:when test="${entry.value eq 'completed'}">
                         <span class="badge badge-default"><fmt:message key="text.order.completed"/></span>
@@ -103,8 +107,8 @@
                 </td>
                 <td>
                     <a href="${pageContext.request.contextPath}/controller?command=view-item&id=${entry.key.id}">
-                        <b>${entry.key.label}</b> ${entry.key.dosage}, ${entry.key.volume} ${entry.key.volumeType}
-                    </a>
+                        <b><c:out value="${entry.key.label}"/></b> 
+                        <c:out value="${entry.key.dosage}, ${entry.key.volume} ${entry.key.volumeType}"/></a>
                 </td>
                 <td>
                     <c:out value="${entry.value}"/>

@@ -35,7 +35,7 @@
     </c:if>
     <c:if test="${requestScope.success_message}">
         <div class="alert alert-info" role="alert">
-            <fmt:message key="message.users.found"/>: ${requestScope.number_of_users}
+            <fmt:message key="message.users.found"/>: <c:out value="${requestScope.number_of_users}"/>
         </div>
         <c:set var="success_message" value="false" scope="session"/>
     </c:if>

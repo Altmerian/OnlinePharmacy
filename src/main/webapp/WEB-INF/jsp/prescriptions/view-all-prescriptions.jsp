@@ -47,7 +47,14 @@
         </div>
     </c:if>
     <!-- Pagination -->
-    <c:set var="number_of_pages" value="${requestScope.number_of_prescriptions div param.limit + 1}"/>
+    <c:choose>
+        <c:when test="${requestScope.number_of_prescriptions == param.limit}">
+            <c:set var="number_of_pages" value="1"/>
+        </c:when>
+        <c:otherwise>
+            <c:set var="number_of_pages" value="${requestScope.number_of_prescriptions div param.limit + 1}"/>
+        </c:otherwise>
+    </c:choose>
     <div style="padding: 10px;">
         <span><fmt:message key="text.number.of.prescriptions.on.page"/>:</span>
         <form style="display: inline-block" role="form" action="controller" method="get">

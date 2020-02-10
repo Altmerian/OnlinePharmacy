@@ -21,60 +21,30 @@
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <!-- Custom css -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/custom.css"/>
-    <title>Error Page</title>
+    <title><fmt:message key="title.error"/></title>
 </head>
 <body>
 <header>
     <ctg:header/>
 </header>
-<div class="jumbotron text-center">
-    <h1>Opps...</h1>
-    <p class="lead"><fmt:message key="message.error"/></p>
-</div>
-<div class="container">
-<table class="table table-striped">
- <tr valign = "top">
-    <td width = "40%"><b>Error:</b></td>
-    <td>
-        <c:choose>
-        <c:when test="${pageContext.errorData.statusCode == 500}">
-            Internal Server Error
-        </c:when>
-        <c:when test="${pageContext.errorData.statusCode == 404}">
-            Page not found
-        </c:when>
-        <c:otherwise>
-            </br>
-            ${pageContext.exception}
-        </c:otherwise>
-        </c:choose>
-    </td>
- </tr>
- <tr valign = "top">
-    <td><b>URI:</b></td>
-    <td>${pageContext.errorData.requestURI}</td>
- </tr>
+<div class="container mt-4">
+    <div class="jumbotron text-center">
+        <h1><fmt:message key="text.error"/></h1>
+        <p class="lead"><fmt:message key="message.error"/></p>
 
- <tr valign = "top">
-    <td><b>Status code:</b></td>
-    <td>${pageContext.errorData.statusCode}</td>
- </tr>
-
- <tr valign = "top">
-     <td><b>Message:</b></td>
-     <td>${pageContext.exception.message}</td>
- </tr>
-
- <tr valign = "top">
-    <td><b>Stack trace:</b></td>
-    <td>
-       <c:forEach var = "trace"
-            items = "${pageContext.exception.stackTrace}">
-            <p>${trace}</p>
-       </c:forEach>
-    </td>
- </tr>
-</table>
+            <c:choose>
+                <c:when test="${pageContext.errorData.statusCode == 500}">
+                    <fmt:message key="message.internal.error"/>
+                </c:when>
+                <c:when test="${pageContext.errorData.statusCode == 404}">
+                    <fmt:message key="message.page.error"/>
+                </c:when>
+                <c:otherwise>
+                    ${pageContext.exception}
+                </c:otherwise>
+            </c:choose> 
+        <h1 class="display-1">${pageContext.errorData.statusCode}</h1>
+    </div>   
 </div>
 <footer class="footer">
   <jsp:include page="/WEB-INF/jsp/footer.jsp" />

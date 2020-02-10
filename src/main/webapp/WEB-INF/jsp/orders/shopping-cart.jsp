@@ -21,7 +21,7 @@
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <!-- Custom css -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/custom.css"/>
-    <title>Shopping Cart</title>
+    <title><fmt:message key="tittle.shoppingCart"/></title>
 </head>
 <body>
 <header>
@@ -67,11 +67,12 @@
             <c:set var="total_amount" value="${total_amount + entry.value * entry.key.price}"/>
             <tr>
                 <td>
-                        ${count}
+                    <c:out value="${count}"/>
                 </td>
                 <td>
                     <a href="${pageContext.request.contextPath}/controller?command=view-item&id=${entry.key.id}">
-                        <b>${entry.key.label}</b> ${entry.key.dosage}, ${entry.key.volume} ${entry.key.volumeType}
+                        <b><c:out value="${entry.key.label}"/></b>
+                        <c:out value="${entry.key.dosage}, ${entry.key.volume} ${entry.key.volumeType}"/>
                     </a>
                 </td>
                 <td>
@@ -89,7 +90,7 @@
                     </form>
                 </td>
                 <td>
-                    ${entry.key.price}
+                    <c:out value="${entry.key.price}"/>
                 </td>
                 <td>
                     <c:if test="${entry.key.byPrescription}">
@@ -146,16 +147,17 @@
                 <fmt:message key="text.total"/>
             </th>
             <th>
-                ${total_quantity}
+                <c:out value="${total_quantity}"/>
             </th>
             <th>
-                ${total_amount}
+                <c:out value="${total_amount}"/>
             </th>
             <th></th>
             <th></th>
             <th>
                 <div class="container col-sm-6 ml-0 pl-0">
-                    <a class="badge badge-danger" href="${pageContext.request.contextPath}/controller?command=clear_shopping_cart">Clear shopping cart</a>
+                    <a class="badge badge-danger" href="${pageContext.request.contextPath}/controller?command=clear_shopping_cart">
+                        <fmt:message key="link.clear.shopping.cart"/></a>
                 </div>
             </th>
         </tfoot>

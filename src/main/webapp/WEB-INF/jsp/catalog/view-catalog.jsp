@@ -43,7 +43,7 @@
     </c:if>
     <!-- Page navigation -->
      <c:choose>
-        <c:when test="${requestScope.number_of_items == 10}">
+        <c:when test="${requestScope.number_of_items == param.limit}">
             <c:set var="number_of_pages" value="1"/>
         </c:when>
         <c:otherwise>
@@ -141,19 +141,20 @@
         <c:forEach var="item" items="${requestScope.items}">
             <tr>
                 <td>
-                    <a href="${pageContext.request.contextPath}/controller?command=view-item&id=${item.id}"><b>${item.label}</b></a>
+                    <a href="${pageContext.request.contextPath}/controller?command=view-item&id=${item.id}">
+                        <b><c:out value="${item.label}"/></b></a>
                 </td>
                 <td style="padding-left:0; padding-right:0">
-                        ${item.dosage}
+                    <c:out value="${item.dosage}"/>
                 </td>
                 <td>
-                        ${item.volume} ${item.volumeType}
+                    <c:out value="${item.volume} ${item.volumeType}"/>
                 </td>
                 <td>
-                        ${item.manufacturerName}
+                    <c:out value="${item.manufacturerName}"/>
                 </td>
                 <td>
-                        ${item.price}
+                    <c:out value="${item.price}"/>
                 </td>
                 <td>
                     <c:if test="${item.byPrescription}">
@@ -161,7 +162,7 @@
                     </c:if>
                 </td>
                 <td>
-                        ${item.description}
+                    <c:out value="${item.description}"/>
                 </td>
                 <td style="padding-bottom:6px; padding-top:6px">
                     <form class="form-inline mr-5" action="controller" method="post">
@@ -170,9 +171,9 @@
                         <input type="hidden" name="page_number" value="${param.page_number}"/>
                         <input type="hidden" name="limit" value="${param.limit}"/>
                         <div class="form-group">
-                            <input type="number" min="1" max="200" name="quantity" value="1"/>
                             <input type="submit" class="btn btn-warning btn-sm"
                                    value="<fmt:message key="button.item.buy"/>"/>
+                            <input type="number" min="1" max="200" name="quantity" value="1"/>
                        </div>
                     </form>
                     <c:if test="${sessionScope.user.role eq 'ADMIN' or sessionScope.user.role eq 'MANAGER'}">

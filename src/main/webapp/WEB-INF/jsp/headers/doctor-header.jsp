@@ -13,8 +13,8 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <!-- Logo -->
     <a class="navbar-brand" href="${pageContext.request.contextPath}/">
-        <img src="/static/img/logo1.png" width="75" height="50" class="d-inline-block align-top" alt="">Online Pharmacy
-    </a>
+        <img src="/static/img/logo1.png" width="75" height="50" class="d-inline-block align-top" alt="">
+        <fmt:message key="title.pharmacy"/></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -48,7 +48,7 @@
             <!-- Shopping Cart -->
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=view-shopping-cart"/>
-                <i class="fas fa-shopping-cart"></i> <fmt:message key="link.shopping.cart"/> (${shopping_cart.totalCount})</a>
+                <i class="fas fa-shopping-cart"></i> <fmt:message key="link.shopping.cart"/> <c:out value="(${shopping_cart.totalCount})"/></a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
@@ -83,7 +83,7 @@
             <!-- Profile --> 
             <li class="nav-item dropdown ml-1">
                 <a class="nav-link dropdown-toggle" id="dropdown4" role="button" data-toggle="dropdown" aria-haspopup="true" 
-                    aria-expanded="false" href="#"><i class="fas fa-user"></i> ${sessionScope.user.login} </a>
+                    aria-expanded="false" href="#"><i class="fas fa-user"></i> <c:out value="${sessionScope.user.login}"/> </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-cyan" aria-labelledby="dropdown4">
                     <a class="dropdown-item" href="${pageContext.request.contextPath}/controller?command=view-user&user_id=${sessionScope.user.id}">
                         <fmt:message key="link.profile"/> </a>

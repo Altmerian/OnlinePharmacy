@@ -1,5 +1,6 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.model;
 
+import com.google.common.annotations.VisibleForTesting;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -64,7 +65,8 @@ public class ShoppingCart implements Serializable {
         return false;
     }
 
-    private void refreshStatistics() {
+    @VisibleForTesting
+    void refreshStatistics() {
         totalCount = 0;
         for (Integer count : items.values()) {
             totalCount += count;

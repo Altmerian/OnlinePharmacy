@@ -50,7 +50,8 @@
     </div>
     <!-- Orders -->
     <div class="container col-sm-6 text-center mt-1">
-        <h5><fmt:message key="title.customer"/>: #${order_owner.id} ${order_owner.firstName} ${order_owner.lastName} (${order_owner.login})</h5>
+        <h5><fmt:message key="title.customer"/>: 
+            <c:out value="#${order_owner.id} ${order_owner.firstName} ${order_owner.lastName} (${order_owner.login})"/></h5>
     </div>
     <table class="table table-striped table-bordered">
         <thead>

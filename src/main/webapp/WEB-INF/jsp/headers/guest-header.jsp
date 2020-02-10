@@ -12,8 +12,8 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <!-- Logo -->
     <a class="navbar-brand" href="${pageContext.request.contextPath}/">
-        <img src="/static/img/logo1.png" width="75" height="50" class="d-inline-block align-top" alt="">Online Pharmacy
-    </a>
+        <img src="/static/img/logo1.png" width="75" height="50" class="d-inline-block align-top" alt="">
+        <fmt:message key="title.pharmacy"/></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>
     </button>

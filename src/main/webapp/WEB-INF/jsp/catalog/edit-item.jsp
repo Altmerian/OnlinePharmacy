@@ -20,7 +20,7 @@
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <!-- Custom css -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/custom.css"/>
-    <title>Edit item</title>
+    <title><fmt:message key="title.item.edit"/></title>
 </head>
 <body>
 <header>
@@ -72,7 +72,7 @@
                 <select name="dosage_id" class="form-control" id="sel1" required>
                     <c:forEach var="dosage" items="${requestScope.dosages}">
                         <option value="${dosage.id}" ${requestScope.item.dosageId == dosage.id ? 'selected' : ''}>
-                        ${dosage.name}</option>
+                        <c:out value="${dosage.name}"/></option>
                     </c:forEach>
                 </select>
             </div>
@@ -87,7 +87,7 @@
                     <select name="volume_type" class="form-control" id="sel2" required>
                         <c:forEach var="volume_type" items="${requestScope.volume_types}">
                             <option value="${volume_type}" ${requestScope.item.volumeType eq volume_type ? 'selected' : ''}>
-                            ${volume_type}</option>
+                            <c:out value="${volume_type}"/></option>
                         </c:forEach>
                     </select>
                 </div>
@@ -97,7 +97,7 @@
                 <select name="manufacturer_id" class="form-control" id="sel3">
                     <c:forEach var="company" items="${requestScope.companies}">
                         <option value="${company.id}"  ${requestScope.item.manufacturerId == company.id ? 'selected' : ''}>
-                        ${company.name}</option>
+                        <c:out value="${company.name}"/></option>
                     </c:forEach>
                 </select>
             </div>
@@ -114,7 +114,7 @@
             <div class="form-group">
                 <label for="description"><fmt:message key="text.description"/></label>
                 <textarea class="form-control" rows="5" id="description"
-                      name="description">${requestScope.item.description}</textarea>
+                      name="description"><c:out value="${requestScope.item.description}"/></textarea>
             </div>
             <div class="form-group">
                 <input type="submit" form="edit" class="btn btn-primary" value="<fmt:message key="button.change"/>"/>

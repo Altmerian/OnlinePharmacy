@@ -20,7 +20,7 @@
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <!-- Custom css -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/custom.css"/>
-    <title>Add item</title>
+    <title><fmt:message key="title.item.add"/></title>
 </head>
 <body>
 <header>
@@ -30,7 +30,7 @@
     <!-- Messages -->
     <c:if test="${sessionScope.success_message}">
         <div class="alert alert-success" role="alert">
-            <fmt:message key="message.item.add.success"/> : ${sessionScope.item.label}
+            <fmt:message key="message.item.add.success"/> : <c:out value="${sessionScope.item.label}"/>
         </div>
         <c:set var="success_message" value="false" scope="session"/>
     </c:if>
@@ -42,7 +42,7 @@
     </c:if>
     <c:if test="${sessionScope.success_dosage_message}">
         <div class="alert alert-success" role="alert">
-            <fmt:message key="message.dosage.add.success"/> : ${dosage}
+            <fmt:message key="message.dosage.add.success"/> : <c:out value="${dosage}"/>
         </div>
         <c:set var="success_dosage_message" value="false" scope="session"/>
     </c:if>
@@ -86,7 +86,7 @@
             </label>
             <select name="dosage_id" class="form-control" id="sel1" required>
                 <c:forEach var="dosage" items="${dosages}">
-                    <option value="${dosage.id}">${dosage.name}</option>
+                    <option value="${dosage.id}"><c:out value="${dosage.name}"/></option>
                 </c:forEach>
             </select>
         </div>
@@ -106,7 +106,7 @@
                 </label>
                 <select name="volume_type" class="form-control" id="sel2" required>
                     <c:forEach var="volume_type" items="${volume_types}">
-                        <option value="${volume_type}">${volume_type}</option>
+                        <option value="${volume_type}"><c:out value="${volume_type}"/></option>
                     </c:forEach>
                 </select>
             </div>
@@ -119,7 +119,7 @@
                 </label>
                 <select name="manufacturer_id" class="form-control" id="sel3">
                     <c:forEach var="company" items="${companies}">
-                        <option value="${company.id}"> ${company.name}</option>
+                        <option value="${company.id}"> <c:out value="${company.name}"/></option>
                     </c:forEach>
                 </select>
             </div>

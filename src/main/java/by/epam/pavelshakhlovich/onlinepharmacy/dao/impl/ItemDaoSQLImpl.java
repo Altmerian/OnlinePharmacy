@@ -7,6 +7,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPool;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPoolException;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Dosage;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Item;
+import com.google.common.annotations.VisibleForTesting;
 import org.apache.logging.log4j.Level;
 
 import java.sql.Connection;
@@ -21,7 +22,8 @@ import java.util.List;
  */
 public class ItemDaoSQLImpl implements ItemDao {
 
-    private static final String SELECT_ITEM_BY_ID = "SELECT d.id, d.label, d.dosage_id, dos.name AS dosage, " +
+    @VisibleForTesting
+    static final String SELECT_ITEM_BY_ID = "SELECT d.id, d.label, d.dosage_id, dos.name AS dosage, " +
             "d.volume, d.volume_type, d.manufacturer_id, m.name AS manufacturer_name, d.price, " +
             "d.by_prescription, d.description FROM drugs d " +
             "JOIN dosages dos ON d.dosage_id = dos.id " +
@@ -71,14 +73,14 @@ public class ItemDaoSQLImpl implements ItemDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            cn = ConnectionPool.getInstance().getConnection(); //todo замокать конекшн пул (вернет mock)
+            cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_ITEM_BY_ID);
-            preparedStatement.setLong(1, id); //todo mock
+            preparedStatement.setLong(1, id);
             resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
-            resultSet.next(); //todo mock
+            resultSet.next();
             setItemParameters(item, resultSet);
             return item;
         } catch (ConnectionPoolException | SQLException e) {

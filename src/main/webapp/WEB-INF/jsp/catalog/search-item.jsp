@@ -127,7 +127,7 @@
             <th width="160px">
                 <fmt:message key="text.dosage"/>
             </th>
-            <th>
+            <th width="100px">
                 <fmt:message key="text.volume"/>
             </th>
             <th>
@@ -149,19 +149,20 @@
         <c:forEach var="item" items="${requestScope.items}">
             <tr>
                 <td>
-                    <a href="${pageContext.request.contextPath}/controller?command=view-item&id=${item.id}"><b>${item.label}</b></a>
+                    <a href="${pageContext.request.contextPath}/controller?command=view-item&id=${item.id}">
+                        <b><c:out value="${item.label}"/></b></a>
                 </td>
                 <td style="padding-left:0; padding-right:0">
-                        ${item.dosage}
+                    <c:out value="${item.dosage}"/>
                 </td>
                 <td>
-                        ${item.volume} ${item.volumeType}
+                    <c:out value="${item.volume} ${item.volumeType}"/>
                 </td>
                 <td>
-                        ${item.manufacturerName}
+                    <c:out value="${item.manufacturerName}"/>
                 </td>
                 <td>
-                        ${item.price}
+                    <c:out value="${item.price}"/>
                 </td>
                 <td>
                     <c:if test="${item.byPrescription}">
@@ -169,7 +170,7 @@
                     </c:if>
                 </td>
                 <td>
-                        ${item.description}
+                    <c:out value="${item.description}"/>
                 </td>
                 <td style="padding-bottom:6px; padding-top:6px">
                     <form class="form-inline mr-5" action="controller" method="post">

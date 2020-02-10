@@ -1,5 +1,6 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.dao.util;
 
+import com.google.common.annotations.VisibleForTesting;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,15 +20,18 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
     private static final ConnectionPool INSTANCE = new ConnectionPool();
-    private static AtomicBoolean isEmpty = new AtomicBoolean(true);
+    @VisibleForTesting
+    public static AtomicBoolean isEmpty = new AtomicBoolean(true);
     private static ReentrantLock lock = new ReentrantLock();
-    private static final int POOL_SIZE = 10;
+    @VisibleForTesting
+    static final int POOL_SIZE = 10;
     private static BlockingQueue<ProxyConnection> connections;
     private static final String DATABASE_PROPERTIES = "database.properties";
     private static ResourceBundle resource = ResourceBundle.getBundle("database");
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private ConnectionPool() {
+    @VisibleForTesting
+    public ConnectionPool() {
     }
 
     public static ConnectionPool getInstance() throws ConnectionPoolException {
@@ -37,7 +41,8 @@ public class ConnectionPool {
         return INSTANCE;
     }
 
-    private static void initialize() throws ConnectionPoolException {
+    @VisibleForTesting
+    public static void initialize() throws ConnectionPoolException {
         String url = resource.getString("url");
         String user = resource.getString("user");
         String pass = resource.getString("password");
@@ -55,8 +60,7 @@ public class ConnectionPool {
                 isEmpty.set(true);
                 throw LOGGER.throwing(Level.ERROR, new ConnectionPoolException("Initialization error", e));
             }
-        }
-        finally {
+        } finally {
             lock.unlock();
         }
     }
@@ -72,12 +76,12 @@ public class ConnectionPool {
     }
 
     public void releaseConnection(Connection con) throws ConnectionPoolException {
-        boolean isReleased =false;
+        boolean isReleased = false;
         if (con instanceof ProxyConnection) {
             try {
-                isReleased = connections.offer((ProxyConnection)con, 5 , TimeUnit.SECONDS);
+                isReleased = connections.offer((ProxyConnection) con, 5, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
-               throw LOGGER.throwing(Level.ERROR, new ConnectionPoolException(e));
+                throw LOGGER.throwing(Level.ERROR, new ConnectionPoolException(e));
             }
         }
         if (!isReleased) {

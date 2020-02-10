@@ -20,7 +20,7 @@
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <!-- Custom css -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/custom.css"/>
-    <title>Add item</title>
+    <title><fmt:message key="title.company.add"/></title>
 </head>
 <body>
 <header>
@@ -33,7 +33,7 @@
     <!-- Messages -->
     <c:if test="${sessionScope.success_message}">
         <div class="alert alert-success" role="alert">
-            <fmt:message key="message.company.add.success"/> : ${sessionScope.company.name}
+            <fmt:message key="message.company.add.success"/> : <c:out value="${sessionScope.company.name}"/>
         </div>
         <c:set var="success_message" value="false" scope="session"/>
     </c:if>
@@ -45,7 +45,7 @@
     </c:if>
     <c:if test="${sessionScope.success_country_message}">
         <div class="alert alert-success" role="alert">
-            <fmt:message key="message.country.add.success"/> : ${country}</a>
+            <fmt:message key="message.country.add.success"/> : <c:out value="${country}"/></a>
         </div>
         <c:set var="success_country_message" value="false" scope="session"/>
     </c:if>
@@ -88,7 +88,7 @@
             </label>
             <select name="country_id" class="form-control" id="sel" required>
                 <c:forEach var="country" items="${countries}">
-                    <option value="${country.id}">${country.name}</option>
+                    <option value="${country.id}"><c:out value="${country.name}"/></option>
                 </c:forEach>
             </select>
         </div>

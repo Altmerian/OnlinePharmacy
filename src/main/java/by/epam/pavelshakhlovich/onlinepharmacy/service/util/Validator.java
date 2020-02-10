@@ -2,6 +2,7 @@ package by.epam.pavelshakhlovich.onlinepharmacy.service.util;
 
 
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
+import com.google.common.annotations.VisibleForTesting;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,15 +27,18 @@ public class Validator {
                 && isEmailValid(user.getEmail());
     }
 
-    private static boolean isLoginValid(String login) {
+    @VisibleForTesting
+    static boolean isLoginValid(String login) {
         return checkString(login, REGEX_LOGIN);
     }
 
-    private static boolean isPasswordValid(String password) {
+    @VisibleForTesting
+    static boolean isPasswordValid(String password) {
         return checkString(password, REGEX_PASSWORD);
     }
 
-    private static boolean isEmailValid(String email) {
+    @VisibleForTesting
+    static boolean isEmailValid(String email) {
         return checkString(email, REGEX_EMAIL);
     }
 

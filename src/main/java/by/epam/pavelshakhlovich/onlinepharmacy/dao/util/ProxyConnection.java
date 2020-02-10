@@ -1,5 +1,6 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.dao.util;
 
+import com.google.common.annotations.VisibleForTesting;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,7 +13,8 @@ public class ProxyConnection implements Connection {
     private Connection connection;
     private static final Logger LOGGER = LogManager.getLogger();
 
-    ProxyConnection(Connection connection) {
+    @VisibleForTesting
+    public ProxyConnection(Connection connection) {
         this.connection = connection;
     }
 

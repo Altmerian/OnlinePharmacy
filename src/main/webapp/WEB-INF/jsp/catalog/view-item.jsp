@@ -20,7 +20,7 @@
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <!-- Custom css -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/custom.css"/>
-    <title>View item</title>
+    <title><fmt:message key="title.item.view"/></title>
 </head>
 <body>
 <header>
@@ -61,19 +61,19 @@
         <tbody>
         <tr>
             <td>
-                <b>${item.label}</b>
+                <b><c:out value="${item.label}"/></b>
             </td>
             <td>
-                ${item.dosage}
+                <c:out value="${item.dosage}"/>
             </td>
             <td>
-                ${item.volume} ${item.volumeType}
+                <c:out value="${item.volume} ${item.volumeType}"/>
             </td>
             <td>
-                ${item.manufacturerName}
+                <c:out value="${item.manufacturerName}"/>
             </td>
             <td>
-                ${item.price}
+                <c:out value="${item.price}"/>
             </td>
             <td>
                 <c:if test="${item.byPrescription}">
@@ -81,22 +81,22 @@
                 </c:if>
             </td>
             <td>
-                ${item.description}
+                <c:out value="${item.description}"/>
             </td>
             <td>
-                <form class="form-inline mr-2" action="controller" method="post">
+                <form class="form-inline mr-5" action="controller" method="post">
                     <input type="hidden" name="command" value="add_item_to_shopping_cart"/>
                     <input type="hidden" name="item_id" value="${item.id}"/>
                     <input type="hidden" name="page_number" value="${param.page_number}"/>
                     <input type="hidden" name="limit" value="${param.limit}"/>
-                    <div class="form-group row">
-                        <input type="number" min="1" max="200" name="quantity" value="1"/>
+                    <div class="form-group">
                         <input type="submit" class="btn btn-warning btn-sm"
                                value="<fmt:message key="button.item.buy"/>"/>
+                        <input type="number" min="1" max="200" name="quantity" value="1"/>
                    </div>
                 </form>
                 <c:if test="${sessionScope.user.role eq 'ADMIN' or sessionScope.user.role eq 'MANAGER'}">
-                    <form class="form-inline ml-0" action="controller" method="get">
+                    <form class="form-inline" action="controller" method="get">
                         <input type="hidden" name="command" value="view-edit-item"/>
                         <input type="hidden" name="id" value="${item.id}"/>
                         <input type="submit" class="btn btn-success btn-sm"
