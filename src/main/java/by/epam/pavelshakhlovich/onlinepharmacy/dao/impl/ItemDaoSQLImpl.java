@@ -71,14 +71,14 @@ public class ItemDaoSQLImpl implements ItemDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            cn = ConnectionPool.getInstance().getConnection();
+            cn = ConnectionPool.getInstance().getConnection(); //todo замокать конекшн пул (вернет mock)
             preparedStatement = cn.prepareStatement(SELECT_ITEM_BY_ID);
-            preparedStatement.setLong(1, id);
+            preparedStatement.setLong(1, id); //todo mock
             resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
-            resultSet.next();
+            resultSet.next(); //todo mock
             setItemParameters(item, resultSet);
             return item;
         } catch (ConnectionPoolException | SQLException e) {

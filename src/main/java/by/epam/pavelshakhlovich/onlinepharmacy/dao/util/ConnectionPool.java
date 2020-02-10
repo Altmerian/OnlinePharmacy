@@ -42,20 +42,23 @@ public class ConnectionPool {
         String user = resource.getString("user");
         String pass = resource.getString("password");
         String driver = resource.getString("driver");
-
-        lock.lock();
-        connections = new ArrayBlockingQueue<>(POOL_SIZE);
         try {
-            Class.forName(driver);
-            int currentConnectionSize = connections.size();
-            for (int i = 0; i < POOL_SIZE - currentConnectionSize; i++) {
-                connections.add(new ProxyConnection(DriverManager.getConnection(url, user, pass)));
+            lock.lock();
+            connections = new ArrayBlockingQueue<>(POOL_SIZE);
+            try {
+                Class.forName(driver);
+                int currentConnectionSize = connections.size();
+                for (int i = 0; i < POOL_SIZE - currentConnectionSize; i++) {
+                    connections.add(new ProxyConnection(DriverManager.getConnection(url, user, pass)));
+                }
+            } catch (ClassNotFoundException | SQLException e) {
+                isEmpty.set(true);
+                throw LOGGER.throwing(Level.ERROR, new ConnectionPoolException("Initialization error", e));
             }
-        } catch (ClassNotFoundException | SQLException e) {
-            isEmpty.set(true);
-            throw LOGGER.throwing(Level.ERROR, new ConnectionPoolException("Initialization error", e));
         }
-        lock.unlock();
+        finally {
+            lock.unlock();
+        }
     }
 
     public Connection getConnection() throws ConnectionPoolException {
@@ -71,7 +74,11 @@ public class ConnectionPool {
     public void releaseConnection(Connection con) throws ConnectionPoolException {
         boolean isReleased =false;
         if (con instanceof ProxyConnection) {
-            isReleased = connections.add((ProxyConnection)con);
+            try {
+                isReleased = connections.offer((ProxyConnection)con, 5 , TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+               throw LOGGER.throwing(Level.ERROR, new ConnectionPoolException(e));
+            }
         }
         if (!isReleased) {
             LOGGER.throwing(Level.ERROR, new ConnectionPoolException("Can't release connection"));
