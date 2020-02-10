@@ -48,15 +48,17 @@ public class ViewPrescriptions implements Command {
         try {
             prescriptionList = prescriptionService.selectPrescriptionsByUserId(user, userId);
             Map<Long, Item> itemMap = new HashMap<>();
-            for (Prescription prescription : prescriptionList) {
-                long itemId = prescription.getDrugId();
-                Item item = itemService.selectItemById(itemId);
-                itemMap.put(itemId, item);
+            if (prescriptionList != null && !prescriptionList.isEmpty()) {
+                for (Prescription prescription : prescriptionList) {
+                    long itemId = prescription.getDrugId();
+                    Item item = itemService.selectItemById(itemId);
+                    itemMap.put(itemId, item);
+                }
+                request.setAttribute(Parameter.ITEMS, itemMap);
             }
-            request.setAttribute(Parameter.PRESCRIPTIONS, prescriptionList);
-            request.setAttribute(Parameter.ITEMS, itemMap);
             User prescriptionOwner = userService.selectUserById(user, userId);
             request.setAttribute(Parameter.PRESCRIPTION_OWNER, prescriptionOwner);
+            request.setAttribute(Parameter.PRESCRIPTIONS, prescriptionList);
         } catch (ServiceException e) {
             throw LOGGER.throwing(Level.ERROR, new CommandException(e));
         }
