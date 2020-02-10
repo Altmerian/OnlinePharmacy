@@ -43,17 +43,19 @@ public class ViewAllPrescriptions implements Command {
             Map<Long, User> userMap = new HashMap<>();
             Map<Long, Item> itemMap = new HashMap<>();
             List<Prescription> prescriptionList = prescriptionService.selectPrescriptionsByDoctorId(user, doctorId, limit, offset);
-            for (Prescription prescription : prescriptionList) {
-                long customerId = prescription.getUserId();
-                User customer = userService.selectUserById(user, customerId);
-                userMap.put(customerId, customer);
-                long itemId = prescription.getDrugId();
-                Item item = itemService.selectItemById(itemId);
-                itemMap.put(itemId, item);
+            if (prescriptionList != null && !prescriptionList.isEmpty()) {
+                for (Prescription prescription : prescriptionList) {
+                    long customerId = prescription.getUserId();
+                    User customer = userService.selectUserById(user, customerId);
+                    userMap.put(customerId, customer);
+                    long itemId = prescription.getDrugId();
+                    Item item = itemService.selectItemById(itemId);
+                    itemMap.put(itemId, item);
+                }
+                int numberOfPrescriptions = prescriptionService.countDoctorPrescriptions(doctorId);
+                request.setAttribute(Parameter.NUMBER_OF_PRESCRIPTIONS, numberOfPrescriptions);
             }
-            int numberOfPrescriptions = prescriptionService.countDoctorPrescriptions(doctorId);
             request.setAttribute(Parameter.PRESCRIPTIONS, prescriptionList);
-            request.setAttribute(Parameter.NUMBER_OF_PRESCRIPTIONS, numberOfPrescriptions);
             request.setAttribute(Parameter.USERS, userMap);
             request.setAttribute(Parameter.ITEMS, itemMap);
         } catch (ServiceException e) {

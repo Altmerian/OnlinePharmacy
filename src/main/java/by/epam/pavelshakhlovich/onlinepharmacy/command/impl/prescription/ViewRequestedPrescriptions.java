@@ -41,17 +41,19 @@ public class ViewRequestedPrescriptions implements Command {
             Map<Long, User> userMap = new HashMap<>();
             Map<Long, Item> itemMap = new HashMap<>();
             List<Prescription> prescriptionList = prescriptionService.selectAllRequestedPrescriptions(limit, offset);
-            for (Prescription prescription : prescriptionList) {
-                long userId = prescription.getUserId();
-                long itemId = prescription.getDrugId();
-                User user = userService.selectUserById((User) request.getSession().getAttribute(Parameter.USER), userId);
-                userMap.put(userId, user);
-                Item item = itemService.selectItemById(itemId);
-                itemMap.put(itemId, item);
+            if (prescriptionList != null && !prescriptionList.isEmpty()) {
+                for (Prescription prescription : prescriptionList) {
+                    long userId = prescription.getUserId();
+                    long itemId = prescription.getDrugId();
+                    User user = userService.selectUserById((User) request.getSession().getAttribute(Parameter.USER), userId);
+                    userMap.put(userId, user);
+                    Item item = itemService.selectItemById(itemId);
+                    itemMap.put(itemId, item);
+                }
+                int numberOfPrescriptions = prescriptionService.countRequestedPrescriptions();
+                request.setAttribute(Parameter.NUMBER_OF_PRESCRIPTIONS, numberOfPrescriptions);
             }
-            int numberOfPrescriptions = prescriptionService.countRequestedPrescriptions();
             request.setAttribute(Parameter.PRESCRIPTIONS, prescriptionList);
-            request.setAttribute(Parameter.NUMBER_OF_PRESCRIPTIONS, numberOfPrescriptions);
             request.setAttribute(Parameter.USERS, userMap);
             request.setAttribute(Parameter.ITEMS, itemMap);
         } catch (ServiceException e) {
