@@ -2,6 +2,7 @@ package by.epam.pavelshakhlovich.onlinepharmacy.dao.impl;
 
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.DaoException;
+import by.epam.pavelshakhlovich.onlinepharmacy.dao.ItemDao;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPool;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPoolException;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ProxyConnection;
@@ -12,8 +13,11 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.testng.PowerMockTestCase;
+import org.testng.IObjectFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.ObjectFactory;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
@@ -25,15 +29,17 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 
-
+@Test( enabled=false )
 @PrepareForTest(ConnectionPool.class)
-public class ItemDaoSQLImplTest {
+public class ItemDaoSQLImplTest extends PowerMockTestCase {
+
+    @ObjectFactory
+    public IObjectFactory getObjectFactory() {
+        return new org.powermock.modules.testng.PowerMockObjectFactory();
+    }
 
     @InjectMocks
-    private ItemDaoSQLImpl itemDao;
-
-    @Mock
-    private ConnectionPool mockConnectionPool;
+    private ItemDao itemDao;
 
     @Mock
     private ProxyConnection mockConnection;
@@ -50,8 +56,8 @@ public class ItemDaoSQLImplTest {
     @BeforeMethod
     public void setUp() throws ConnectionPoolException, SQLException {
         itemDao = new ItemDaoSQLImpl();
-        PowerMockito.mockStatic(ConnectionPool.class);
         MockitoAnnotations.initMocks(this);
+        PowerMockito.mockStatic(ConnectionPool.class);
         ConnectionPool.isEmpty.set(false);
         Mockito.when(ConnectionPool.getInstance().getConnection()).thenReturn(mockConnection);
         Mockito.when(mockConnection.prepareStatement(any(String.class))).thenReturn(mockPreparedStatement);
@@ -88,7 +94,6 @@ public class ItemDaoSQLImplTest {
         mockResultSet.close();
         mockPreparedStatement.close();
         mockConnection.close();
-        mockConnectionPool.closePool();
     }
 
     @Test( enabled=false )
