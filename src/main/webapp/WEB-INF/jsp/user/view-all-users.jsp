@@ -40,7 +40,14 @@
         <c:set var="success_message" value="false" scope="session"/>
     </c:if>
 </div>
-<c:set var="number_of_pages" value="${requestScope.number_of_users div param.limit + 1}"/>
+<c:choose>
+    <c:when test="${requestScope.number_of_users % param.limit == 0}">
+        <c:set var="number_of_pages" value="${requestScope.number_of_users div param.limit}"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="number_of_pages" value="${requestScope.number_of_users div param.limit + 1}"/>
+    </c:otherwise>
+</c:choose>
 <div class="container-fluid">
     <div class="form-row">
         <div class="col-auto">

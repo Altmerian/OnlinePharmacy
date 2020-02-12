@@ -7,63 +7,49 @@ import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPool;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPoolException;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ProxyConnection;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Item;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.testng.PowerMockTestCase;
-import org.testng.IObjectFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.ObjectFactory;
 import org.testng.annotations.Test;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
-@Test( enabled=false )
-@PrepareForTest(ConnectionPool.class)
-public class ItemDaoSQLImplTest extends PowerMockTestCase {
-
-    @ObjectFactory
-    public IObjectFactory getObjectFactory() {
-        return new org.powermock.modules.testng.PowerMockObjectFactory();
-    }
-
-    @InjectMocks
-    private ItemDao itemDao;
-
+public class ItemDaoSQLImplTest {
     @Mock
     private ProxyConnection mockConnection;
-
     @Mock
     private PreparedStatement mockPreparedStatement;
-
     @Mock
     private ResultSet mockResultSet;
 
+    private ItemDao itemDao;
     private Item item1;
     private Item item2;
+    ArrayList<Item> items = new ArrayList<>();
+    private int itemsCount;
 
     @BeforeMethod
     public void setUp() throws ConnectionPoolException, SQLException {
         itemDao = new ItemDaoSQLImpl();
         MockitoAnnotations.initMocks(this);
-        PowerMockito.mockStatic(ConnectionPool.class);
-        ConnectionPool.isEmpty.set(false);
-        Mockito.when(ConnectionPool.getInstance().getConnection()).thenReturn(mockConnection);
-        Mockito.when(mockConnection.prepareStatement(any(String.class))).thenReturn(mockPreparedStatement);
-        Mockito.when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
+        when(mockConnection.prepareStatement(any(String.class))).thenReturn(mockPreparedStatement);
+        when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
+        when(mockPreparedStatement.executeUpdate()).thenReturn(1);
+        when(mockResultSet.isBeforeFirst()).thenReturn(true);
 
-        itemDao = new ItemDaoSQLImpl();
         item1 = new Item();
         item1.setId(1L);
         item1.setLabel("Лекарство1");
@@ -75,7 +61,6 @@ public class ItemDaoSQLImplTest extends PowerMockTestCase {
         item1.setManufacturerName("Белмедпрепараты");
         item1.setPrice(BigDecimal.valueOf(1.25));
         item1.setByPrescription(Boolean.FALSE);
-
         item2 = new Item();
         item2.setId(2L);
         item1.setLabel("Лекарство2");
@@ -84,21 +69,55 @@ public class ItemDaoSQLImplTest extends PowerMockTestCase {
         item1.setVolume(40);
         item1.setVolumeType("г");
         item1.setManufacturerId(4L);
+        items.addAll(List.of(item1, item2));
+
+        ConnectionPool connectionPool = mock(ConnectionPool.class);
+        setMock(connectionPool);
+        ConnectionPool.isEmpty.compareAndSet(true, false);
+        when(connectionPool.getConnection()).thenReturn(mockConnection);
+    }
+
+    private void setMock(ConnectionPool mock) {
+        try {
+            Field instance = ConnectionPool.class.getDeclaredField("INSTANCE");
+            instance.setAccessible(true);
+            instance.set(instance, mock);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @AfterMethod
-    public void tearDown() throws ConnectionPoolException, SQLException {
+    public void tearDown() throws Exception {
+        Field instance = ConnectionPool.class.getDeclaredField("INSTANCE");
+        instance.setAccessible(true);
+        instance.set(instance, new ConnectionPool());
         itemDao = null;
         item1 = null;
         item2 = null;
+        items.clear();
         mockResultSet.close();
         mockPreparedStatement.close();
         mockConnection.close();
+        ConnectionPool.isEmpty.compareAndSet(false, true);
     }
 
-    @Test( enabled=false )
+    @Test
+    public void testCreate() throws DaoException {
+        for (Item item: items) {
+            assertTrue(itemDao.create(item));
+            itemsCount++;
+        }
+    }
+
+    @Test (dependsOnMethods = "testCreate")
+    public void testCountAllItems() throws SQLException, DaoException {
+        when(mockResultSet.getInt(1)).thenReturn(itemsCount);
+        assertEquals(itemDao.countAllItems(), items.size());
+    }
+
+    @Test
     public void testSelectById() throws DaoException, SQLException {
-        when(mockResultSet.isBeforeFirst()).thenReturn(true);
         when(mockResultSet.getLong(Parameter.ID)).thenReturn(1L);
         when(mockResultSet.getString(Parameter.LABEL)).thenReturn(item1.getLabel());
         when(mockResultSet.getLong(Parameter.DOSAGE_ID)).thenReturn(item1.getDosageId());
@@ -112,5 +131,4 @@ public class ItemDaoSQLImplTest extends PowerMockTestCase {
         when(mockResultSet.getString(Parameter.DESCRIPTION)).thenReturn(item1.getDescription());
         assertEquals(itemDao.selectById(1L), item1);
     }
-
 }

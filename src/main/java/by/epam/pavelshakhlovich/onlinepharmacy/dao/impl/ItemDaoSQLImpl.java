@@ -7,7 +7,6 @@ import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPool;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPoolException;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Dosage;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Item;
-import com.google.common.annotations.VisibleForTesting;
 import org.apache.logging.log4j.Level;
 
 import java.sql.Connection;
@@ -22,7 +21,6 @@ import java.util.List;
  */
 public class ItemDaoSQLImpl implements ItemDao {
 
-    @VisibleForTesting
     static final String SELECT_ITEM_BY_ID = "SELECT d.id, d.label, d.dosage_id, dos.name AS dosage, " +
             "d.volume, d.volume_type, d.manufacturer_id, m.name AS manufacturer_name, d.price, " +
             "d.by_prescription, d.description FROM drugs d " +

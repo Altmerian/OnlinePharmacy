@@ -43,11 +43,12 @@
     </c:if>
     <!-- Page navigation -->
      <c:choose>
-        <c:when test="${requestScope.number_of_items == param.limit}">
-            <c:set var="number_of_pages" value="1"/>
+        <c:when test="${requestScope.number_of_items % param.limit == 0}">
+            <c:set var="number_of_pages" value="${requestScope.number_of_items div param.limit}"/>
         </c:when>
         <c:otherwise>
-            <c:set var="number_of_pages" value="${requestScope.number_of_items div param.limit + 1}"/>
+            <c:set var="number_of_pages" 
+            value="${requestScope.number_of_items div param.limit + 1}"/>
         </c:otherwise>
     </c:choose>
     <div class="page-btns" style="padding: 10px;">

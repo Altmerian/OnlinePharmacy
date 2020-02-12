@@ -42,7 +42,7 @@
             <!-- Shopping Cart -->
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=view-shopping-cart"/>
-                <i class="fas fa-shopping-cart"></i> <fmt:message key="link.shopping.cart"/> <c:out value="(${shopping_cart.totalCount})"/>)</a>
+                <i class="fas fa-shopping-cart"></i> <fmt:message key="link.shopping.cart"/> <c:out value="(${shopping_cart.totalCount})"/></a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">

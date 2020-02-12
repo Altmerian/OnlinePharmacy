@@ -123,6 +123,7 @@
                                 <form class="form-inline" action="controller" method="POST">
                                     <input type="hidden" name="command" value="request-prescription"/>
                                     <input type="hidden" name="prescription_id" value="${prescriptions[entry.key.id].id}"/>
+                                    <input type="hidden" name="doctor_id" value="${prescriptions[entry.key.id].doctorId}"/>
                                     <input type="hidden" name="user_id" value="${user.id}"/>
                                     <input type="hidden" name="drug_id" value="${entry.key.id}"/>
                                     <input type="submit" class="btn btn-success btn-sm"

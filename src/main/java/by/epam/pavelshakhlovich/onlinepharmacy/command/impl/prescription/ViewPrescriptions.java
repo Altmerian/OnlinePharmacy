@@ -7,6 +7,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Path;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Item;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Prescription;
+import by.epam.pavelshakhlovich.onlinepharmacy.entity.PrescriptionStatus;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ItemService;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.PrescriptionService;
@@ -19,6 +20,7 @@ import org.apache.logging.log4j.Level;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +38,7 @@ public class ViewPrescriptions implements Command {
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 
-        User user = (User)request.getSession().getAttribute(Parameter.USER);
+        User user = (User) request.getSession().getAttribute(Parameter.USER);
         String userIdString = request.getParameter(Parameter.USER_ID);
         long userId;
         if (userIdString == null || userIdString.isEmpty()) {
@@ -50,6 +52,13 @@ public class ViewPrescriptions implements Command {
             Map<Long, Item> itemMap = new HashMap<>();
             if (prescriptionList != null && !prescriptionList.isEmpty()) {
                 for (Prescription prescription : prescriptionList) {
+                    if (prescription.getValidUntil().isBefore(LocalDateTime.now())
+                            && prescription.getStatus().equalsIgnoreCase("approved")) {
+                        prescription.setStatus("overdue");
+                        prescriptionService.updatePrescriptionStatus(
+                                PrescriptionStatus.OVERDUE.getTitle(), prescription.getId(), prescription.getDoctorId(),
+                                prescription.getValidUntil());
+                    }
                     long itemId = prescription.getDrugId();
                     Item item = itemService.selectItemById(itemId);
                     itemMap.put(itemId, item);

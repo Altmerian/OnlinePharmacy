@@ -94,7 +94,7 @@
                             <span class="badge badge-primary"><fmt:message key="text.prescription.status.approved"/></span>
                         </c:when>
                         <c:when test="${prescription.status eq 'overdue'}">
-                            <span class="badge badge-success"><fmt:message key="text.prescription.status.overdue"/></span>
+                            <span class="badge badge-warning"><fmt:message key="text.prescription.status.overdue"/></span>
                         </c:when>
                         <c:when test="${prescription.status eq 'rejected'}">
                             <span class="badge badge-default"><fmt:message key="text.prescription.status.rejected"/></span>
@@ -109,6 +109,7 @@
                         <form class="form-inline" action="controller" method="POST">
                             <input type="hidden" name="command" value="request-prescription"/>
                             <input type="hidden" name="prescription_id" value="${prescription.id}"/>
+                            <input type="hidden" name="doctor_id" value="${prescription.doctorId}"/>
                             <input type="hidden" name="user_id" value="${user.id}"/>
                             <input type="hidden" name="drug_id" value="${prescription.drugId}"/>
                             <input type="submit" class="btn btn-success btn-sm"

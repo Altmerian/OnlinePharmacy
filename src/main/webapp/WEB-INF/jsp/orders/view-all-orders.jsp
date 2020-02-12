@@ -65,8 +65,8 @@
     </div>
     <!-- Pagination -->
     <c:choose>
-        <c:when test="${requestScope.number_of_orders == param.limit}">
-            <c:set var="number_of_pages" value="1"/>
+        <c:when test="${requestScope.number_of_orders % param.limit == 0}">
+            <c:set var="number_of_pages" value="${requestScope.number_of_orders div param.limit}"/>
         </c:when>
         <c:otherwise>
             <c:set var="number_of_pages" value="${requestScope.number_of_orders div param.limit + 1}"/>

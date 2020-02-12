@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 
 /**
  * Class {@code RequestPrescription} is an implementation of {@see Command}
@@ -25,11 +26,13 @@ public class RequestPrescription implements Command {
 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        Prescription prescription;
+        Prescription prescription ;
         if (!request.getParameter(Parameter.PRESCRIPTION_ID).isEmpty()) {
             long prescriptionId = Long.parseLong(request.getParameter(Parameter.PRESCRIPTION_ID));
+            long doctorId = Long.parseLong(request.getParameter(Parameter.DOCTOR_ID));
             try {
-                prescriptionService.updatePrescriptionStatus(PrescriptionStatus.REQUESTED.getTitle(), prescriptionId, 0, null);
+                prescriptionService.updatePrescriptionStatus(
+                        PrescriptionStatus.REQUESTED.getTitle(), prescriptionId, doctorId, LocalDateTime.now());
             } catch (ServiceException e) {
                 throw LOGGER.throwing(Level.ERROR, new CommandException(e));
             }

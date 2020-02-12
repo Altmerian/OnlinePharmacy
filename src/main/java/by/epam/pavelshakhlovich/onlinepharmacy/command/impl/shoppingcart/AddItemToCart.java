@@ -30,9 +30,9 @@ public class AddItemToCart implements Command {
                 quantity = quantity - oldQuantity;
             }
             if (shoppingCart.addItem(itemId, quantity)) {
-                session.setAttribute(Parameter.SUCCESS_MESSAGE, Boolean.TRUE);
+                session.setAttribute(Parameter.SUCCESS_MESSAGE, true);
             } else {
-                session.setAttribute(Parameter.ERROR_MESSAGE, Boolean.TRUE);
+                session.setAttribute(Parameter.ERROR_MESSAGE, true);
             }
             return new Path(false, request.getHeader(Parameter.REFERER));
         } else {

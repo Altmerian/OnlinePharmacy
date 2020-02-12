@@ -8,6 +8,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Path;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.SessionUtil;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Item;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Prescription;
+import by.epam.pavelshakhlovich.onlinepharmacy.entity.PrescriptionStatus;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
 import by.epam.pavelshakhlovich.onlinepharmacy.model.ShoppingCart;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ItemService;
@@ -20,6 +21,7 @@ import org.apache.logging.log4j.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +49,12 @@ public class ViewShoppingCart implements Command {
                 if (drug.isByPrescription()) {
                     Prescription prescription = prescriptionService.selectPrescriptionByDrugId(drug.getId(), user);
                     if (prescription == null || !prescription.getStatus().equalsIgnoreCase("approved")) {
+                        session.setAttribute(Parameter.ORDER_AVAILABLE, Boolean.FALSE);
+                    } else if (prescription.getValidUntil().isBefore(LocalDateTime.now()) ) {
+                        prescription.setStatus(PrescriptionStatus.OVERDUE.getTitle());
+                        prescriptionService.updatePrescriptionStatus(
+                                PrescriptionStatus.OVERDUE.getTitle(), prescription.getId(), prescription.getDoctorId(),
+                                prescription.getValidUntil());
                         session.setAttribute(Parameter.ORDER_AVAILABLE, Boolean.FALSE);
                     }
                     cartPrescriptions.put(drug.getId(), prescription);

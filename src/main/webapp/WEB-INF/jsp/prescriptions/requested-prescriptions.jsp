@@ -47,8 +47,8 @@
     </c:if>
     <!-- Pagination -->
     <c:choose>
-        <c:when test="${requestScope.number_of_prescriptions == param.limit}">
-            <c:set var="number_of_pages" value="1"/>
+        <c:when test="${requestScope.number_of_prescriptions % param.limit == 0}">
+            <c:set var="number_of_pages" value="${requestScope.number_of_prescriptions div param.limit}"/>
         </c:when>
         <c:otherwise>
             <c:set var="number_of_pages" value="${requestScope.number_of_prescriptions div param.limit + 1}"/>

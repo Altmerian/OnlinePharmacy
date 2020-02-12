@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
-    private static final ConnectionPool INSTANCE = new ConnectionPool();
+    private static ConnectionPool INSTANCE = new ConnectionPool();
     @VisibleForTesting
     public static AtomicBoolean isEmpty = new AtomicBoolean(true);
     private static ReentrantLock lock = new ReentrantLock();

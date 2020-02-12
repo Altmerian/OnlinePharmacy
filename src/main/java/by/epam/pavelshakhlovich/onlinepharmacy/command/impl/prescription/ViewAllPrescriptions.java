@@ -7,6 +7,7 @@ import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Path;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Item;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Prescription;
+import by.epam.pavelshakhlovich.onlinepharmacy.entity.PrescriptionStatus;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ItemService;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.PrescriptionService;
@@ -19,6 +20,7 @@ import org.apache.logging.log4j.Level;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +37,7 @@ public class ViewAllPrescriptions implements Command {
 
     @Override
     public Path execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
-        User user = (User)request.getSession().getAttribute(Parameter.USER);
+        User user = (User) request.getSession().getAttribute(Parameter.USER);
         long doctorId = user.getId();
         int limit = Integer.parseInt(request.getParameter(Parameter.LIMIT));
         int offset = (Integer.parseInt(request.getParameter(Parameter.PAGE_NUMBER)) - 1) * limit;
@@ -45,6 +47,13 @@ public class ViewAllPrescriptions implements Command {
             List<Prescription> prescriptionList = prescriptionService.selectPrescriptionsByDoctorId(user, doctorId, limit, offset);
             if (prescriptionList != null && !prescriptionList.isEmpty()) {
                 for (Prescription prescription : prescriptionList) {
+                    if (prescription.getValidUntil().isBefore(LocalDateTime.now())
+                            && prescription.getStatus().equalsIgnoreCase("approved")) {
+                        prescription.setStatus("overdue");
+                        prescriptionService.updatePrescriptionStatus(
+                                PrescriptionStatus.OVERDUE.getTitle(), prescription.getId(), prescription.getDoctorId(),
+                                prescription.getValidUntil());
+                    }
                     long customerId = prescription.getUserId();
                     User customer = userService.selectUserById(user, customerId);
                     userMap.put(customerId, customer);

@@ -35,3 +35,5 @@ fabric.properties
 # Logs
 /logs/
 *.log
+
+!.idea/runConfigurations/

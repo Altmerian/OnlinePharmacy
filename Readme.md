@@ -1,5 +1,5 @@
 # EPAM Java web development course - Online pharmacy app
-- database scheme - [OnlinePharmacy.png](OnlinePharmacy.png)
+- database scheme - [DataBaseScheme.png](DataBaseScheme.png)
 - testing SQL queries examples and DB creation - [testsql](testsql)
 # Application features
 - User logs in or registres, after authorization, depending on the role, various operations are available.
