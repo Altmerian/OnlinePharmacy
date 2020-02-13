@@ -2,10 +2,10 @@
 - database scheme - [DataBaseScheme.png](DataBaseScheme.png)
 - testing SQL queries examples and DB creation - [testsql](testsql)
 # Application features
-- User logs in or registres, after authorization, depending on the role, various operations are available.
+- User logs in or registers, after authorization, depending on the role, various operations are available.
 - Administrator has access to all operations, including actions with a list of users, except of approving  prescriptions.
 - Pharmacist (in the program - Manager) manages the list of drugs and has the same access as Administrator.
-- Client(in the program - User) can browse and add the necessary drugs from the list of available ones to the shopping cart for the order.
+- Client (in the program - User) can browse and add the necessary drugs from the list of available ones to the shopping cart for the order.
 - Some drugs require a prescription, which only a Doctor can prescribe to the Client.
 - Client can go to the shopping cart and fill out the Order form, specify the quantity and request the necessary recipes.
 - Client has access to a list of his orders and recipes.

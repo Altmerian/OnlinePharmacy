@@ -19,6 +19,9 @@ import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Main application servlet which handles all requests
+ */
 @WebServlet("/controller")
 public class Controller extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger();

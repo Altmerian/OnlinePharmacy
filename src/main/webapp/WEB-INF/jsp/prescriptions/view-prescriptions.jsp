@@ -106,6 +106,7 @@
                 </td>
                 <td>
                     <c:if test="${prescription.status eq 'rejected' or prescription.status eq 'overdue'}">
+                    <div class="col">
                         <form class="form-inline" action="controller" method="POST">
                             <input type="hidden" name="command" value="request-prescription"/>
                             <input type="hidden" name="prescription_id" value="${prescription.id}"/>
@@ -115,7 +116,16 @@
                             <input type="submit" class="btn btn-success btn-sm"
                                    value="<fmt:message key="button.prescription.request"/>"/>
                         </form>
+                    </div>
                     </c:if>
+                    <div class="col">
+                        <form class="form-inline" action="controller" method="POST">
+                            <input type="hidden" name="command" value="cancel-prescription"/>
+                            <input type="hidden" name="prescription_id" value="${prescription.id}"/>
+                            <input type="submit" class="btn btn-danger btn-sm"
+                                   value="<fmt:message key="button.prescription.cancel"/>"/>
+                        </form>
+                    </div>
                 </td>
             </tr>
         </c:forEach>

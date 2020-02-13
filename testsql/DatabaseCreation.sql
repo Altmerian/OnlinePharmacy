@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS `onlinepharmacy`.`countries` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB
 AUTO_INCREMENT = 11
 DEFAULT CHARACTER SET = utf8;
 
@@ -13,7 +12,6 @@ CREATE TABLE IF NOT EXISTS `onlinepharmacy`.`dosages` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB
 AUTO_INCREMENT = 17
 DEFAULT CHARACTER SET = utf8;
 
@@ -27,7 +25,6 @@ CREATE TABLE IF NOT EXISTS `onlinepharmacy`.`manufacturers` (
   CONSTRAINT `FK_manufacturers_country`
     FOREIGN KEY (`country_id`)
     REFERENCES `onlinepharmacy`.`countries` (`id`))
-ENGINE = InnoDB
 AUTO_INCREMENT = 12
 DEFAULT CHARACTER SET = utf8;
 
@@ -50,10 +47,8 @@ CREATE TABLE IF NOT EXISTS `onlinepharmacy`.`drugs` (
   CONSTRAINT `fk_drugs_dosages`
     FOREIGN KEY (`dosage_id`)
     REFERENCES `onlinepharmacy`.`dosages` (`id`))
-ENGINE = InnoDB
 AUTO_INCREMENT = 14
 DEFAULT CHARACTER SET = utf8
-ROW_FORMAT = DYNAMIC;
 
 CREATE TABLE IF NOT EXISTS `onlinepharmacy`.`users` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -66,10 +61,8 @@ CREATE TABLE IF NOT EXISTS `onlinepharmacy`.`users` (
   `last_name` VARCHAR(50) NULL DEFAULT NULL,
   `address` VARCHAR(255) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB
 AUTO_INCREMENT = 12
 DEFAULT CHARACTER SET = utf8
-ROW_FORMAT = DYNAMIC;
 
 CREATE TABLE IF NOT EXISTS `onlinepharmacy`.`orders` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -82,7 +75,6 @@ CREATE TABLE IF NOT EXISTS `onlinepharmacy`.`orders` (
   CONSTRAINT `fk_orders_users_credentials`
     FOREIGN KEY (`customer_id`)
     REFERENCES `onlinepharmacy`.`users` (`id`))
-ENGINE = InnoDB
 AUTO_INCREMENT = 26
 DEFAULT CHARACTER SET = utf8;
 
@@ -102,14 +94,13 @@ CREATE TABLE IF NOT EXISTS `onlinepharmacy`.`drugs_ordered` (
     FOREIGN KEY (`order_id`)
     REFERENCES `onlinepharmacy`.`orders` (`id`)
     ON DELETE CASCADE)
-ENGINE = InnoDB
 AUTO_INCREMENT = 52
 DEFAULT CHARACTER SET = utf8;
 
 CREATE TABLE IF NOT EXISTS `onlinepharmacy`.`orders_events` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `order_id` INT(11) NOT NULL,
-  `order_status` ENUM('in_process', 'payment_confirmation', 'paid', 'completed') CHARACTER SET 'utf8' COLLATE 'utf8_bin' NOT NULL DEFAULT 'in_process',
+  `order_status` ENUM('in_process', 'payment_confirmation', 'paid', 'completed') CHARACTER SET 'utf8' NOT NULL DEFAULT 'in_process',
   `date_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   INDEX `fk_orders_events_orders_id_idx` (`order_id` ASC) VISIBLE,
@@ -117,10 +108,8 @@ CREATE TABLE IF NOT EXISTS `onlinepharmacy`.`orders_events` (
     FOREIGN KEY (`order_id`)
     REFERENCES `onlinepharmacy`.`orders` (`id`)
     ON DELETE CASCADE)
-ENGINE = InnoDB
 AUTO_INCREMENT = 35
 DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_bin;
 
 CREATE TABLE IF NOT EXISTS `onlinepharmacy`.`prescriptions` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -142,6 +131,5 @@ CREATE TABLE IF NOT EXISTS `onlinepharmacy`.`prescriptions` (
   CONSTRAINT `FK_prescriptions_users_id`
     FOREIGN KEY (`customer_id`)
     REFERENCES `onlinepharmacy`.`users` (`id`))
-ENGINE = InnoDB
 AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8;

@@ -58,7 +58,7 @@
                         <input type="submit" class="btn btn-secondary" value="<fmt:message key="button.orders.view.all"/> "/>
                     </form>
                 </c:if>
-                <c:if test="${sessionScope.user.id == requestScope.user.id and user.role != 'DOCTOR'}">
+                <c:if test="${sessionScope.user.id == requestScope.user.id or sessionScope.user.role eq 'ADMIN'}">
                     <form role="form" class="form-inline col" action="controller" method="get">
                         <input type="hidden" name="command" value="view-prescriptions"/>
                         <input type="hidden" name="user_id" value="${requestScope.user.id}"/>

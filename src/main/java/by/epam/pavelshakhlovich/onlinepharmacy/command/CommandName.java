@@ -17,6 +17,7 @@ public enum CommandName {
     ADD_COUNTRY(false, UserRole.ADMIN, UserRole.MANAGER),
     ADD_DOSAGE(false, UserRole.ADMIN, UserRole.MANAGER),
     APPROVE_PRESCRIPTION(false, UserRole.DOCTOR, UserRole.ADMIN),
+    CANCEL_PRESCRIPTION(false, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     CANCEL_ORDER(false, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     CONFIRM_DELIVERY(false, UserRole.USER, UserRole.ADMIN, UserRole.MANAGER, UserRole.DOCTOR),
     CONFIRM_PAYMENT(false, UserRole.ADMIN, UserRole.MANAGER),

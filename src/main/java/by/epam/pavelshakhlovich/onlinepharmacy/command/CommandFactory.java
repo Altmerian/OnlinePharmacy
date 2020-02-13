@@ -38,6 +38,7 @@ public class CommandFactory {
         commandMap.put(CommandName.ADD_COUNTRY, new AddCountryCommand());
         commandMap.put(CommandName.ADD_DOSAGE, new AddDosageCommand());
         commandMap.put(CommandName.APPROVE_PRESCRIPTION, new ApprovePrescription());
+        commandMap.put(CommandName.CANCEL_PRESCRIPTION, new CancelPrescription());
         commandMap.put(CommandName.CANCEL_ORDER, new CancelOrderCommand());
         commandMap.put(CommandName.CHANGE_LOCALE, new ChangeLocaleCommand());
         commandMap.put(CommandName.CLEAR_SHOPPING_CART, new ClearShoppingCart());
