@@ -1,8 +1,11 @@
 package by.epam.pavelshakhlovich.onlinepharmacy.command.util;
 
+/**
+ * Application cookies represented by names and ages
+ */
 public enum Cookie {
-    //1 month ttl
-    SHOPPING_CART("opSCC", 60 * 60 * 24 * 31);
+
+    SHOPPING_CART("opSCC", 60 * 60 * 24 * 31); //1 month
 
     private final String name;
     private final int age;
