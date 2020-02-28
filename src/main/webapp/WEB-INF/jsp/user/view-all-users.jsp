@@ -145,19 +145,19 @@
     </div>
     <table class="table table-striped">
         <thead>
-            <th">
+            <th>
                 #
             </th>
-            <th">
+            <th>
                 <fmt:message key="text.username"/>
             </th>
-            <th">
+            <th>
                 <fmt:message key="text.firstName"/> <fmt:message key="text.lastName"/>
             </th>
-            <th">
+            <th>
                 <fmt:message key="text.role"/>
             </th>
-            <th">
+            <th>
                 <fmt:message key="text.email"/>
             </th>
             <th>

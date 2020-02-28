@@ -108,6 +108,13 @@ public class OrderDaoSQLImpl implements OrderDao {
                 }
                 throw LOGGER.throwing(Level.ERROR, new DaoException("Transaction wasn't finished", e));
             } finally {
+                try {
+                    if (cn != null) {
+                        cn.setAutoCommit(true);
+                    }
+                } catch (SQLException ex) {
+                    LOGGER.error(ex.getMessage());
+                }
                 closeResources(cn, preparedStatement);
             }
         }
@@ -117,12 +124,11 @@ public class OrderDaoSQLImpl implements OrderDao {
     public Order getLastAddedOrder(long userId) throws DaoException {
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_LAST_ADDED);
             preparedStatement.setLong(1, userId);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -134,7 +140,7 @@ public class OrderDaoSQLImpl implements OrderDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 
@@ -143,12 +149,11 @@ public class OrderDaoSQLImpl implements OrderDao {
         List<Item> itemList = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_ORDERED_DRUGS_BY_ID);
             preparedStatement.setLong(1, itemId);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -162,7 +167,7 @@ public class OrderDaoSQLImpl implements OrderDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 
@@ -172,12 +177,11 @@ public class OrderDaoSQLImpl implements OrderDao {
         List<Order> orderList = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_USER_ORDERS);
             preparedStatement.setLong(1, userId);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -190,7 +194,7 @@ public class OrderDaoSQLImpl implements OrderDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 
@@ -198,12 +202,11 @@ public class OrderDaoSQLImpl implements OrderDao {
     public Order selectById(long orderId) throws DaoException {
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_ORDER_BY_ID);
             preparedStatement.setLong(1, orderId);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -229,7 +232,7 @@ public class OrderDaoSQLImpl implements OrderDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 
@@ -238,7 +241,6 @@ public class OrderDaoSQLImpl implements OrderDao {
         List<Order> orderList = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_ALL_ORDERS_BY_STATUS);
@@ -247,7 +249,7 @@ public class OrderDaoSQLImpl implements OrderDao {
             }
             preparedStatement.setInt(5, offset);
             preparedStatement.setInt(6, limit);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -268,7 +270,7 @@ public class OrderDaoSQLImpl implements OrderDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 
@@ -276,14 +278,13 @@ public class OrderDaoSQLImpl implements OrderDao {
     public int countOrdersByStatus(List<String> statusList) throws DaoException {
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(COUNT_ORDERS);
             for (int i = 0; i < statusList.size(); i++) {
                 preparedStatement.setString(i + 1, statusList.get(i));
             }
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return 0;
             }
@@ -292,7 +293,7 @@ public class OrderDaoSQLImpl implements OrderDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 
@@ -354,12 +355,11 @@ public class OrderDaoSQLImpl implements OrderDao {
         Map<Timestamp, String> orderEventList = new TreeMap<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_ORDER_EVENTS);
             preparedStatement.setLong(1, orderId);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -372,7 +372,7 @@ public class OrderDaoSQLImpl implements OrderDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 

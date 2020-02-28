@@ -69,12 +69,11 @@ public class ItemDaoSQLImpl implements ItemDao {
         Item item = new Item();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_ITEM_BY_ID);
             preparedStatement.setLong(1, id);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -84,7 +83,7 @@ public class ItemDaoSQLImpl implements ItemDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 
@@ -94,7 +93,6 @@ public class ItemDaoSQLImpl implements ItemDao {
         Item item = new Item();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_ITEM_BY_LABEL_DOSAGE_VOLUME);
@@ -103,7 +101,7 @@ public class ItemDaoSQLImpl implements ItemDao {
             preparedStatement.setDouble(3, volume);
             preparedStatement.setString(4, volumeType);
             preparedStatement.setLong(5, manufacturerId);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -113,7 +111,7 @@ public class ItemDaoSQLImpl implements ItemDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 
@@ -122,13 +120,12 @@ public class ItemDaoSQLImpl implements ItemDao {
         List<Item> itemList = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_ALL_ITEMS);
             preparedStatement.setInt(1,offset);
             preparedStatement.setInt(2,limit);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -142,7 +139,7 @@ public class ItemDaoSQLImpl implements ItemDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 
@@ -150,11 +147,10 @@ public class ItemDaoSQLImpl implements ItemDao {
     public int countAllItems() throws DaoException {
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(COUNT_ALL_ITEMS);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return 0;
             }
@@ -163,7 +159,7 @@ public class ItemDaoSQLImpl implements ItemDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw new DaoException(e);
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 
@@ -172,14 +168,13 @@ public class ItemDaoSQLImpl implements ItemDao {
         List<Item> itemList = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_ITEMS_BY_LABEL);
             preparedStatement.setString(1, label + "%");
             preparedStatement.setInt(2, offset);
             preparedStatement.setInt(3, limit);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -193,7 +188,7 @@ public class ItemDaoSQLImpl implements ItemDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 
@@ -201,12 +196,11 @@ public class ItemDaoSQLImpl implements ItemDao {
     public int countItemsByLabel(String label) throws DaoException {
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(COUNT_ITEMS_BY_LABEL);
             preparedStatement.setString(1, label + "%");
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return 0;
             }
@@ -215,7 +209,7 @@ public class ItemDaoSQLImpl implements ItemDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 
@@ -307,12 +301,10 @@ public class ItemDaoSQLImpl implements ItemDao {
         List<Dosage> dosages = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_DOSAGES);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.isBeforeFirst()) {
                 while (resultSet.next()) {
                     Dosage dosage = new Dosage();
@@ -324,7 +316,7 @@ public class ItemDaoSQLImpl implements ItemDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
         return dosages;
     }
@@ -333,12 +325,11 @@ public class ItemDaoSQLImpl implements ItemDao {
     public Dosage getDosageByName(String dosageName) throws DaoException {
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_DOSAGE_BY_NAME);
             preparedStatement.setString(1, dosageName);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -350,7 +341,7 @@ public class ItemDaoSQLImpl implements ItemDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 

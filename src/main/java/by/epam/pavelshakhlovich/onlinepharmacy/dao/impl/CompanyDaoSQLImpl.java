@@ -39,11 +39,10 @@ public class CompanyDaoSQLImpl implements CompanyDao {
         List<Company> companies = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_COMPANIES);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.isBeforeFirst()) {
                 while (resultSet.next()) {
                     Company company = new Company();
@@ -57,7 +56,7 @@ public class CompanyDaoSQLImpl implements CompanyDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
         return companies;
     }
@@ -66,13 +65,12 @@ public class CompanyDaoSQLImpl implements CompanyDao {
     public Company getCompanyByNameAndCountry(String name, long countryId) throws DaoException {
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_COMPANY_BY_NAME_AND_COUNTRY);
             preparedStatement.setString(1, name);
             preparedStatement.setLong(2, countryId);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -84,7 +82,7 @@ public class CompanyDaoSQLImpl implements CompanyDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 
@@ -167,7 +165,7 @@ public class CompanyDaoSQLImpl implements CompanyDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
         return countries;
     }
@@ -176,12 +174,11 @@ public class CompanyDaoSQLImpl implements CompanyDao {
     public Country getCountryByName(String countryName) throws DaoException {
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_COUNTRY_BY_NAME);
             preparedStatement.setString(1, countryName);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -193,7 +190,7 @@ public class CompanyDaoSQLImpl implements CompanyDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 }

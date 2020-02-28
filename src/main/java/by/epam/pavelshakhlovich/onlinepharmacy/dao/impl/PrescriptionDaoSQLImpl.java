@@ -72,12 +72,11 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
         List<Prescription> prescriptionList = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_USER_PRESCRIPTIONS);
             preparedStatement.setLong(1, userId);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -90,20 +89,19 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
     @Override
     public Prescription selectPrescriptionsByDrugIdUserId(long drugId, long userId) throws DaoException {
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_PRESCRIPTION_BY_USER_DRUG);
             preparedStatement.setLong(1, drugId);
             preparedStatement.setLong(2, userId);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -114,7 +112,7 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 
@@ -122,12 +120,11 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
     public Prescription selectById(long prescriptionId) throws DaoException {
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_PRESCRIPTION_BY_ID);
             preparedStatement.setLong(1, prescriptionId);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -138,7 +135,7 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 
@@ -147,14 +144,13 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
         List<Prescription> prescriptionList = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_DOCTORS_PRESCRIPTIONS);
             preparedStatement.setLong(1, doctorId);
             preparedStatement.setInt(2, offset);
             preparedStatement.setInt(3, limit);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -167,7 +163,7 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 
@@ -175,12 +171,11 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
     public int countDoctorPrescriptions(long doctorId) throws DaoException {
         Connection cn = null;
         PreparedStatement statement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             statement = cn.prepareStatement(COUNT_DOCTORS_PRESCRIPTIONS);
             statement.setLong(1, doctorId);
-            resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return 0;
             }
@@ -189,7 +184,7 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, statement, resultSet);
+            closeResources(cn, statement);
         }
     }
 
@@ -198,13 +193,12 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
         List<Prescription> prescriptionList = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_ALL_REQUESTED_PRESCRIPTIONS);
             preparedStatement.setInt(1, offset);
             preparedStatement.setInt(2, limit);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -217,7 +211,7 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 
@@ -225,11 +219,10 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
     public int countRequestedPrescriptions() throws DaoException {
         Connection cn = null;
         PreparedStatement statement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             statement = cn.prepareStatement(COUNT_PRESCRIPTIONS);
-            resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return 0;
             }
@@ -238,7 +231,7 @@ public class PrescriptionDaoSQLImpl implements PrescriptionDao {
         } catch (ConnectionPoolException | SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException(e));
         } finally {
-            closeResources(cn, statement, resultSet);
+            closeResources(cn, statement);
         }
     }
 

@@ -57,13 +57,12 @@ public class UserDaoSQLImpl implements UserDao {
         List<User> userList = new ArrayList<>();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(SELECT_ALL_USERS);
             preparedStatement.setInt(1, offset);
             preparedStatement.setInt(2, limit);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -77,7 +76,7 @@ public class UserDaoSQLImpl implements UserDao {
         } catch (SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException("Can't make prepared statement", e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
         return userList;
     }
@@ -86,11 +85,10 @@ public class UserDaoSQLImpl implements UserDao {
     public int countAllUsers() throws DaoException {
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(COUNT_ALL_USERS);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             return resultSet.getInt(1);
         } catch (ConnectionPoolException e) {
@@ -98,7 +96,7 @@ public class UserDaoSQLImpl implements UserDao {
         } catch (SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException("Can't make prepared statement", e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
     }
 
@@ -163,12 +161,11 @@ public class UserDaoSQLImpl implements UserDao {
         User user = new User();
         Connection cn = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         try {
             cn = ConnectionPool.getInstance().getConnection();
             preparedStatement = cn.prepareStatement(queryString);
             preparedStatement.setString(1, parameter);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.isBeforeFirst()) {
                 return null;
             }
@@ -179,7 +176,7 @@ public class UserDaoSQLImpl implements UserDao {
         } catch (SQLException e) {
             throw LOGGER.throwing(Level.ERROR, new DaoException("Can't make prepared statement", e));
         } finally {
-            closeResources(cn, preparedStatement, resultSet);
+            closeResources(cn, preparedStatement);
         }
         return user;
     }

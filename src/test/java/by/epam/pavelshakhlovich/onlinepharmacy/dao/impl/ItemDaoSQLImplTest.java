@@ -7,10 +7,13 @@ import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPool;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ConnectionPoolException;
 import by.epam.pavelshakhlovich.onlinepharmacy.dao.util.ProxyConnection;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Item;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Field;
@@ -35,13 +38,14 @@ public class ItemDaoSQLImplTest {
     @Mock
     private ResultSet mockResultSet;
 
+    private static final Logger LOGGER = LogManager.getLogger();
     private ItemDao itemDao;
     private Item item1;
     private Item item2;
     ArrayList<Item> items = new ArrayList<>();
     private int itemsCount;
 
-    @BeforeMethod
+    @BeforeClass
     public void setUp() throws ConnectionPoolException, SQLException {
         itemDao = new ItemDaoSQLImpl();
         MockitoAnnotations.initMocks(this);
@@ -49,7 +53,6 @@ public class ItemDaoSQLImplTest {
         when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
         when(mockPreparedStatement.executeUpdate()).thenReturn(1);
         when(mockResultSet.isBeforeFirst()).thenReturn(true);
-
         item1 = new Item();
         item1.setId(1L);
         item1.setLabel("Лекарство1");
@@ -70,7 +73,6 @@ public class ItemDaoSQLImplTest {
         item1.setVolumeType("г");
         item1.setManufacturerId(4L);
         items.addAll(List.of(item1, item2));
-
         ConnectionPool connectionPool = mock(ConnectionPool.class);
         setMock(connectionPool);
         ConnectionPool.isEmpty.compareAndSet(true, false);
@@ -83,11 +85,11 @@ public class ItemDaoSQLImplTest {
             instance.setAccessible(true);
             instance.set(instance, mock);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw LOGGER.throwing(Level.ERROR, new RuntimeException(e));
         }
     }
 
-    @AfterMethod
+    @AfterClass
     public void tearDown() throws Exception {
         Field instance = ConnectionPool.class.getDeclaredField("INSTANCE");
         instance.setAccessible(true);

@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -77,33 +76,6 @@ public interface BaseDao<T> {
             }
         } catch (SQLException e) {
             LOGGER.throwing(Level.ERROR, new DaoException("Can't close prepared statement", e));
-        }
-        if (connection != null) {
-            try {
-                ConnectionPool.getInstance().releaseConnection(connection);
-            } catch (ConnectionPoolException e) {
-                LOGGER.throwing(Level.ERROR, new DaoException("Can't release connection to connection pool", e));
-            }
-        }
-    }
-
-    /**
-     * Closes all following resources
-     *
-     * @param connection        connection to data base
-     * @param preparedStatement statement
-     * @param resultSet         query results
-     */
-    default void closeResources(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet) {
-        try {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (resultSet != null) {
-                resultSet.close();
-            }
-        } catch (SQLException e) {
-            LOGGER.throwing(Level.ERROR, new DaoException("Can't close prepared statement and result set", e));
         }
         if (connection != null) {
             try {

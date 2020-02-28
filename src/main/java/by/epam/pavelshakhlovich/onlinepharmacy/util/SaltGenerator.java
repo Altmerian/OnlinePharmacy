@@ -24,12 +24,12 @@ public class SaltGenerator {
     }
 
     public String getSalt (){
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < RANDOM_STRING_LENGTH; i++) {
             int number = random.nextInt(CHAR_LIST.length()-1);
             char ch = CHAR_LIST.charAt(number);
-            stringBuffer.append(ch);
+            stringBuilder.append(ch);
         }
-        return stringBuffer.toString();
+        return stringBuilder.toString();
     }
 }
