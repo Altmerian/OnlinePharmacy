@@ -74,6 +74,30 @@ public class ShoppingCart implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ShoppingCart)) {
+            return false;
+        }
+
+        ShoppingCart that = (ShoppingCart) o;
+
+        if (totalCount != that.totalCount) {
+            return false;
+        }
+        return items.equals(that.items);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = items.hashCode();
+        result = 31 * result + totalCount;
+        return result;
+    }
+
+    @Override
     public String toString() {
         return String.format("ShoppingCart [items=%s, totalCount=%s]", items, totalCount);
     }

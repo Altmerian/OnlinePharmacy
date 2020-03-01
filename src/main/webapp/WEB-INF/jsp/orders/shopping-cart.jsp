@@ -116,7 +116,7 @@
                                 </div>
                             </c:when>
                             <c:when test="${prescriptions[entry.key.id].status eq 'rejected'}">
-                                <span class="badge badge-danger"><fmt:message key="text.prescription.status.rejected"/></span>
+                                <span class="badge badge-default"><fmt:message key="text.prescription.status.rejected"/></span>
                             </c:when>
                         </c:choose>
                             <c:if test="${prescriptions[entry.key.id] eq null or prescriptions[entry.key.id].status eq 'rejected' or prescriptions[entry.key.id].status eq 'overdue'}">

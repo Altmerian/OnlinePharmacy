@@ -182,6 +182,11 @@
                         <input type="hidden" name="id" value="${prescription.id}"/>
                         <input type="submit" class="btn btn-success btn-sm" value="<fmt:message key="button.prescription.approve"/> "/>
                     </form>
+                    <form action="controller" method="post">
+                        <input type="hidden" name="command" value="reject-prescription"/>
+                        <input type="hidden" name="id" value="${prescription.id}"/>
+                        <input type="submit" class="btn btn-danger btn-sm" value="<fmt:message key="button.prescription.reject"/> "/>
+                    </form>
                 </td>
             </tr>
         </c:forEach>

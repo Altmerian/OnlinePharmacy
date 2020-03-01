@@ -121,7 +121,8 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     }
 
     @Override
-    public boolean updatePrescriptionStatus(String prescriptionStatus, long prescriptionId, long doctorId, LocalDateTime validUntil) throws ServiceException {
+    public boolean updatePrescriptionStatus(String prescriptionStatus, long prescriptionId, long doctorId,
+                                            LocalDateTime validUntil) throws ServiceException {
         try {
             Prescription prescription = prescriptionDao.selectById(prescriptionId);
             if (prescription.getStatus().equalsIgnoreCase(prescriptionStatus)) {
