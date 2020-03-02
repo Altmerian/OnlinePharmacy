@@ -31,7 +31,6 @@ public class UserServiceImplTest {
     private UserDao userDaoMock;
 
     private User user1;
-    private User user2;
 
     @BeforeClass
     public void setUp() {

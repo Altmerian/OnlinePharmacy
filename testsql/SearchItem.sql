@@ -3,6 +3,6 @@ d.volume, d.volume_type, d.manufacturer_id, m.name AS manufacturer_name, d.price
 From drugs d
 LEFT JOIN dosages dos ON d.dosage_id = dos.id
 LEFT JOIN manufacturers m ON d.manufacturer_id = m.id
-WHERE d.label LIKE 'Аспирин%'
-ORDER BY dosage
+WHERE d.label LIKE 'А%'
+ORDER BY label, dosage
 LIMIT 0, 10;

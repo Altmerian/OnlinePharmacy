@@ -101,7 +101,6 @@ public class CommandFactory {
                             new CommandException("No such command in CommandFactory commands map"));
                 }
             } catch (IllegalArgumentException e) {
-                request.setAttribute("wrongAction", "Command not found or wrong!");
                 throw LOGGER.throwing(Level.ERROR,
                         new CommandException("command parameter is invalid (can't find it in CommandName enum)", e));
             }

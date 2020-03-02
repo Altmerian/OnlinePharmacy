@@ -55,11 +55,9 @@ public class ItemDaoSQLImpl implements ItemDao {
             "LEFT JOIN dosages dos ON d.dosage_id = dos.id " +
             "LEFT JOIN manufacturers m ON d.manufacturer_id = m.id " +
             "WHERE d.label LIKE ?" +
-            "ORDER BY dosage " +
+            "ORDER BY label, dosage " +
             "LIMIT ?,?";
-    private static final String COUNT_ITEMS_BY_LABEL = "SELECT COUNT(*) FROM drugs " +
-            "GROUP BY label " +
-            "HAVING label LIKE ?";
+    private static final String COUNT_ITEMS_BY_LABEL = "SELECT COUNT(*) FROM drugs WHERE label LIKE ?";
     private static final String SELECT_DOSAGES = "SELECT id, name FROM dosages ORDER by name";
     private static final String SELECT_DOSAGE_BY_NAME = "SELECT dos.id, dos.name FROM dosages dos WHERE dos.name = ?";
     private static final String INSERT_DOSAGE = "INSERT INTO dosages (name) VALUES(?)";
