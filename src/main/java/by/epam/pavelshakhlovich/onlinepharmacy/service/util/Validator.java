@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * Validates parameters given by user during registration
  */
 public class Validator {
-    private static final Pattern REGEX_LOGIN = Pattern.compile("[a-zA-Z0-9]{5,20}");
+    private static final Pattern REGEX_LOGIN = Pattern.compile("[a-zA-Z0-9]{4,20}");
     private static final Pattern REGEX_PASSWORD = Pattern.compile(".{4,}");
     private static final Pattern REGEX_EMAIL = Pattern.compile("\\w{2,40}@\\w{2,20}\\.\\w{2,4}");
 

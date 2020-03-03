@@ -7,7 +7,6 @@ import by.epam.pavelshakhlovich.onlinepharmacy.command.util.JspPage;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Parameter;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.Path;
 import by.epam.pavelshakhlovich.onlinepharmacy.command.util.SessionUtil;
-import by.epam.pavelshakhlovich.onlinepharmacy.entity.OrderStatus;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
 import by.epam.pavelshakhlovich.onlinepharmacy.model.ShoppingCart;
 import by.epam.pavelshakhlovich.onlinepharmacy.model.ShoppingCartSerializer;
@@ -20,8 +19,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class {@code LoginCommand} is a guest-only implementation of {@see Command}
@@ -53,11 +50,6 @@ public class LoginCommand implements Command {
             session.setAttribute(Parameter.USER, user);
             session.setAttribute(Parameter.USER_NAME, user.getLogin());
             session.setAttribute(Parameter.SUCCESS_MESSAGE, Boolean.TRUE);
-            List<String> statusList = new ArrayList<>();
-            for (OrderStatus orderStatus : OrderStatus.values()) {
-                statusList.add(orderStatus.getName());
-            }
-            session.setAttribute(Parameter.STATUS_LIST, statusList);
             if (request.getSession().getAttribute(Parameter.SHOPPING_CARD_DESERIALIZATION_DONE) == null) {
                 if (!SessionUtil.isCurrentShoppingCartCreated(request)) {
                     Cookie cookie = SessionUtil.findShoppingCartCookie(request);

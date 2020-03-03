@@ -8,10 +8,8 @@ import by.epam.pavelshakhlovich.onlinepharmacy.command.util.SessionUtil;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Item;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.Order;
 import by.epam.pavelshakhlovich.onlinepharmacy.entity.User;
-import by.epam.pavelshakhlovich.onlinepharmacy.service.ItemService;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.OrderService;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.ServiceException;
-import by.epam.pavelshakhlovich.onlinepharmacy.service.impl.ItemServiceImpl;
 import by.epam.pavelshakhlovich.onlinepharmacy.service.impl.OrderServiceImpl;
 import org.apache.logging.log4j.Level;
 
@@ -28,7 +26,6 @@ import java.util.Map;
 public class CreateOrderCommand implements Command {
 
     private static OrderService orderService = new OrderServiceImpl();
-    private static ItemService itemService = new ItemServiceImpl();
 
     @Override
     @SuppressWarnings("unchecked")

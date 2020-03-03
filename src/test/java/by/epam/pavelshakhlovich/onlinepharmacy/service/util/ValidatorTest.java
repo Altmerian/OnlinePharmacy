@@ -27,7 +27,7 @@ public class ValidatorTest {
 
     @DataProvider(name = "invalidLogin")
     public Object[][] provideInvalidLogin() {
-        return new Object[][]{{"user"}, {"user,-="},{"f34"}};
+        return new Object[][]{{"use"}, {"user,-="},{"f34"}};
     }
 
     @DataProvider(name = "validPassword")
